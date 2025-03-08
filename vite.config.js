@@ -29,6 +29,7 @@ export default defineConfig(({ mode }) => {
         registerType: "autoUpdate",
         workbox: {
           globPatterns: ["**/*.*"],
+          maximumFileSizeToCacheInBytes: 5 * 1024 ** 2,
         },
         manifest: {
           name: env.VITE_APP_NAME,
