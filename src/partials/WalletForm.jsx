@@ -43,6 +43,14 @@ export default function WalletForm({ pinCode = "", onCreated }) {
     : null;
 
   const handleFormSubmit = async ({ name, secretKey, pinCode }) => {
+    const alreadyExists = accounts.some((item) => item.publicKey === publicKey);
+
+    if (alreadyExists) {
+      return form.setError("secretKey", {
+        message: "Account already exists!",
+      });
+    }
+
     const { id: keyId } = await storeKey({
       publicKey,
       secretKey,
