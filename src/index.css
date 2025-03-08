@@ -1,1 +1,10 @@
+@import "@fontsource/quicksand/300";
+@import "@fontsource/quicksand/400";
+@import "@fontsource/quicksand/700";
+
 @import "tailwindcss";
+
+@theme {
+  --font-sans: Quicksand, ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
