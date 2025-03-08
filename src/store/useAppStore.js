@@ -17,6 +17,8 @@ const useAppStore = create()(
             item.publicKey === data.publicKey ? data : item
           ),
         }),
+
+      setAccounts: (accounts) => set({ accounts }),
       login: (pinCode) => set({ isLoggedIn: true, pinCode }),
     })),
     {
