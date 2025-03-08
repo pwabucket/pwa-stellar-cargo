@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { ViteEjsPlugin } from "vite-plugin-ejs";
 import { defineConfig } from "vite";
 import { fileURLToPath } from "url";
+import { imagetools } from "vite-imagetools";
 import { loadEnv } from "vite";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,6 +26,7 @@ export default defineConfig(({ mode }) => {
       /** Plugins */
       ViteEjsPlugin(env),
       tailwindcss(),
+      imagetools(),
       react(),
     ],
   };
