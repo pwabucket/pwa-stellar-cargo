@@ -45,6 +45,7 @@
     "vite": "^6.2.0",
     "vite-imagetools": "^7.0.5",
     "vite-plugin-ejs": "^1.7.0",
-    "vite-plugin-pwa": "^0.21.1"
+    "vite-plugin-pwa": "^0.21.1",
+    "workbox-window": "^7.3.0"
   }
 }
