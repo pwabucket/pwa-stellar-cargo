@@ -3,7 +3,10 @@ import { memo } from "react";
 
 export const Button = memo(function ({ as: Component = "button", ...props }) {
   return (
-    <Component {...props} className={cn("p-2 rounded-xl", props.className)} />
+    <Component
+      {...props}
+      className={cn("p-2 rounded-xl", "disabled:opacity-80", props.className)}
+    />
   );
 });
 

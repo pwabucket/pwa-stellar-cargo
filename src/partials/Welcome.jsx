@@ -15,7 +15,7 @@ export default function Welcome() {
   };
 
   return (
-    <div className="min-h-dvh max-w-sm mx-auto p-4 flex flex-col gap-4 justify-center">
+    <div className="min-h-dvh max-w-md mx-auto p-4 flex flex-col gap-4 justify-center">
       {/* App Icon */}
       <img src={AppIcon} className="h-24" />
 

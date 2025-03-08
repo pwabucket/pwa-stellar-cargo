@@ -48,6 +48,7 @@ export default function LoginForm({ onVerified }) {
             <>
               <PasswordInput
                 {...field}
+                spellCheck={false}
                 autoComplete={"off"}
                 placeholder={"PIN Code"}
               />

@@ -6,6 +6,7 @@ import { Input, PasswordInput } from "@/components/Input";
 import { Keypair, StrKey } from "@stellar/stellar-sdk";
 import { PrimaryButton } from "@/components/Button";
 import { storeKey } from "@/lib/stellar/keyManager";
+import { truncatePublicKey } from "@/lib/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 /** Schema */
@@ -86,6 +87,7 @@ export default function WalletForm({ pinCode = "", onCreated }) {
             <>
               <Input
                 {...field}
+                spellCheck={false}
                 autoComplete={"off"}
                 placeholder={"Account Name"}
               />
@@ -108,7 +110,7 @@ export default function WalletForm({ pinCode = "", onCreated }) {
               />
               {publicKey ? (
                 <p className="text-xs text-blue-500 px-2 truncate">
-                  Account: {publicKey}
+                  Account: {truncatePublicKey(publicKey, 12)}
                 </p>
               ) : null}
               <FieldStateError fieldState={fieldState} />

@@ -20,6 +20,7 @@ const useAppStore = create()(
 
       setAccounts: (accounts) => set({ accounts }),
       login: (pinCode) => set({ isLoggedIn: true, pinCode }),
+      logout: () => set({ isLoggedIn: false, pinCode: "" }),
     })),
     {
       name: "stellar-cargo:app",
