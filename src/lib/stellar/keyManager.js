@@ -1,7 +1,13 @@
-import { KeyManager, KeyManagerPlugins, KeyType } from "@stellar/wallet-sdk";
+import {
+  KeyManager,
+  KeyType,
+  LocalStorageKeyStore,
+  ScryptEncrypter,
+} from "@stellar/typescript-wallet-sdk-km";
+import { TransactionBuilder } from "@stellar/stellar-sdk";
 
 export const setupKeyManager = () => {
-  const localKeyStore = new KeyManagerPlugins.LocalStorageKeyStore();
+  const localKeyStore = new LocalStorageKeyStore();
 
   localKeyStore.configure({
     prefix: "stellar-cargo:keys",
@@ -12,7 +18,7 @@ export const setupKeyManager = () => {
     keyStore: localKeyStore,
   });
 
-  keyManager.registerEncrypter(KeyManagerPlugins.ScryptEncrypter);
+  keyManager.registerEncrypter(ScryptEncrypter);
 
   return keyManager;
 };
@@ -27,11 +33,26 @@ export const storeKey = async ({ publicKey, secretKey, pinCode }) => {
       privateKey: secretKey,
     },
     password: pinCode,
-    encrypterName: KeyManagerPlugins.ScryptEncrypter.name,
+    encrypterName: ScryptEncrypter.name,
   });
 };
 
 export const loadKey = async (keyId, pinCode) => {
   const keyManager = setupKeyManager();
   return await keyManager.loadKey(keyId, pinCode);
+};
+
+export const signTransaction = async ({
+  transactionXDR,
+  network,
+  keyId,
+  pinCode,
+}) => {
+  const keyManager = setupKeyManager();
+  const signedTransaction = await keyManager.signTransaction({
+    transaction: TransactionBuilder.fromXDR(transactionXDR, network),
+    id: keyId,
+    password: pinCode,
+  });
+  return signedTransaction;
 };

@@ -12,6 +12,6 @@ export function error(code, data) {
   };
 }
 
-export function truncatePublicKey(publicKey) {
-  return publicKey.slice(0, 4) + "..." + publicKey.slice(-4);
+export function truncatePublicKey(publicKey, length = 4) {
+  return publicKey.slice(0, length) + "..." + publicKey.slice(-length);
 }
