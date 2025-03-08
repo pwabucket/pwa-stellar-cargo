@@ -3,6 +3,7 @@ import InnerAppLayout from "@/layouts/InnerAppLayout";
 import QueryError from "@/components/QueryError";
 import Spinner from "@/components/Spinner";
 import cn from "@/lib/utils";
+import copy from "copy-to-clipboard";
 import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
 import useAssetMetaQuery from "@/hooks/useAssetMetaQuery";
@@ -77,7 +78,10 @@ export default function Account() {
 
           {/* Address */}
           <div className="flex items-center gap-2">
-            <button className="shrink-0">
+            <button
+              onClick={() => copy(account.publicKey)}
+              className="shrink-0"
+            >
               <IoCopyOutline className="size-4" />
             </button>
             <h3 className="text-blue-100 truncate grow min-w-0 font-medium">
