@@ -3,6 +3,7 @@ import process from "process";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
 import { ViteEjsPlugin } from "vite-plugin-ejs";
+import { VitePWA } from "vite-plugin-pwa";
 import { defineConfig } from "vite";
 import { fileURLToPath } from "url";
 import { imagetools } from "vite-imagetools";
@@ -24,6 +25,9 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       /** Plugins */
+      VitePWA({
+        registerType: "autoUpdate",
+      }),
       ViteEjsPlugin(env),
       tailwindcss(),
       imagetools(),
