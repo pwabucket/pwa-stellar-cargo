@@ -23,7 +23,7 @@ const useAppStore = create()(
       logout: () => set({ isLoggedIn: false, pinCode: "" }),
     })),
     {
-      name: "stellar-cargo:app",
+      name: `${import.meta.env.VITE_APP_ID}:app`,
       partialize({ accounts }) {
         return { accounts };
       },

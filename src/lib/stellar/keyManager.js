@@ -10,7 +10,7 @@ export const setupKeyManager = () => {
   const localKeyStore = new LocalStorageKeyStore();
 
   localKeyStore.configure({
-    prefix: "stellar-cargo:keys",
+    prefix: `${import.meta.env.VITE_APP_ID}:keys`,
     storage: localStorage,
   });
 
