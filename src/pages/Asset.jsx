@@ -10,7 +10,7 @@ export default function Asset() {
       <div className="flex gap-2 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-xl">
         <img
           src={meta["toml_info"]["image"]}
-          className="size-10 shrink-0 rounded-full"
+          className="size-10 shrink-0 rounded-full bg-white"
         />
         <div className="flex flex-col grow min-w-0">
           <h3 className="font-bold">
