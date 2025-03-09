@@ -27,13 +27,14 @@ function App() {
       <Route element={<GuestRoute />}>
         <Route index element={<Home />} />
       </Route>
+
+      <Route path="about" element={<About />} />
+      <Route path="batch-import" element={<BatchImport />} />
       <Route element={<ProtectedRoute />}>
-        <Route path="about" element={<About />} />
         <Route path="app" element={<Dashboard />} />
         <Route path="menu" element={<Menu />} />
-        <Route path="batch-import" element={<BatchImport />} />
-        <Route path="batch-export" element={<BatchExport />} />
         <Route path="import" element={<ImportWallet />} />
+        <Route path="batch-export" element={<BatchExport />} />
         <Route path="account/:publicKey/edit" element={<EditAccount />} />
         <Route path="account/:publicKey" element={<AccountRoute />}>
           <Route index element={<Account />} />
