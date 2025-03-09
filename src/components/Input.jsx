@@ -8,7 +8,7 @@ export const Input = memo(function ({ as: Component = "input", ...props }) {
     <Component
       {...props}
       className={cn(
-        "bg-neutral-100",
+        "bg-neutral-100 dark:bg-neutral-800",
         "px-3 py-2 rounded-xl",
         "outline-0",
         "read-only:opacity-60",
@@ -38,7 +38,7 @@ export const PasswordInput = memo(function (props) {
           "absolute inset-y-0 right-0",
           "w-10 outline-0",
           "flex items-center justify-center",
-          "hover:bg-neutral-200",
+          "hover:bg-neutral-200 dark:hover:bg-neutral-700",
           "rounded-r-xl"
         )}
       >

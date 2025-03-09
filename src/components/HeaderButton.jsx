@@ -13,7 +13,7 @@ export function HeaderButton({
       className={cn(
         "size-10 rounded-full",
         "flex justify-center items-center",
-        "hover:bg-neutral-100",
+        "hover:bg-neutral-100 dark:hover:bg-neutral-800",
         props.className
       )}
     >

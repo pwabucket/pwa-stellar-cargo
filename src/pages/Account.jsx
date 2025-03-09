@@ -73,6 +73,7 @@ export default function Account() {
                 className={cn(
                   "p-2 pr-3 rounded-xl",
                   "bg-neutral-100 hover:bg-neutral-200",
+                  "dark:bg-neutral-800 dark:hover:bg-neutral-700",
                   "flex items-center gap-2"
                 )}
               >
@@ -85,10 +86,7 @@ export default function Account() {
                         : balance["asset_issuer"]
                     ]
                   }
-                  className={cn(
-                    "shrink-0 size-8 rounded-full",
-                    "bg-neutral-200"
-                  )}
+                  className={cn("shrink-0 size-8 rounded-full", "bg-white")}
                 />
 
                 {/* Asset Type */}

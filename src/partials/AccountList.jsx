@@ -13,7 +13,7 @@ const AccountReorderItem = memo(({ children, ...props }) => {
         <div className="min-w-0 min-h-0 grow">{children}</div>
         <button
           className={cn(
-            "bg-neutral-100 ",
+            "bg-neutral-100 dark:bg-neutral-800",
             "flex items-center justify-center",
             "px-3 rounded-lg shrink-0",
             "touch-none"
@@ -43,7 +43,7 @@ export default function AccountList() {
             to={`/account/${account.publicKey}`}
             className={cn(
               "group rounded-xl px-3 py-2",
-              "bg-neutral-100",
+              "bg-neutral-100 dark:bg-neutral-800",
               "hover:bg-blue-500 hover:text-white",
               "flex items-center gap-2"
             )}

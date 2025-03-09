@@ -199,7 +199,7 @@ export default function Merge() {
                 key={source.keyId}
                 className={cn(
                   "group rounded-xl px-3 py-2",
-                  "bg-neutral-100",
+                  "bg-neutral-100 dark:bg-neutral-800",
                   "flex items-center gap-2"
                 )}
               >

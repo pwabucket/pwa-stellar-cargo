@@ -7,7 +7,7 @@ export default function Asset() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2 p-4 bg-neutral-100 rounded-xl">
+      <div className="flex gap-2 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-xl">
         <img
           src={meta["toml_info"]["image"]}
           className="size-10 shrink-0 rounded-full"
@@ -37,7 +37,7 @@ export default function Asset() {
       <Link
         to={"merge"}
         className={cn(
-          "p-2 rounded-xl bg-neutral-100 text-center",
+          "p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-center",
           "flex gap-2 justify-center items-center"
         )}
       >

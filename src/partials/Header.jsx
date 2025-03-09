@@ -3,7 +3,13 @@ import cn from "@/lib/utils";
 
 export default function Header({ leftContent, middleContent, rightContent }) {
   return (
-    <div className="shrink-0 sticky top-0 bg-white border-b border-neutral-300">
+    <div
+      className={cn(
+        "bg-white dark:bg-neutral-900",
+        "shrink-0 sticky top-0 border-b",
+        "border-neutral-300 dark:border-neutral-700"
+      )}
+    >
       <div className="max-w-md mx-auto flex items-center gap-2 p-1">
         <div className="shrink-0 size-10">{leftContent}</div>
         <div className="grow min-w-0 min-h-0 flex flex-col justify-center">
