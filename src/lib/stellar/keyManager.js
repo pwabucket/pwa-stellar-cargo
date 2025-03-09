@@ -69,7 +69,7 @@ export const removeAllKeys = async () => {
 export const importAllKeys = async (keys, pinCode) => {
   const keyManager = setupKeyManager();
   for (const key of keys) {
-    return await keyManager.storeKey({
+    await keyManager.storeKey({
       key,
       password: pinCode,
       encrypterName: ScryptEncrypter.name,
