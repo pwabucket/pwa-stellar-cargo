@@ -3,15 +3,24 @@ import LoginForm from "@/partials/LoginForm";
 import WalletForm from "@/partials/WalletForm";
 import useAppStore from "@/store/useAppStore";
 import { PrimaryButton } from "@/components/Button";
+import { RiResetLeftFill } from "react-icons/ri";
+import { removeAllKeys } from "@/lib/stellar/keyManager";
 import { useState } from "react";
 
 export default function Welcome() {
   const login = useAppStore((state) => state.login);
   const accounts = useAppStore((state) => state.accounts);
+  const setAccounts = useAppStore((state) => state.setAccounts);
   const [showWalletForm, setShowWalletForm] = useState(false);
 
   const onCreatedOrVerified = ({ pinCode }) => {
     login(pinCode);
+  };
+
+  /** Reset Wallet */
+  const resetWallet = async () => {
+    await removeAllKeys();
+    setAccounts([]);
   };
 
   return (
@@ -32,9 +41,17 @@ export default function Welcome() {
       </div>
 
       {accounts.length >= 1 ? (
-        <>
+        <div className="flex flex-col gap-2">
           <LoginForm onVerified={onCreatedOrVerified} />
-        </>
+          <p className="text-center text-neutral-500">or</p>
+          <button
+            onClick={resetWallet}
+            className="flex items-center justify-center gap-2"
+          >
+            <RiResetLeftFill className="size-4" />
+            Reset Wallet
+          </button>
+        </div>
       ) : showWalletForm ? (
         <WalletForm onCreated={onCreatedOrVerified} />
       ) : (
