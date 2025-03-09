@@ -1,3 +1,4 @@
+import AccountImage from "@/components/AccountImage";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import Spinner from "@/components/Spinner";
 import useAccount from "@/hooks/useAccount";
@@ -86,7 +87,11 @@ export default function AccountRoute() {
       headerMiddleContent={
         account ? (
           <>
-            <h3 className="text-center font-bold">
+            <h3 className="text-center font-bold flex gap-2 items-center justify-center">
+              <AccountImage
+                publicKey={account.publicKey}
+                className="size-4 shrink-0"
+              />{" "}
               {account.name || "Stellar Account"}
             </h3>
             <h4 className="text-xs text-center text-blue-500">

@@ -1,3 +1,4 @@
+import AccountImage from "@/components/AccountImage";
 import useAppStore from "@/store/useAppStore";
 import cn, { truncatePublicKey } from "@/lib/utils";
 import { HiOutlineSquares2X2 } from "react-icons/hi2";
@@ -42,12 +43,16 @@ export default function AccountList() {
           <Link
             to={`/account/${account.publicKey}`}
             className={cn(
-              "group rounded-xl px-3 py-2",
+              "group rounded-xl p-2",
               "bg-neutral-100",
               "hover:bg-blue-500 hover:text-white",
               "flex items-center gap-2"
             )}
           >
+            <AccountImage
+              publicKey={account.publicKey}
+              className="size-5 shrink-0"
+            />
             <h4 className="font-bold truncate grow min-w-0">
               {account.name || "Stellar Account"}
             </h4>

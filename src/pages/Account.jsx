@@ -1,3 +1,4 @@
+import AccountImage from "@/components/AccountImage";
 import QueryError from "@/components/QueryError";
 import Spinner from "@/components/Spinner";
 import copy from "copy-to-clipboard";
@@ -15,7 +16,11 @@ export default function Account() {
         <div className="flex flex-col gap-1 p-4 bg-blue-500 text-white rounded-2xl">
           {/* Account Name */}
           <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-bold truncate grow min-w-0">
+            <h2 className="text-3xl font-bold truncate grow min-w-0 flex gap-2 items-center">
+              <AccountImage
+                publicKey={account.publicKey}
+                className="size-10 shrink-0"
+              />{" "}
               {account.name || "Stellar Account"}
             </h2>
 
