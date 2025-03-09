@@ -3,7 +3,7 @@ import QueryError from "@/components/QueryError";
 import Spinner from "@/components/Spinner";
 import copy from "copy-to-clipboard";
 import cn, { truncatePublicKey } from "@/lib/utils";
-import { HiPencil } from "react-icons/hi2";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link } from "react-router";
 import { useOutletContext } from "react-router";
@@ -33,7 +33,7 @@ export default function Account() {
                 "rounded-full"
               )}
             >
-              <HiPencil className="size-4" />
+              <HiOutlinePencilSquare className="size-5" />
             </Link>
           </div>
 
