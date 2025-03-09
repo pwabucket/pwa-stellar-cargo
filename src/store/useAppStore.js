@@ -35,8 +35,8 @@ const useAppStore = create()(
     ),
     {
       name: `${import.meta.env.VITE_APP_ID}:app`,
-      partialize({ accounts }) {
-        return { accounts };
+      partialize({ theme, accounts }) {
+        return { theme, accounts };
       },
     }
   )
