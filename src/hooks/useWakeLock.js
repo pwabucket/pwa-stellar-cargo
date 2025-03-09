@@ -14,7 +14,7 @@ export default function useWakeLock(status = true) {
         wakeLockRef.current = await navigator.wakeLock.request("screen");
       } catch (e) {
         console.warn("WakeLock Error");
-        console.warn(e);
+        console.error(e);
       }
     };
 
