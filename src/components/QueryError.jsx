@@ -5,7 +5,7 @@ export default memo(function QueryError(props) {
   return (
     <p
       {...props}
-      className={cn("text-red-500 text-center px-2", props.className)}
+      className={cn("text-red-500 text-sm text-center px-2", props.className)}
     >
       Failed to load!
     </p>

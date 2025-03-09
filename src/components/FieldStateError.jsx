@@ -3,7 +3,7 @@ import { memo } from "react";
 
 export default memo(function FieldStateError({ fieldState, ...props }) {
   return fieldState.error?.message ? (
-    <p {...props} className={cn("text-red-500 px-2", props.className)}>
+    <p {...props} className={cn("text-red-500 text-sm px-2", props.className)}>
       {fieldState.error?.message}
     </p>
   ) : null;
