@@ -16,10 +16,10 @@ export default function Account() {
         <div className="flex flex-col gap-1 p-4 bg-blue-500 text-white rounded-2xl">
           {/* Account Name */}
           <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-bold truncate grow min-w-0 flex gap-2 items-center">
+            <h2 className="text-3xl font-light truncate grow min-w-0 flex gap-2 items-center">
               <AccountImage
                 publicKey={account.publicKey}
-                className="size-10 shrink-0"
+                className="size-10 shrink-0 rounded-full bg-white"
               />{" "}
               {account.name || "Stellar Account"}
             </h2>
@@ -45,7 +45,7 @@ export default function Account() {
             >
               <IoCopyOutline className="size-4" />
             </button>
-            <h3 className="text-blue-100 truncate grow min-w-0 font-bold">
+            <h3 className="text-blue-100 truncate grow min-w-0">
               <a
                 target="_blank"
                 href={`https://stellar.expert/explorer/public/account/${account.publicKey}`}
