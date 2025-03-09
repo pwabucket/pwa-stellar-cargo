@@ -1,5 +1,6 @@
 import Spinner from "@/components/Spinner";
 import useAppStore from "@/store/useAppStore";
+import useWakeLock from "@/hooks/useWakeLock";
 import cn, { truncatePublicKey } from "@/lib/utils";
 import { HiCheckCircle, HiClock, HiXCircle } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
@@ -135,6 +136,9 @@ export default function Merge() {
     /** Stop Processing */
     setIsProcessing(false);
   };
+
+  /** Acquire WakeLock */
+  useWakeLock(isProcessing);
 
   return (
     <div className="flex flex-col gap-4 grow min-h-0 min-w-0">
