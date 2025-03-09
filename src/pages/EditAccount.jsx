@@ -82,6 +82,7 @@ export default function EditAccount() {
               <>
                 <Input
                   {...field}
+                  spellCheck={false}
                   autoComplete={"off"}
                   placeholder={"Account Name"}
                 />
@@ -94,6 +95,7 @@ export default function EditAccount() {
           {/* Public Key */}
           <Input
             readOnly
+            spellCheck={false}
             value={account.publicKey}
             placeholder={"Public Key"}
           />

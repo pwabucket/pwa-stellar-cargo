@@ -35,7 +35,7 @@ export default function AccountList() {
     <Reorder.Group
       values={accounts}
       onReorder={(newOrder) => setAccounts(newOrder)}
-      className="flex flex-col gap-1"
+      className="flex flex-col gap-2"
     >
       {accounts.map((account) => (
         <AccountReorderItem key={account.keyId} value={account}>
@@ -54,7 +54,7 @@ export default function AccountList() {
             <p
               className={cn(
                 "truncate",
-                "text-xs text-blue-500",
+                "text-sm text-blue-500",
                 "group-hover:text-blue-100"
               )}
             >

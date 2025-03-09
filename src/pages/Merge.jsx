@@ -193,7 +193,7 @@ export default function Merge() {
           </PrimaryButton>
 
           {/* Accounts */}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             {otherAccounts.map((source) => (
               <div
                 key={source.keyId}

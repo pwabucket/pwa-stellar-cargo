@@ -11,7 +11,7 @@ export function HeaderButton({
     <Component
       {...props}
       className={cn(
-        "size-9 rounded-full",
+        "size-10 rounded-full",
         "flex justify-center items-center",
         "hover:bg-neutral-100",
         props.className

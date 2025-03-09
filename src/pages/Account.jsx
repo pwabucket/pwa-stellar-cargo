@@ -56,7 +56,7 @@ export default function Account() {
         ) : accountQuery.isError ? (
           <QueryError />
         ) : (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             {accountQuery.data.balances.map((balance, index) => (
               <Link
                 key={index}
@@ -66,7 +66,7 @@ export default function Account() {
                     : balance["asset_issuer"]
                 }`}
                 className={cn(
-                  "p-2 rounded-xl",
+                  "p-2 pr-3 rounded-xl",
                   "bg-neutral-100 hover:bg-neutral-200",
                   "flex items-center gap-2"
                 )}
