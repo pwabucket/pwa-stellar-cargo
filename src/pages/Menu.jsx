@@ -3,6 +3,8 @@ import MenuButton from "@/components/MenuButton";
 import useAppStore, { THEMES } from "@/store/useAppStore";
 import {
   HiOutlineArrowLeftOnRectangle,
+  HiOutlineArrowLongDown,
+  HiOutlineArrowLongUp,
   HiOutlineInformationCircle,
   HiOutlineMoon,
   HiOutlineSun,
@@ -22,7 +24,25 @@ export default function Menu() {
       : HiOutlineMoon;
 
   return (
-    <InnerAppLayout>
+    <InnerAppLayout className="gap-4">
+      <div className="flex flex-col gap-2">
+        {/* Batch Import */}
+        <MenuButton
+          as={Link}
+          to="/batch-import"
+          title="Batch Import"
+          icon={HiOutlineArrowLongDown}
+        />
+
+        {/* Batch Export */}
+        <MenuButton
+          as={Link}
+          to="/batch-export"
+          title="Batch Export"
+          icon={HiOutlineArrowLongUp}
+        />
+      </div>
+
       <div className="flex flex-col gap-2">
         {/* Theme */}
         <MenuButton
@@ -48,7 +68,7 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex justify-center p-4">
+      <div className="flex justify-center">
         <a
           href={import.meta.env.VITE_APP_REPOSITORY}
           target="_blank"

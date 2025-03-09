@@ -5,6 +5,7 @@ export default function AppLayout({
   headerLeftContent,
   headerMiddleContent,
   headerRightContent,
+  className,
   children,
 }) {
   return (
@@ -17,7 +18,8 @@ export default function AppLayout({
       <div
         className={cn(
           "grow w-full min-w-0 min-h-0 max-w-md mx-auto p-2 pb-10",
-          "flex flex-col"
+          "flex flex-col",
+          className
         )}
       >
         {children}

@@ -6,6 +6,8 @@ import Account from "./pages/Account";
 import AccountRoute from "./routes/AccountRoute";
 import Asset from "./pages/Asset";
 import AssetRoute from "./routes/AssetRoute";
+import BatchExport from "./pages/BatchExport";
+import BatchImport from "./pages/BatchImport";
 import Dashboard from "./pages/Dashboard";
 import EditAccount from "./pages/EditAccount";
 import GuestRoute from "./routes/GuestRoute";
@@ -29,6 +31,8 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="app" element={<Dashboard />} />
         <Route path="menu" element={<Menu />} />
+        <Route path="batch-import" element={<BatchImport />} />
+        <Route path="batch-export" element={<BatchExport />} />
         <Route path="import" element={<ImportWallet />} />
         <Route path="account/:publicKey/edit" element={<EditAccount />} />
         <Route path="account/:publicKey" element={<AccountRoute />}>

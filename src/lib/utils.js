@@ -15,3 +15,14 @@ export function error(code, data) {
 export function truncatePublicKey(publicKey, length = 4) {
   return publicKey.slice(0, length) + "..." + publicKey.slice(-length);
 }
+
+export function downloadFile(name, content) {
+  const href = `data:application/octet-stream;base64,${btoa(content)}`;
+
+  const a = document.createElement("a");
+
+  a.download = name;
+  a.href = href;
+
+  a.click();
+}
