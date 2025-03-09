@@ -45,7 +45,7 @@ export default function Account() {
             >
               <IoCopyOutline className="size-4" />
             </button>
-            <h3 className="text-blue-100 truncate grow min-w-0">
+            <h3 className="text-blue-100 truncate grow min-w-0 text-sm">
               <a
                 target="_blank"
                 href={`https://stellar.expert/explorer/public/account/${account.publicKey}`}
