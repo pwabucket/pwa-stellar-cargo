@@ -1,7 +1,7 @@
 import Spinner from "@/components/Spinner";
 import useAppStore from "@/store/useAppStore";
 import cn, { truncatePublicKey } from "@/lib/utils";
-import { HiCheckCircle, HiXCircle } from "react-icons/hi2";
+import { HiCheckCircle, HiClock, HiXCircle } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import {
   createFeeBumpTransaction,
@@ -38,16 +38,19 @@ export default function Merge() {
       : `${asset["asset_code"]}:${asset["asset_issuer"]}`;
 
   const [isProcessing, setIsProcessing] = useState(false);
+  const [current, setCurrent] = useState(null);
   const [results, setResults] = useState({});
 
   /** Execute Merge */
   const executeMerge = async () => {
     /** Reset */
     setResults({});
+    setCurrent(null);
     setIsProcessing(true);
 
     for (const source of otherAccounts) {
       try {
+        setCurrent(source.publicKey);
         const balances = await fetchAccountBalances(source.publicKey);
         const sourceAssetBalance = balances.find((item) =>
           asset["asset_type"] === "native"
@@ -107,6 +110,7 @@ export default function Merge() {
             ...prev,
             [source.publicKey]: {
               status: true,
+              skipped: true,
             },
           }));
         }
@@ -171,8 +175,9 @@ export default function Merge() {
           {otherAccounts.length >= 1 ? (
             <>
               You are about to merge{" "}
-              <span className="font-bold">{assetName}</span> from other accounts
-              into{" "}
+              <span className="font-bold">{assetName}</span> from{" "}
+              <span className="font-bold">{otherAccounts.length}</span> other
+              account(s) into{" "}
               <span className="font-bold">
                 {account.name || "Stellar Account"} (
                 {truncatePublicKey(account.publicKey)})
@@ -211,7 +216,11 @@ export default function Merge() {
                     <HiXCircle className="text-red-500 size-5" />
                   )
                 ) : isProcessing ? (
-                  <Spinner />
+                  current == source.publicKey ? (
+                    <Spinner />
+                  ) : (
+                    <HiClock className="size-5" />
+                  )
                 ) : null}
 
                 <h4 className="font-bold truncate grow min-w-0">
