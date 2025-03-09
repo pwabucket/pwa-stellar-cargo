@@ -26,3 +26,20 @@ export function downloadFile(name, content) {
 
   a.click();
 }
+
+export function* chunkArrayGenerator(arr, size) {
+  for (let i = 0; i < arr.length; i += size) {
+    yield arr.slice(i, i + size);
+  }
+}
+
+export function delay(length, precised = false) {
+  return new Promise((res) => {
+    setTimeout(
+      () => res(),
+      precised
+        ? length
+        : (length * (Math.floor(Math.random() * 50) + 100)) / 100
+    );
+  });
+}

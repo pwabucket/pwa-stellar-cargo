@@ -1,7 +1,7 @@
 import Spinner from "@/components/Spinner";
 import useAppStore from "@/store/useAppStore";
 import useWakeLock from "@/hooks/useWakeLock";
-import cn, { truncatePublicKey } from "@/lib/utils";
+import cn, { chunkArrayGenerator, truncatePublicKey } from "@/lib/utils";
 import { HiCheckCircle, HiClock, HiXCircle } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import {
@@ -39,99 +39,115 @@ export default function Merge() {
       : `${asset["asset_code"]}:${asset["asset_issuer"]}`;
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [current, setCurrent] = useState(null);
-  const [results, setResults] = useState({});
+  const [activeAccounts, setActiveAccounts] = useState(new Set());
+  const [results, setResults] = useState(new Map());
 
   /** Execute Merge */
   const executeMerge = async () => {
     /** Reset */
-    setResults({});
-    setCurrent(null);
+    setResults(new Map());
+    setActiveAccounts(new Set());
     setIsProcessing(true);
 
-    for (const source of otherAccounts) {
-      try {
-        setCurrent(source.publicKey);
-        const balances = await fetchAccountBalances(source.publicKey);
-        const sourceAssetBalance = balances.find((item) =>
-          asset["asset_type"] === "native"
-            ? asset["asset_type"] === item["asset_type"]
-            : asset["asset_issuer"] === item["asset_issuer"]
-        );
+    for (const chunk of chunkArrayGenerator(otherAccounts, 5)) {
+      await Promise.allSettled(
+        chunk.map(async (source) => {
+          try {
+            /** Mark as Active */
+            setActiveAccounts((prev) => new Set(prev).add(source.publicKey));
 
-        const amount = sourceAssetBalance["balance"];
+            /** Start Process */
+            const balances = await fetchAccountBalances(source.publicKey);
+            const sourceAssetBalance = balances.find((item) =>
+              asset["asset_type"] === "native"
+                ? asset["asset_type"] === item["asset_type"]
+                : asset["asset_issuer"] === item["asset_issuer"]
+            );
 
-        if (amount > 0) {
-          /** Source Transaction */
-          const transaction = await createPaymentTransaction({
-            source: source.publicKey,
-            destination: account.publicKey,
-            asset: transactionAssetName,
-            amount,
-          });
+            const amount = sourceAssetBalance["balance"];
 
-          const signedTransaction = await signTransaction({
-            keyId: source.keyId,
-            transactionXDR: transaction["transaction"],
-            network: transaction["network_passphrase"],
-            pinCode,
-          });
+            if (amount > 0) {
+              /** Source Transaction */
+              const transaction = await createPaymentTransaction({
+                source: source.publicKey,
+                destination: account.publicKey,
+                asset: transactionAssetName,
+                amount,
+              });
 
-          /** Sponsor Transaction */
-          const feeBumpTransaction = await createFeeBumpTransaction({
-            sponsoringAccount: account.publicKey,
-            transaction: signedTransaction,
-          });
+              const signedTransaction = await signTransaction({
+                keyId: source.keyId,
+                transactionXDR: transaction["transaction"],
+                network: transaction["network_passphrase"],
+                pinCode,
+              });
 
-          const signedFeeBumpTransaction = await signTransaction({
-            keyId: account.keyId,
-            transactionXDR: feeBumpTransaction["transaction"],
-            network: feeBumpTransaction["network_passphrase"],
-            pinCode,
-          });
+              /** Sponsor Transaction */
+              const feeBumpTransaction = await createFeeBumpTransaction({
+                sponsoringAccount: account.publicKey,
+                transaction: signedTransaction,
+              });
 
-          /** Submit Sponsor Transaction */
-          const response = await submit(signedFeeBumpTransaction);
+              const signedFeeBumpTransaction = await signTransaction({
+                keyId: account.keyId,
+                transactionXDR: feeBumpTransaction["transaction"],
+                network: feeBumpTransaction["network_passphrase"],
+                pinCode,
+              });
 
-          /** Log Response */
-          console.log(response);
+              /** Submit Sponsor Transaction */
+              const response = await submit(signedFeeBumpTransaction);
 
-          /** Set Response */
-          setResults((prev) => ({
-            ...prev,
-            [source.publicKey]: {
-              status: true,
-              balance: sourceAssetBalance,
-              response,
-            },
-          }));
-        } else {
-          /** Set Response */
-          setResults((prev) => ({
-            ...prev,
-            [source.publicKey]: {
-              status: true,
-              skipped: true,
-            },
-          }));
-        }
-      } catch (error) {
-        /** Log Error */
-        console.log(error);
+              /** Log Response */
+              console.log(response);
 
-        /** Set Error */
-        setResults((prev) => ({
-          ...prev,
-          [source.publicKey]: {
-            status: false,
-            error,
-          },
-        }));
-      }
+              /** Set Response */
+              setResults((prev) =>
+                new Map(prev).set(source.publicKey, {
+                  status: true,
+                  balance: sourceAssetBalance,
+                  response,
+                })
+              );
+            } else {
+              /** Set Response */
+              setResults((prev) =>
+                new Map(prev).set(source.publicKey, {
+                  status: true,
+                  skipped: true,
+                })
+              );
+            }
+          } catch (error) {
+            /** Log Error */
+            console.log(error);
+
+            /** Set Error */
+            setResults((prev) =>
+              new Map(prev).set(source.publicKey, {
+                status: false,
+                error,
+              })
+            );
+          } finally {
+            /** Remove from Processing */
+            setActiveAccounts((prev) => {
+              const newSet = new Set(prev);
+              newSet.delete(source.publicKey);
+              return newSet;
+            });
+          }
+        })
+      );
     }
 
-    /** Refetch */
-    await accountQuery.refetch();
+    try {
+      /** Refetch */
+      await accountQuery.refetch();
+    } catch (e) {
+      console.warn("Failed to Refetch Balances");
+      console.error(e);
+    }
 
     /** Stop Processing */
     setIsProcessing(false);
@@ -213,23 +229,26 @@ export default function Merge() {
                 )}
               >
                 {/* Indicator */}
-                {results[source.publicKey] ? (
-                  results[source.publicKey]["status"] ? (
+                {results.has(source.publicKey) ? (
+                  results.get(source.publicKey).status ? (
                     <HiCheckCircle className="text-green-500 size-5" />
                   ) : (
                     <HiXCircle className="text-red-500 size-5" />
                   )
                 ) : isProcessing ? (
-                  current == source.publicKey ? (
+                  activeAccounts.has(source.publicKey) ? (
                     <Spinner />
                   ) : (
                     <HiClock className="size-5" />
                   )
                 ) : null}
 
+                {/* Account Name */}
                 <h4 className="font-bold truncate grow min-w-0">
                   {source.name || "Stellar Account"}
                 </h4>
+
+                {/* Account Public Key */}
                 <p className={cn("truncate", "text-xs text-blue-500")}>
                   {truncatePublicKey(source.publicKey)}
                 </p>
