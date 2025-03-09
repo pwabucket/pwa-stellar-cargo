@@ -7,7 +7,8 @@ export default function Header({ leftContent, middleContent, rightContent }) {
       className={cn(
         "bg-white dark:bg-neutral-900",
         "shrink-0 sticky top-0 border-b",
-        "border-neutral-300 dark:border-neutral-700"
+        "border-neutral-300 dark:border-neutral-700",
+        "z-50"
       )}
     >
       <div className="max-w-md mx-auto flex items-center gap-2 p-1">
