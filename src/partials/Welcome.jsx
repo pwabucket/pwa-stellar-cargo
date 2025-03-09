@@ -2,7 +2,9 @@ import AppIcon from "@/assets/images/icon.svg";
 import LoginForm from "@/partials/LoginForm";
 import WalletForm from "@/partials/WalletForm";
 import useAppStore from "@/store/useAppStore";
-import { PrimaryButton } from "@/components/Button";
+import { HiOutlineArrowLongLeft } from "react-icons/hi2";
+import { Link } from "react-router";
+import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import { RiResetLeftFill } from "react-icons/ri";
 import { removeAllKeys } from "@/lib/stellar/keyManager";
 import { useState } from "react";
@@ -42,8 +44,13 @@ export default function Welcome() {
 
       {accounts.length >= 1 ? (
         <div className="flex flex-col gap-2">
+          {/* Login Form */}
           <LoginForm onVerified={onCreatedOrVerified} />
+
+          {/* Divider */}
           <p className="text-center text-neutral-500">or</p>
+
+          {/* Reset Wallet */}
           <button
             onClick={resetWallet}
             className="flex items-center justify-center gap-2"
@@ -53,11 +60,47 @@ export default function Welcome() {
           </button>
         </div>
       ) : showWalletForm ? (
-        <WalletForm onCreated={onCreatedOrVerified} />
+        <>
+          <WalletForm onCreated={onCreatedOrVerified} />
+          {/* Reset Wallet */}
+          <button
+            onClick={() => setShowWalletForm(false)}
+            className="flex items-center justify-center gap-2"
+          >
+            <HiOutlineArrowLongLeft className="size-4" />
+            Cancel Import
+          </button>
+        </>
       ) : (
-        <PrimaryButton onClick={() => setShowWalletForm(true)}>
-          Import Secret Key
-        </PrimaryButton>
+        <>
+          <div className="flex flex-col gap-2">
+            <PrimaryButton onClick={() => setShowWalletForm(true)}>
+              Import Secret Key
+            </PrimaryButton>
+
+            <SecondaryButton
+              as={Link}
+              to="/batch-import"
+              className="text-center"
+            >
+              Batch Import
+            </SecondaryButton>
+          </div>
+
+          <div className="flex justify-center gap-2">
+            <Link to="/about" className="text-blue-500">
+              About
+            </Link>
+            <span className="w-px  bg-neutral-200 dark:bg-neutral-700" />
+            <a
+              href={import.meta.env.VITE_APP_REPOSITORY}
+              target="_blank"
+              className="text-blue-500"
+            >
+              Source
+            </a>
+          </div>
+        </>
       )}
     </div>
   );
