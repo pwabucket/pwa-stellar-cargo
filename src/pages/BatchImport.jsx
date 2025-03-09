@@ -1,6 +1,7 @@
 import * as yup from "yup";
 import FieldStateError from "@/components/FieldStateError";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
+import cn from "@/lib/utils";
 import useAppStore from "@/store/useAppStore";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/Input";
@@ -70,11 +71,25 @@ export default function BatchImport() {
 
   return (
     <InnerAppLayout className="gap-2">
-      {isLoggedIn ? (
-        <p className="text-center p-2 rounded-xl bg-yellow-100 text-yellow-800">
-          All accounts will be replaced with imported ones
-        </p>
-      ) : null}
+      <p
+        className={cn(
+          "text-center p-2 rounded-xl",
+          isLoggedIn
+            ? "bg-yellow-100 text-yellow-800"
+            : "bg-blue-100 text-blue-800"
+        )}
+      >
+        {isLoggedIn ? (
+          <>All accounts will be replaced with imported ones</>
+        ) : (
+          <>
+            Select a file exported through{" "}
+            <span className="font-bold">
+              {import.meta.env.VITE_APP_NAME} Batch Export
+            </span>
+          </>
+        )}
+      </p>
 
       <FormProvider {...form}>
         <form
