@@ -5,7 +5,7 @@ export default function Header({ leftContent, middleContent, rightContent }) {
   return (
     <div
       className={cn(
-        "bg-white dark:bg-neutral-900",
+        "bg-white dark:bg-black",
         "shrink-0 sticky top-0 border-b",
         "border-neutral-300 dark:border-neutral-700",
         "z-50"
