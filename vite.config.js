@@ -61,14 +61,40 @@ export default defineConfig(({ mode }) => {
           ],
           screenshots: [
             {
-              src: "screenshot-320x480.png",
-              type: "image/png",
-              sizes: "320x480",
+              src: "screenshot-mobile-1.jpg",
+              sizes: "1080x1920",
+              type: "image/jpg",
             },
             {
-              src: "screenshot-1280x720.png",
-              type: "image/png",
+              src: "screenshot-mobile-2.jpg",
+              sizes: "1080x1920",
+              type: "image/jpg",
+            },
+            {
+              src: "screenshot-mobile-3.jpg",
+              sizes: "1080x1920",
+              type: "image/jpg",
+            },
+            {
+              src: "screenshot-desktop-1.jpg",
+              sizes: "1080x1920",
+              type: "image/jpg",
+            },
+            {
+              src: "screenshot-desktop-2.jpg",
+              sizes: "1080x1920",
+              type: "image/jpg",
+            },
+            {
+              src: "screenshot-desktop-wide-1.jpg",
               sizes: "1280x720",
+              type: "image/jpg",
+              form_factor: "wide",
+            },
+            {
+              src: "screenshot-desktop-wide-2.jpg",
+              sizes: "1280x720",
+              type: "image/jpg",
               form_factor: "wide",
             },
           ],
