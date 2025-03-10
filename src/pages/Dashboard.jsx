@@ -13,6 +13,7 @@ export default function Dashboard() {
       headerRightContent={
         <HeaderButton as={Link} to={"/import"} icon={HiOutlinePlus} />
       }
+      className={"pb-10"}
     >
       <AccountList />
     </AppLayout>

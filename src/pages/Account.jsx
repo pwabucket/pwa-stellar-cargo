@@ -13,7 +13,7 @@ export default function Account() {
   return (
     <>
       <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-1 p-4 bg-blue-500 text-white rounded-2xl">
+        <div className="flex flex-col gap-1 p-4 bg-blue-600 text-white rounded-2xl">
           {/* Account Name */}
           <div className="flex items-center gap-2">
             <h2 className="text-3xl font-light truncate grow min-w-0 flex gap-2 items-center">
@@ -28,7 +28,7 @@ export default function Account() {
             <Link
               to={`edit`}
               className={cn(
-                "shrink-0 bg-blue-400 size-9",
+                "shrink-0 bg-blue-500 size-9",
                 "flex items-center justify-center",
                 "rounded-full"
               )}

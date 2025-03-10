@@ -48,7 +48,9 @@ export default function Welcome() {
           <LoginForm onVerified={onCreatedOrVerified} />
 
           {/* Divider */}
-          <p className="text-center text-neutral-500">or</p>
+          <p className="text-center text-neutral-500 dark:text-neutral-400">
+            or
+          </p>
 
           {/* Reset Wallet */}
           <button
