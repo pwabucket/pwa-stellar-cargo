@@ -235,7 +235,14 @@ export default function Merge() {
                 {/* Indicator */}
                 {results.has(source.publicKey) ? (
                   results.get(source.publicKey).status ? (
-                    <HiCheckCircle className="text-green-500 size-5" />
+                    <HiCheckCircle
+                      className={cn(
+                        results.get(source.publicKey).skipped
+                          ? "text-orange-500"
+                          : "text-green-500",
+                        "size-5"
+                      )}
+                    />
                   ) : (
                     <HiXCircle className="text-red-500 size-5" />
                   )
