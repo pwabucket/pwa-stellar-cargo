@@ -37,7 +37,7 @@ export default function Welcome() {
         </h1>
 
         {/* Description */}
-        <p className="text-center text-neutral-500">
+        <p className="text-center text-neutral-500 dark:text-neutral-400">
           {import.meta.env.VITE_APP_DESCRIPTION}
         </p>
       </div>
@@ -87,16 +87,10 @@ export default function Welcome() {
             </SecondaryButton>
           </div>
 
-          <div className="flex justify-center gap-2">
-            <Link to="/about" className="text-blue-500">
-              About
-            </Link>
-            <span className="w-px  bg-neutral-200 dark:bg-neutral-700" />
-            <a
-              href={import.meta.env.VITE_APP_REPOSITORY}
-              target="_blank"
-              className="text-blue-500"
-            >
+          <div className="flex justify-center gap-2 text-blue-500 dark:text-blue-400">
+            <Link to="/about">About</Link>
+            <span className="w-px  bg-neutral-200 dark:bg-neutral-700 " />
+            <a href={import.meta.env.VITE_APP_REPOSITORY} target="_blank">
               Source
             </a>
           </div>
