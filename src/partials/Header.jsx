@@ -1,5 +1,5 @@
 import AppIcon from "@/assets/images/icon.svg";
-import cn from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 export default function Header({ leftContent, middleContent, rightContent }) {
   return (

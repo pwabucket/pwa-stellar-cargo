@@ -2,9 +2,9 @@ import Spinner from "@/components/Spinner";
 import useAppStore from "@/store/useAppStore";
 import usePendingActivity from "@/hooks/usePendingActivity";
 import useWakeLock from "@/hooks/useWakeLock";
-import cn, { chunkArrayGenerator, truncatePublicKey } from "@/lib/utils";
 import { HiCheckCircle, HiClock, HiXCircle } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
+import { chunkArrayGenerator, cn, truncatePublicKey } from "@/lib/utils";
 import {
   createFeeBumpTransaction,
   createPaymentTransaction,

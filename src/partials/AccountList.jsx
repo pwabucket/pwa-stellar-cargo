@@ -1,8 +1,8 @@
 import useAppStore from "@/store/useAppStore";
-import cn, { truncatePublicKey } from "@/lib/utils";
 import { HiOutlineSquares2X2 } from "react-icons/hi2";
 import { Link } from "react-router";
 import { Reorder, useDragControls } from "motion/react";
+import { cn, truncatePublicKey } from "@/lib/utils";
 import { memo } from "react";
 
 const AccountReorderItem = memo(({ children, ...props }) => {

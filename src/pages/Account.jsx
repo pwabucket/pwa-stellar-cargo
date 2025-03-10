@@ -2,10 +2,10 @@ import AccountImage from "@/components/AccountImage";
 import QueryError from "@/components/QueryError";
 import Spinner from "@/components/Spinner";
 import copy from "copy-to-clipboard";
-import cn, { truncatePublicKey } from "@/lib/utils";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link } from "react-router";
+import { cn, truncatePublicKey } from "@/lib/utils";
 import { useOutletContext } from "react-router";
 export default function Account() {
   const { account, accountQuery, assetMeta, assetIcon } = useOutletContext();
