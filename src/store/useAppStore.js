@@ -6,7 +6,13 @@ export const THEMES = ["system", "light", "dark"];
 const useAppStore = create()(
   persist(
     combine(
-      { pinCode: "", isLoggedIn: false, theme: THEMES[0], accounts: [] },
+      {
+        pinCode: "",
+        isLoggedIn: false,
+        isProcessing: false,
+        theme: THEMES[0],
+        accounts: [],
+      },
       (set, get) => ({
         addAccount: (account) =>
           set({ accounts: [...get().accounts, account] }),
@@ -25,6 +31,7 @@ const useAppStore = create()(
 
         setAccounts: (accounts) => set({ accounts }),
         setTheme: (theme) => set({ theme }),
+        setIsProcessing: (isProcessing) => set({ isProcessing }),
         toggleTheme: () =>
           set({
             theme: THEMES[(THEMES.indexOf(get().theme) + 1) % THEMES.length],

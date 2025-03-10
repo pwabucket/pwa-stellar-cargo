@@ -1,5 +1,6 @@
 import Spinner from "@/components/Spinner";
 import useAppStore from "@/store/useAppStore";
+import usePendingActivity from "@/hooks/usePendingActivity";
 import useWakeLock from "@/hooks/useWakeLock";
 import cn, { chunkArrayGenerator, truncatePublicKey } from "@/lib/utils";
 import { HiCheckCircle, HiClock, HiXCircle } from "react-icons/hi2";
@@ -155,6 +156,9 @@ export default function Merge() {
 
   /** Acquire WakeLock */
   useWakeLock(isProcessing);
+
+  /** Prevent Automatic Logout */
+  usePendingActivity(isProcessing);
 
   return (
     <div className="flex flex-col gap-4 grow min-h-0 min-w-0">

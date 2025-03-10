@@ -16,11 +16,16 @@ import Menu from "./pages/Menu";
 import Merge from "./pages/Merge";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import useAppStore from "./store/useAppStore";
+import useInactivity from "./hooks/useInactivity";
 import useTheme from "./hooks/useTheme";
+
+const INACTIVITY_DURATION = 3 * 60 * 1000;
 
 function App() {
   const theme = useAppStore((state) => state.theme);
   useTheme(theme);
+
+  useInactivity(INACTIVITY_DURATION);
 
   return (
     <Routes>
