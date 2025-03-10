@@ -27,6 +27,7 @@ export default function BatchImport() {
   const isLoggedIn = useAppStore((state) => state.isLoggedIn);
   const pinCode = useAppStore((state) => state.pinCode);
   const setAccounts = useAppStore((state) => state.setAccounts);
+  const login = useAppStore((state) => state.login);
   const navigate = useNavigate();
 
   /** Form */
@@ -53,6 +54,9 @@ export default function BatchImport() {
 
       /** Update Accounts */
       setAccounts(data.accounts);
+
+      /** Login */
+      login(pinCode);
 
       /** Navigate to Home */
       navigate("/", {
