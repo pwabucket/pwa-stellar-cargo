@@ -24,7 +24,7 @@ export default function Asset() {
           </p>
           {assetValue ? (
             <p className="text-right text-neutral-500">
-              ${Intl.NumberFormat().format(assetValue)}
+              ~${Intl.NumberFormat().format(assetValue)}
             </p>
           ) : null}
           <p className="text-right">
