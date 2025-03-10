@@ -3,7 +3,7 @@ import { AiOutlineMerge } from "react-icons/ai";
 import { Link, useOutletContext } from "react-router";
 
 export default function Asset() {
-  const { asset, meta } = useOutletContext();
+  const { asset, meta, assetValue } = useOutletContext();
 
   return (
     <div className="flex flex-col gap-2">
@@ -22,6 +22,11 @@ export default function Asset() {
               maximumFractionDigits: 20,
             }).format(asset["balance"])}
           </p>
+          {assetValue ? (
+            <p className="text-right text-neutral-500">
+              ${Intl.NumberFormat().format(assetValue)}
+            </p>
+          ) : null}
           <p className="text-right">
             <a
               href={`https://stellar.expert/explorer/public/asset/${meta["asset"]}`}

@@ -1,3 +1,4 @@
+import useAssetPriceQuery from "@/hooks/useAssetPriceQuery";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
 import { Outlet, useParams } from "react-router";
 import { useMemo } from "react";
@@ -23,6 +24,17 @@ export default function AssetRoute() {
     [params.asset, assetMeta]
   );
 
+  const assetPriceQuery = useAssetPriceQuery(
+    asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"],
+    asset?.["asset_issuer"]
+  );
+
+  const assetPrice = assetPriceQuery.data;
+  const assetValue = useMemo(
+    () => (assetPrice ? assetPrice * asset["balance"] : null),
+    [asset, assetPrice]
+  );
+
   /** Redirect */
   useCheckOrNavigate(asset, -1, {
     replace: true,
@@ -34,6 +46,9 @@ export default function AssetRoute() {
         ...context,
         asset,
         meta,
+        assetPriceQuery,
+        assetPrice,
+        assetValue,
       }}
     />
   );
