@@ -131,10 +131,16 @@ export default function Swap() {
 
   /** Handle Form Submission */
   const handleFormSubmit = async (data) => {
-    await swapMutation.mutateAsync(data);
-    await accountQuery.refetch();
-    form.setValue("amount", "");
-    form.setValue("receivedAmount", "");
+    if (data.amount > asset["balance"]) {
+      form.setError("amount", {
+        message: "Amount is greater than balance!",
+      });
+    } else {
+      await swapMutation.mutateAsync(data);
+      await accountQuery.refetch();
+      form.setValue("amount", "");
+      form.setValue("receivedAmount", "");
+    }
   };
 
   /** Handle Picker */
