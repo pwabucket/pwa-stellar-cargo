@@ -15,7 +15,7 @@ const AccountReorderItem = memo(({ children, ...props }) => {
           className={cn(
             "bg-neutral-100 dark:bg-neutral-800",
             "flex items-center justify-center",
-            "px-3 rounded-lg shrink-0",
+            "px-3 rounded-xl shrink-0",
             "touch-none"
           )}
           onPointerDown={(event) => dragControls.start(event)}
