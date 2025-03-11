@@ -1,4 +1,3 @@
-import AppIcon from "@/assets/images/icon.svg";
 import Header from "@/partials/Header";
 import { cn } from "@/lib/utils";
 export default function AppLayout({
@@ -22,7 +21,7 @@ export default function AppLayout({
                 "flex gap-2 items-center justify-center font-bold"
               )}
             >
-              <img src={AppIcon} className="h-4" /> {headerTitle}
+              {headerTitle}
             </h2>
           ) : null)
         }
