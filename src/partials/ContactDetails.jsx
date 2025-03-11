@@ -57,7 +57,7 @@ export default function ContactDetails() {
         </h2>
 
         {/* Memo */}
-        {contact.memo ? <p className="text-sm">({contact.memo})</p> : null}
+        {contact.memo ? <p className="text-sm">MEMO: {contact.memo}</p> : null}
 
         {/* Contact Address */}
         <div className="flex items-center gap-2">
