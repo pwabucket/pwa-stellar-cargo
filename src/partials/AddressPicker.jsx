@@ -12,7 +12,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
+      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 dark:bg-neutral-900/90" />
       <Dialog.Content
         className={cn(
           "bg-white dark:bg-black",
