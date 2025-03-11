@@ -6,7 +6,7 @@ export default function CreateContact() {
   const navigate = useNavigate();
 
   const onSaved = () => {
-    navigate("/contacts", {
+    navigate(-1, {
       replace: true,
     });
   };
