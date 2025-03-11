@@ -16,6 +16,7 @@ import { createPaymentTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { submit } from "@/lib/stellar/horizonQueries";
 import { useLocation } from "react-router";
+import { useMemo } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { useOutletContext } from "react-router";
@@ -45,6 +46,7 @@ export default function Send() {
     accountIsBelowReserve,
     accountReserveBalance,
   } = useOutletContext();
+  const accountList = useAppStore((state) => state.accounts);
   const pinCode = useAppStore((state) => state.pinCode);
   const location = useLocation();
   const showAddressPicker = location.state?.__showAddressPicker === true;
@@ -73,6 +75,15 @@ export default function Send() {
       amount: "",
     },
   });
+
+  const address = form.watch("address");
+  const matchedAccount = useMemo(
+    () =>
+      StrKey.isValidEd25519PublicKey(address)
+        ? accountList.find((item) => item.publicKey === address)
+        : null,
+    [address, accountList]
+  );
 
   const mutation = useMutation({
     mutationKey: [account.publicKey, assetTransactionName, "send"],
@@ -159,6 +170,14 @@ export default function Send() {
             disabled={form.formState.isSubmitting}
             render={({ field, fieldState }) => (
               <>
+                {/* Matched Account */}
+                {matchedAccount ? (
+                  <p className="text-xs text-blue-500 font-bold px-2">
+                    ({matchedAccount.name})
+                  </p>
+                ) : null}
+
+                {/* Address Input */}
                 <div className="flex gap-2">
                   <Input
                     {...field}
