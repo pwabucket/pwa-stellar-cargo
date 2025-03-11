@@ -79,6 +79,32 @@ export default function AccountRoute() {
     [assetMeta]
   );
 
+  const balances = useMemo(
+    () =>
+      accountQuery.data?.balances?.map((item) => ({
+        ...item,
+        ["asset_name"]:
+          item["asset_type"] === "native" ? "XLM" : item["asset_code"],
+        ["asset_icon"]:
+          assetIcon?.[
+            item["asset_type"] === "native" ? "XLM" : item["asset_issuer"]
+          ],
+        ["asset_meta"]:
+          assetMeta?.[
+            item["asset_type"] === "native" ? "XLM" : item["asset_issuer"]
+          ],
+        ["asset_domain"]:
+          assetMeta?.[
+            item["asset_type"] === "native" ? "XLM" : item["asset_issuer"]
+          ]?.["domain"],
+        ["transaction_name"]:
+          item["asset_type"] === "native"
+            ? item["asset_type"]
+            : `${item?.["asset_code"]}:${item?.["asset_issuer"]}`,
+      })),
+    [accountQuery.data, assetMeta, assetIcon]
+  );
+
   /** Redirect */
   useCheckOrNavigate(account, "/app", {
     replace: true,
@@ -123,6 +149,7 @@ export default function AccountRoute() {
             assetIds,
             assetMeta,
             assetIcon,
+            balances,
             publicKey,
           }}
         />

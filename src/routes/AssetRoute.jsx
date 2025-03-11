@@ -7,25 +7,20 @@ import { useOutletContext } from "react-router";
 export default function AssetRoute() {
   const params = useParams();
   const context = useOutletContext();
-  const { assetMeta, accountQuery } = context;
+  const { assetMeta, balances } = context;
 
   const asset = useMemo(
     () =>
-      accountQuery.data.balances.find((item) =>
+      balances.find((item) =>
         params.asset === "XLM"
           ? item["asset_type"] === "native"
           : item["asset_issuer"] === params.asset
       ),
-    [params.asset, accountQuery.data]
+    [params.asset, balances]
   );
 
-  const assetName =
-    asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"];
-
-  const assetTransactionName =
-    asset?.["asset_type"] === "native"
-      ? "native"
-      : `${asset?.["asset_code"]}:${asset?.["asset_issuer"]}`;
+  const assetName = asset?.["asset_name"];
+  const assetTransactionName = asset?.["transaction_name"];
 
   const meta = useMemo(
     () => assetMeta[params.asset],
@@ -34,14 +29,11 @@ export default function AssetRoute() {
 
   const assetPriceQuery = useAssetPriceQuery(
     asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"],
-    asset?.["asset_issuer"]
+    asset?.["asset_issuer"],
+    asset?.["balance"]
   );
 
-  const assetPrice = assetPriceQuery.data;
-  const assetValue = useMemo(
-    () => (assetPrice ? assetPrice * asset["balance"] : null),
-    [asset, assetPrice]
-  );
+  const assetValue = assetPriceQuery.data;
 
   /** Redirect */
   useCheckOrNavigate(asset, -1, {
@@ -55,7 +47,6 @@ export default function AssetRoute() {
         asset,
         meta,
         assetPriceQuery,
-        assetPrice,
         assetValue,
         assetName,
         assetTransactionName,

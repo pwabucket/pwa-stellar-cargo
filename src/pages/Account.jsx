@@ -9,7 +9,7 @@ import { Link } from "react-router";
 import { cn, truncatePublicKey } from "@/lib/utils";
 import { useOutletContext } from "react-router";
 export default function Account() {
-  const { account, accountQuery, assetMeta, assetIcon } = useOutletContext();
+  const { account, accountQuery, balances } = useOutletContext();
 
   return (
     <>
@@ -63,7 +63,7 @@ export default function Account() {
           <QueryError />
         ) : (
           <div className="flex flex-col gap-2">
-            {accountQuery.data.balances.map((balance, index) => (
+            {balances.map((balance, index) => (
               <AccountAsset
                 key={index}
                 as={Link}
@@ -73,20 +73,8 @@ export default function Account() {
                     : balance["asset_issuer"]
                 }`}
                 asset={balance}
-                icon={
-                  assetIcon[
-                    balance["asset_type"] === "native"
-                      ? "XLM"
-                      : balance["asset_issuer"]
-                  ]
-                }
-                domain={
-                  assetMeta[
-                    balance["asset_type"] === "native"
-                      ? "XLM"
-                      : balance["asset_issuer"]
-                  ]["domain"]
-                }
+                icon={balance["asset_icon"]}
+                domain={balance["asset_domain"]}
               />
             ))}
           </div>

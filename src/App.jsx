@@ -20,6 +20,7 @@ import Menu from "./pages/Menu";
 import Merge from "./pages/Merge";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Send from "./pages/Send";
+import Swap from "./pages/Swap";
 import useAppStore from "./store/useAppStore";
 import useInactivity from "./hooks/useInactivity";
 import useTheme from "./hooks/useTheme";
@@ -63,6 +64,7 @@ function App() {
           <Route path="asset/:asset" element={<AssetRoute />}>
             <Route index element={<Asset />} />
             <Route path="merge" element={<Merge />} />
+            <Route path="swap" element={<Swap />} />
             <Route path="send" element={<Send />} />
           </Route>
         </Route>
