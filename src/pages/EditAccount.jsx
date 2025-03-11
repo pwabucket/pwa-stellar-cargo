@@ -88,6 +88,7 @@ export default function EditAccount() {
 
   return account ? (
     <InnerAppLayout
+      headerTitle="Edit Account"
       headerRightContent={
         <HeaderButton
           onClick={handleAccountRemoval}
