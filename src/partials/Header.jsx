@@ -8,7 +8,7 @@ export default function Header({ leftContent, middleContent, rightContent }) {
         "bg-white dark:bg-black",
         "shrink-0 sticky top-0 border-b",
         "border-neutral-300 dark:border-neutral-700",
-        "z-50"
+        "z-30"
       )}
     >
       <div className="max-w-md mx-auto flex items-center gap-2 p-1">

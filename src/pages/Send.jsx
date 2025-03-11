@@ -1,20 +1,25 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import * as yup from "yup";
 import AccountAsset from "@/components/AccountAsset";
 import AccountBelowReserveError from "@/components/AccountBelowReserveError";
+import AddressPicker from "@/partials/AddressPicker";
 import FieldStateError from "@/components/FieldStateError";
 import useAppStore from "@/store/useAppStore";
 import { Controller, useForm } from "react-hook-form";
 import { FormProvider } from "react-hook-form";
+import { HiOutlineBookOpen } from "react-icons/hi2";
 import { Input } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
 import { StrKey } from "@stellar/stellar-sdk";
+import { cn } from "@/lib/utils";
 import { createPaymentTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { submit } from "@/lib/stellar/horizonQueries";
+import { useLocation } from "react-router";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 import { useOutletContext } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 /** Schema */
 const schema = yup
   .object({
@@ -41,6 +46,23 @@ export default function Send() {
     accountReserveBalance,
   } = useOutletContext();
   const pinCode = useAppStore((state) => state.pinCode);
+  const location = useLocation();
+  const showAddressPicker = location.state?.__showAddressPicker === true;
+  const navigate = useNavigate();
+
+  /** Toggle Address Picker */
+  const toggleAddressPicker = (show) => {
+    if (show) {
+      navigate(null, {
+        state: {
+          ...location.state,
+          __showAddressPicker: true,
+        },
+      });
+    } else {
+      navigate(-1, { replace: true });
+    }
+  };
 
   /** Form */
   const form = useForm({
@@ -78,6 +100,7 @@ export default function Send() {
     },
   });
 
+  /** Handle Form Submission */
   const handleFormSubmit = async (data) => {
     if (data.address === account.publicKey) {
       form.setError("address", {
@@ -93,6 +116,12 @@ export default function Send() {
         console.error(error);
       }
     }
+  };
+
+  /** Handle Picker */
+  const handleAddressPicker = ({ address, memo }) => {
+    form.setValue("address", address);
+    form.setValue("memo", memo);
   };
 
   return (
@@ -130,12 +159,36 @@ export default function Send() {
             disabled={form.formState.isSubmitting}
             render={({ field, fieldState }) => (
               <>
-                <Input
-                  {...field}
-                  spellCheck={false}
-                  autoComplete={"off"}
-                  placeholder={"Address"}
-                />
+                <div className="flex gap-2">
+                  <Input
+                    {...field}
+                    spellCheck={false}
+                    className="grow"
+                    autoComplete={"off"}
+                    placeholder={"Address"}
+                  />
+
+                  {/* Picker */}
+                  <Dialog.Root
+                    open={showAddressPicker}
+                    onOpenChange={toggleAddressPicker}
+                  >
+                    <Dialog.Trigger
+                      type="button"
+                      className={cn(
+                        "text-blue-500 shrink-0",
+                        "bg-neutral-100 dark:bg-neutral-800",
+                        "px-3 rounded-xl"
+                      )}
+                    >
+                      <HiOutlineBookOpen className="size-4" />
+                    </Dialog.Trigger>
+                    <AddressPicker
+                      onSelect={handleAddressPicker}
+                      publicKey={account.publicKey}
+                    />
+                  </Dialog.Root>
+                </div>
 
                 <FieldStateError fieldState={fieldState} />
               </>
@@ -183,7 +236,7 @@ export default function Send() {
                   <button
                     type="button"
                     onClick={() => field.onChange(asset["balance"])}
-                    className="text-blue-500"
+                    className="text-blue-500 shrink-0"
                   >
                     MAX
                   </button>
