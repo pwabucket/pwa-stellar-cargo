@@ -31,7 +31,18 @@ export default function ContactDetails() {
   });
 
   return contact ? (
-    <InnerAppLayout headerTitle={contact.name} className="gap-4">
+    <InnerAppLayout
+      headerMiddleContent={
+        <h3 className="text-center font-bold flex gap-2 items-center justify-center">
+          <AccountImage
+            publicKey={contact.address}
+            className="size-4 shrink-0"
+          />{" "}
+          {contact.name || "Stellar Account"}
+        </h3>
+      }
+      className="gap-4"
+    >
       <div className="flex flex-col gap-1 items-center justify-center">
         {/* Image */}
         <AccountImage
