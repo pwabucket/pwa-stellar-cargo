@@ -5,7 +5,7 @@ import { Reorder, useDragControls } from "motion/react";
 import { cn, truncatePublicKey } from "@/lib/utils";
 import { memo } from "react";
 
-const AccountReorderItem = memo(({ children, ...props }) => {
+const ContactReorderItem = memo(({ children, ...props }) => {
   const dragControls = useDragControls();
   return (
     <Reorder.Item {...props} dragListener={false} dragControls={dragControls}>
@@ -27,44 +27,49 @@ const AccountReorderItem = memo(({ children, ...props }) => {
   );
 });
 
-export default function AccountList() {
-  const accounts = useAppStore((state) => state.accounts);
-  const setAccounts = useAppStore((state) => state.setAccounts);
+export default function ContactList() {
+  const contacts = useAppStore((state) => state.contacts);
+  const setContacts = useAppStore((state) => state.setContacts);
 
-  return accounts.length >= 1 ? (
+  return contacts.length >= 1 ? (
     <Reorder.Group
-      values={accounts}
-      onReorder={(newOrder) => setAccounts(newOrder)}
+      values={contacts}
+      onReorder={(newOrder) => setContacts(newOrder)}
       className="flex flex-col gap-2"
     >
-      {accounts.map((account) => (
-        <AccountReorderItem key={account.keyId} value={account}>
+      {contacts.map((contact) => (
+        <ContactReorderItem key={contact.id} value={contact}>
           <Link
-            to={`/accounts/${account.publicKey}`}
+            to={`/contacts/${contact.id}`}
             className={cn(
-              "group rounded-xl px-3 py-2",
+              "group rounded-xl px-3",
               "bg-neutral-100 dark:bg-neutral-800",
               "hover:bg-blue-500 hover:text-white",
               "flex items-center gap-2"
             )}
           >
-            <h4 className="font-bold truncate grow min-w-0">
-              {account.name || "Stellar Account"}
+            <h4 className="font-bold truncate grow min-w-0 py-2">
+              {contact.name || "Stellar Contact"}
             </h4>
-            <p
-              className={cn(
-                "truncate",
-                "text-sm text-blue-500",
-                "group-hover:text-blue-100"
-              )}
-            >
-              {truncatePublicKey(account.publicKey)}
-            </p>
+            <div className="flex flex-col min-w-0 shrink-0">
+              <p
+                className={cn(
+                  "truncate",
+                  "text-xs text-blue-500",
+                  "group-hover:text-blue-100"
+                )}
+              >
+                {truncatePublicKey(contact.address)}
+              </p>
+              {contact.memo ? (
+                <p className="text-xs">({contact.memo})</p>
+              ) : null}
+            </div>
           </Link>
-        </AccountReorderItem>
+        </ContactReorderItem>
       ))}
     </Reorder.Group>
   ) : (
-    <p className="text-center">No account to display</p>
+    <p className="text-center">No contact to display</p>
   );
 }

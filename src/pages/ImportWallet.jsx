@@ -8,13 +8,13 @@ export default function ImportWallet() {
   const pinCode = useAppStore((state) => state.pinCode);
 
   const onCreated = ({ publicKey }) => {
-    navigate(`/account/${publicKey}`, {
+    navigate(`/accounts/${publicKey}`, {
       replace: true,
     });
   };
 
   return (
-    <InnerAppLayout>
+    <InnerAppLayout headerTitle="Import Wallet">
       <WalletForm pinCode={pinCode} onCreated={onCreated} />
     </InnerAppLayout>
   );

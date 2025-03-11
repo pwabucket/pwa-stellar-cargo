@@ -1,10 +1,12 @@
 import * as Dialog from "@radix-ui/react-dialog";
+import * as Tabs from "@radix-ui/react-tabs";
 import useAppStore from "@/store/useAppStore";
 import { cn, truncatePublicKey } from "@/lib/utils";
 import { useMemo } from "react";
 
 export default function AddressPicker({ publicKey, onSelect }) {
   const list = useAppStore((state) => state.accounts);
+  const contacts = useAppStore((state) => state.contacts);
   const otherAccounts = useMemo(
     () => list.filter((item) => item.publicKey !== publicKey),
     [list, publicKey]
@@ -30,44 +32,109 @@ export default function AddressPicker({ publicKey, onSelect }) {
             <Dialog.Title className="text-center font-bold text-blue-500">
               Address Picker
             </Dialog.Title>
-            <Dialog.Description className="text-center text-neutral-500 dark:text-neutral-400">
-              Choose an address
+            <Dialog.Description className="sr-only">
+              Choose an account or contact
             </Dialog.Description>
           </div>
 
-          {/* List */}
-          <div className="flex flex-col gap-2">
-            {otherAccounts.map((account) => (
-              <Dialog.Close
-                className={cn(
-                  "text-left",
-                  "group rounded-xl px-3 py-2",
-                  "bg-neutral-100 dark:bg-neutral-800",
-                  "hover:bg-blue-500 hover:text-white",
-                  "flex items-center gap-2"
-                )}
-                onClick={() =>
-                  onSelect({
-                    address: account.publicKey,
-                    memo: "",
-                  })
-                }
-              >
-                <h4 className="font-bold truncate grow min-w-0">
-                  {account.name || "Stellar Account"}
-                </h4>
-                <p
+          {/* Tabs */}
+          <Tabs.Root defaultValue="accounts" className="flex flex-col gap-4">
+            <Tabs.List className="grid grid-cols-2">
+              {["accounts", "contacts"].map((value, index) => (
+                <Tabs.Trigger
+                  key={index}
+                  value={value}
                   className={cn(
-                    "truncate",
-                    "text-sm text-blue-500",
-                    "group-hover:text-blue-100"
+                    "p-2",
+                    "border-b-2 border-transparent",
+                    "capitalize",
+                    "data-[state=active]:border-blue-500"
                   )}
                 >
-                  {truncatePublicKey(account.publicKey)}
-                </p>
-              </Dialog.Close>
-            ))}
-          </div>
+                  {value}
+                </Tabs.Trigger>
+              ))}
+            </Tabs.List>
+
+            {/* Accounts */}
+            <Tabs.Content value="accounts">
+              <div className="flex flex-col gap-2">
+                {otherAccounts.map((account) => (
+                  <Dialog.Close
+                    key={account.publicKey}
+                    className={cn(
+                      "text-left",
+                      "group rounded-xl px-3 py-2",
+                      "bg-neutral-100 dark:bg-neutral-800",
+                      "hover:bg-blue-500 hover:text-white",
+                      "flex items-center gap-2"
+                    )}
+                    onClick={() =>
+                      onSelect({
+                        address: account.publicKey,
+                        memo: "",
+                      })
+                    }
+                  >
+                    <h4 className="font-bold truncate grow min-w-0">
+                      {account.name || "Stellar Account"}
+                    </h4>
+                    <p
+                      className={cn(
+                        "truncate",
+                        "text-sm text-blue-500",
+                        "group-hover:text-blue-100"
+                      )}
+                    >
+                      {truncatePublicKey(account.publicKey)}
+                    </p>
+                  </Dialog.Close>
+                ))}
+              </div>
+            </Tabs.Content>
+
+            {/* Contacts */}
+            <Tabs.Content value="contacts">
+              <div className="flex flex-col gap-2">
+                {contacts.map((contact) => (
+                  <Dialog.Close
+                    key={contact.id}
+                    className={cn(
+                      "group rounded-xl px-3",
+                      "bg-neutral-100 dark:bg-neutral-800",
+                      "hover:bg-blue-500 hover:text-white",
+                      "flex items-center gap-2",
+                      "text-left"
+                    )}
+                    onClick={() =>
+                      onSelect({
+                        address: contact.address,
+                        memo: contact.memo,
+                      })
+                    }
+                  >
+                    <h4 className="font-bold truncate grow min-w-0 py-2">
+                      {contact.name || "Stellar Contact"}
+                    </h4>
+                    <div className="flex flex-col min-w-0 shrink-0">
+                      <p
+                        className={cn(
+                          "truncate",
+                          "text-xs text-blue-500",
+                          "group-hover:text-blue-100"
+                        )}
+                      >
+                        {truncatePublicKey(contact.address)}
+                      </p>
+                      {contact.memo ? (
+                        <p className="text-xs">({contact.memo})</p>
+                      ) : null}
+                    </div>
+                  </Dialog.Close>
+                ))}
+              </div>
+            </Tabs.Content>
+          </Tabs.Root>
         </div>
       </Dialog.Content>
     </Dialog.Portal>

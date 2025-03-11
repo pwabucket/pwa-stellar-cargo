@@ -47,6 +47,7 @@ export default function Send() {
     accountReserveBalance,
   } = useOutletContext();
   const accountList = useAppStore((state) => state.accounts);
+  const contacts = useAppStore((state) => state.contacts);
   const pinCode = useAppStore((state) => state.pinCode);
   const location = useLocation();
   const showAddressPicker = location.state?.__showAddressPicker === true;
@@ -77,12 +78,16 @@ export default function Send() {
   });
 
   const address = form.watch("address");
+  const memo = form.watch("memo");
   const matchedAccount = useMemo(
     () =>
       StrKey.isValidEd25519PublicKey(address)
-        ? accountList.find((item) => item.publicKey === address)
+        ? accountList.find((item) => item.publicKey === address) ||
+          contacts.find(
+            (item) => item.address === address && item.memo === memo
+          )
         : null,
-    [address, accountList]
+    [address, memo, accountList, contacts]
   );
 
   const mutation = useMutation({

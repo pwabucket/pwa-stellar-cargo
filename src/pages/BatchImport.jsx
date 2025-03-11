@@ -27,6 +27,7 @@ export default function BatchImport() {
   const isLoggedIn = useAppStore((state) => state.isLoggedIn);
   const pinCode = useAppStore((state) => state.pinCode);
   const setAccounts = useAppStore((state) => state.setAccounts);
+  const setContacts = useAppStore((state) => state.setContacts);
   const login = useAppStore((state) => state.login);
   const navigate = useNavigate();
 
@@ -53,7 +54,10 @@ export default function BatchImport() {
       await importAllKeys(data.keys, pinCode);
 
       /** Update Accounts */
-      setAccounts(data.accounts);
+      setAccounts(data.accounts || []);
+
+      /** Update Contacts */
+      setContacts(data.contacts || []);
 
       /** Login */
       login(pinCode);
@@ -84,7 +88,7 @@ export default function BatchImport() {
         )}
       >
         {isLoggedIn ? (
-          <>All accounts will be replaced with imported ones</>
+          <>All accounts and contacts will be replaced with imported ones</>
         ) : (
           <>
             Select a file exported through{" "}

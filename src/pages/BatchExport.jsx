@@ -7,6 +7,7 @@ import { exportAllKeys } from "@/lib/stellar/keyManager";
 export default function BatchExport() {
   const pinCode = useAppStore((state) => state.pinCode);
   const accounts = useAppStore((state) => state.accounts);
+  const contacts = useAppStore((state) => state.contacts);
 
   const exportAll = async () => {
     /** Get Keys */
@@ -18,13 +19,14 @@ export default function BatchExport() {
       JSON.stringify({
         keys,
         accounts,
+        contacts,
       })
     );
   };
   return (
     <InnerAppLayout className="gap-2">
       <p className="text-center p-2 rounded-xl bg-blue-100 text-blue-800">
-        All accounts will be exported
+        All accounts and contacts will be exported
       </p>
       <PrimaryButton onClick={exportAll}>Export All</PrimaryButton>
     </InnerAppLayout>

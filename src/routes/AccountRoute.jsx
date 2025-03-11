@@ -104,7 +104,7 @@ export default function AccountRoute() {
               )}
               onClick={() => copy(account.publicKey)}
             >
-              <IoCopyOutline className="size-4" />
+              <IoCopyOutline className="size-3" />
               {truncatePublicKey(account.publicKey)}
             </h4>
           </>

@@ -13,6 +13,7 @@ export default function Welcome() {
   const login = useAppStore((state) => state.login);
   const accounts = useAppStore((state) => state.accounts);
   const setAccounts = useAppStore((state) => state.setAccounts);
+  const setContacts = useAppStore((state) => state.setContacts);
   const [showWalletForm, setShowWalletForm] = useState(false);
 
   const onCreatedOrVerified = ({ pinCode }) => {
@@ -23,6 +24,7 @@ export default function Welcome() {
   const resetWallet = async () => {
     await removeAllKeys();
     setAccounts([]);
+    setContacts([]);
   };
 
   return (

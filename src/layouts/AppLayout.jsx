@@ -1,10 +1,11 @@
+import AppIcon from "@/assets/images/icon.svg";
 import Header from "@/partials/Header";
 import { cn } from "@/lib/utils";
-
 export default function AppLayout({
   headerLeftContent,
   headerMiddleContent,
   headerRightContent,
+  headerTitle,
   className,
   children,
 }) {
@@ -12,7 +13,19 @@ export default function AppLayout({
     <div className="flex flex-col min-h-dvh">
       <Header
         leftContent={headerLeftContent}
-        middleContent={headerMiddleContent}
+        middleContent={
+          headerMiddleContent ||
+          (headerTitle ? (
+            <h2
+              className={cn(
+                "text-center truncate",
+                "flex gap-2 items-center justify-center font-bold"
+              )}
+            >
+              <img src={AppIcon} className="h-4" /> {headerTitle}
+            </h2>
+          ) : null)
+        }
         rightContent={headerRightContent}
       />
       <div

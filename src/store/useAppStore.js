@@ -12,8 +12,10 @@ const useAppStore = create()(
         isProcessing: false,
         theme: THEMES[0],
         accounts: [],
+        contacts: [],
       },
       (set, get) => ({
+        /** Account Operations */
         addAccount: (account) =>
           set({ accounts: [...get().accounts, account] }),
         removeAccount: (publicKey) =>
@@ -30,6 +32,24 @@ const useAppStore = create()(
           }),
 
         setAccounts: (accounts) => set({ accounts }),
+
+        /** Contact Operations */
+        addContact: (contact) =>
+          set({ contacts: [contact, ...get().contacts] }),
+        removeContact: (id) =>
+          set({
+            contacts: get().contacts.filter((item) => item.id !== id),
+          }),
+        updateContact: (id, data) =>
+          set({
+            contacts: get().contacts.map((item) =>
+              item.id === id ? { ...item, ...data } : item
+            ),
+          }),
+
+        setContacts: (contacts) => set({ contacts }),
+
+        /** Extras */
         setTheme: (theme) => set({ theme }),
         setIsProcessing: (isProcessing) => set({ isProcessing }),
         toggleTheme: () =>
@@ -42,8 +62,8 @@ const useAppStore = create()(
     ),
     {
       name: `${import.meta.env.VITE_APP_ID}:app`,
-      partialize({ theme, accounts }) {
-        return { theme, accounts };
+      partialize({ theme, accounts, contacts }) {
+        return { theme, accounts, contacts };
       },
     }
   )
