@@ -205,10 +205,11 @@ export default function Send() {
                   {...field}
                   spellCheck={false}
                   autoComplete={"off"}
-                  placeholder={"MEMO - Optional"}
+                  placeholder={"MEMO (Optional)"}
                 />
-                <p className="text-blue-500 text-sm px-2">
-                  Note: Required by exchanges
+                <p className="text-blue-500 text-xs px-2">
+                  <span className="font-bold">MEMO</span> is required by
+                  exchanges
                 </p>
 
                 <FieldStateError fieldState={fieldState} />
