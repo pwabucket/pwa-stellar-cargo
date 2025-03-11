@@ -1,12 +1,14 @@
 import AccountImage from "@/components/AccountImage";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import Spinner from "@/components/Spinner";
+import copy from "copy-to-clipboard";
 import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
 import useAssetMetaQuery from "@/hooks/useAssetMetaQuery";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
+import { IoCopyOutline } from "react-icons/io5";
 import { Outlet, useParams } from "react-router";
-import { truncatePublicKey } from "@/lib/utils";
+import { cn, truncatePublicKey } from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
@@ -94,7 +96,15 @@ export default function AccountRoute() {
               />{" "}
               {account.name || "Stellar Account"}
             </h3>
-            <h4 className="text-xs text-center text-blue-500">
+            <h4
+              className={cn(
+                "text-xs text-center text-blue-500",
+                "flex items-center justify-center gap-1",
+                "cursor-pointer"
+              )}
+              onClick={() => copy(account.publicKey)}
+            >
+              <IoCopyOutline className="size-4" />
               {truncatePublicKey(account.publicKey)}
             </h4>
           </>
