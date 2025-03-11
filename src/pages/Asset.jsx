@@ -1,4 +1,4 @@
-import { AiOutlineMerge } from "react-icons/ai";
+import { AiOutlineMerge, AiOutlineSend } from "react-icons/ai";
 import { Link, useOutletContext } from "react-router";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +39,17 @@ export default function Asset() {
         </div>
       </div>
 
+      <Link
+        to={"send"}
+        className={cn(
+          "p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-center",
+          "flex gap-2 justify-center items-center"
+        )}
+      >
+        <AiOutlineSend className="size-4" />
+        Send
+      </Link>
+      {/* Merge */}
       <Link
         to={"merge"}
         className={cn(

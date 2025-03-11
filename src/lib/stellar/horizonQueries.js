@@ -27,7 +27,7 @@ export async function fetchAssetPrice(assetCode, assetIssuer) {
 
 export async function submit(transaction) {
   try {
-    await server.submitTransaction(transaction);
+    return await server.submitTransaction(transaction);
   } catch (err) {
     throw error(400, {
       message: `${err.response?.data?.title} - ${err.response?.data.extras["result_codes"]["transaction"]}`,

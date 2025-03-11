@@ -19,6 +19,14 @@ export default function AssetRoute() {
     [params.asset, accountQuery.data]
   );
 
+  const assetName =
+    asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"];
+
+  const assetTransactionName =
+    asset?.["asset_type"] === "native"
+      ? "native"
+      : `${asset?.["asset_code"]}:${asset?.["asset_issuer"]}`;
+
   const meta = useMemo(
     () => assetMeta[params.asset],
     [params.asset, assetMeta]
@@ -49,6 +57,8 @@ export default function AssetRoute() {
         assetPriceQuery,
         assetPrice,
         assetValue,
+        assetName,
+        assetTransactionName,
       }}
     />
   );

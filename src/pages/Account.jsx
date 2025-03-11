@@ -1,3 +1,4 @@
+import AccountAsset from "@/components/AccountAsset";
 import AccountImage from "@/components/AccountImage";
 import QueryError from "@/components/QueryError";
 import Spinner from "@/components/Spinner";
@@ -63,57 +64,30 @@ export default function Account() {
         ) : (
           <div className="flex flex-col gap-2">
             {accountQuery.data.balances.map((balance, index) => (
-              <Link
+              <AccountAsset
                 key={index}
+                as={Link}
                 to={`asset/${
                   balance["asset_type"] === "native"
                     ? "XLM"
                     : balance["asset_issuer"]
                 }`}
-                className={cn(
-                  "p-2 pr-3 rounded-xl",
-                  "bg-neutral-100 hover:bg-neutral-200",
-                  "dark:bg-neutral-800 dark:hover:bg-neutral-700",
-                  "flex items-center gap-2"
-                )}
-              >
-                {/* Icon */}
-                <img
-                  src={
-                    assetIcon[
-                      balance["asset_type"] === "native"
-                        ? "XLM"
-                        : balance["asset_issuer"]
-                    ]
-                  }
-                  className={cn("shrink-0 size-8 rounded-full", "bg-white")}
-                />
-
-                {/* Asset Type */}
-                <div className="flex flex-col grow min-w-0">
-                  <h4 className=" truncate">
-                    {balance["asset_type"] === "native"
+                asset={balance}
+                icon={
+                  assetIcon[
+                    balance["asset_type"] === "native"
                       ? "XLM"
-                      : balance["asset_code"]}
-                  </h4>
-                  <p className="text-xs">
-                    {
-                      assetMeta[
-                        balance["asset_type"] === "native"
-                          ? "XLM"
-                          : balance["asset_issuer"]
-                      ]["domain"]
-                    }
-                  </p>
-                </div>
-
-                {/* Balance */}
-                <p className="shrink-0 font-bold">
-                  {Intl.NumberFormat("en-US", {
-                    maximumFractionDigits: 20,
-                  }).format(balance["balance"])}
-                </p>
-              </Link>
+                      : balance["asset_issuer"]
+                  ]
+                }
+                domain={
+                  assetMeta[
+                    balance["asset_type"] === "native"
+                      ? "XLM"
+                      : balance["asset_issuer"]
+                  ]["domain"]
+                }
+              />
             ))}
           </div>
         )}

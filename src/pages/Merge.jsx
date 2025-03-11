@@ -1,3 +1,4 @@
+import AccountBelowReserveError from "@/components/AccountBelowReserveError";
 import Spinner from "@/components/Spinner";
 import useAppStore from "@/store/useAppStore";
 import usePendingActivity from "@/hooks/usePendingActivity";
@@ -176,17 +177,9 @@ export default function Merge() {
 
         {/* Below Reserve info */}
         {accountIsBelowReserve ? (
-          <p
-            className={cn(
-              "p-2 text-center rounded-xl",
-              "text-red-800 bg-red-100"
-            )}
-          >
-            Account is below reserve! Transactions are likely to fail. You need
-            a minimum of{" "}
-            <span className="font-bold">{accountReserveBalance} XLM</span> +
-            transaction fees.
-          </p>
+          <AccountBelowReserveError
+            accountReserveBalance={accountReserveBalance}
+          />
         ) : null}
 
         {/* Merge Info */}
