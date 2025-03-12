@@ -122,6 +122,10 @@ export default function Send() {
       form.setError("address", {
         message: "Can't send to the same address",
       });
+    } else if (parseFloat(data.amount) > parseFloat(asset["balance"])) {
+      form.setError("amount", {
+        message: "Amount is greater than balance!",
+      });
     } else {
       try {
         await mutation.mutateAsync(data);
