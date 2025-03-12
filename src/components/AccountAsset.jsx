@@ -1,3 +1,4 @@
+import useAssetPriceQuery from "@/hooks/useAssetPriceQuery";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 
@@ -6,8 +7,19 @@ export default memo(function AccountAsset({
   asset,
   icon,
   domain,
+  displayPrice = true,
   ...props
 }) {
+  const assetPriceQuery = useAssetPriceQuery(
+    asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"],
+    asset?.["asset_issuer"],
+    asset?.["balance"],
+    {
+      enabled: displayPrice,
+    }
+  );
+  const assetValue = assetPriceQuery.data;
+
   return (
     <Component
       {...props}
@@ -37,11 +49,16 @@ export default memo(function AccountAsset({
       </div>
 
       {/* Balance */}
-      <p className="shrink-0 font-bold">
-        {Intl.NumberFormat("en-US", {
-          maximumFractionDigits: 20,
-        }).format(asset["balance"])}
-      </p>
+      <div className="flex flex-col shrink-0">
+        <p className="font-bold text-right">
+          {Intl.NumberFormat("en-US", {}).format(asset["balance"])}
+        </p>
+        {assetValue ? (
+          <p className="text-right text-neutral-500 text-sm">
+            ~${Intl.NumberFormat().format(assetValue)}
+          </p>
+        ) : null}
+      </div>
     </Component>
   );
 });
