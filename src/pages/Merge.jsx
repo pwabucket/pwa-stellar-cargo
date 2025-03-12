@@ -1,5 +1,6 @@
 import AccountAsset from "@/components/AccountAsset";
 import AccountBelowReserveError from "@/components/AccountBelowReserveError";
+import RequiredReserve from "@/components/RequiredReserve";
 import Spinner from "@/components/Spinner";
 import useAppStore from "@/store/useAppStore";
 import usePendingActivity from "@/hooks/usePendingActivity";
@@ -166,15 +167,7 @@ export default function Merge() {
     <div className="flex flex-col gap-4 grow min-h-0 min-w-0">
       <div className="flex flex-col gap-2">
         {/* Reserve Info */}
-        <p
-          className={cn(
-            "p-2 text-center rounded-xl",
-            "text-blue-800 bg-blue-100"
-          )}
-        >
-          Required Reserve:{" "}
-          <span className="font-bold">{accountReserveBalance} XLM</span>
-        </p>
+        <RequiredReserve balance={accountReserveBalance} />
 
         {/* Below Reserve info */}
         {accountIsBelowReserve ? (
