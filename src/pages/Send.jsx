@@ -112,6 +112,9 @@ export default function Send() {
       /** Submit Transaction */
       const response = await submit(signedTransaction);
 
+      /** Log Response */
+      console.log(response);
+
       return response;
     },
   });

@@ -125,6 +125,9 @@ export default function Swap() {
       /** Submit Transaction */
       const response = await submit(signedTransaction);
 
+      /** Log Response */
+      console.log(response);
+
       return response;
     },
   });
