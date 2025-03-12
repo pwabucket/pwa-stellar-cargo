@@ -5,10 +5,10 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-export function error(code, data) {
+export function error(code, options) {
   return {
+    ...options,
     code,
-    data,
   };
 }
 
