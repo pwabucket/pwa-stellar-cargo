@@ -1,6 +1,7 @@
+import AccountAssetPlaceholder from "@/components/AccountAssetPlaceholder";
 import AccountImage from "@/components/AccountImage";
+import AccountPlaceholder from "@/components/AccountPlaceholder";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
-import Spinner from "@/components/Spinner";
 import copy from "copy-to-clipboard";
 import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
@@ -8,7 +9,7 @@ import useAssetMetaQuery from "@/hooks/useAssetMetaQuery";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
 import { IoCopyOutline } from "react-icons/io5";
 import { Outlet, useParams } from "react-router";
-import { cn, truncatePublicKey } from "@/lib/utils";
+import { cn, repeatComponent, truncatePublicKey } from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
@@ -154,7 +155,13 @@ export default function AccountRoute() {
           }}
         />
       ) : (
-        <Spinner />
+        <div className="flex flex-col gap-2">
+          {/* Account */}
+          <AccountPlaceholder />
+
+          {/* Assets */}
+          {repeatComponent(<AccountAssetPlaceholder />, 4)}
+        </div>
       )}
     </InnerAppLayout>
   );
