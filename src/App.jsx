@@ -61,7 +61,7 @@ function App() {
           <Route index element={<Account />} />
 
           {/* Asset */}
-          <Route path="asset/:asset" element={<AssetRoute />}>
+          <Route path="assets/:asset" element={<AssetRoute />}>
             <Route index element={<Asset />} />
             <Route path="merge" element={<Merge />} />
             <Route path="swap" element={<Swap />} />

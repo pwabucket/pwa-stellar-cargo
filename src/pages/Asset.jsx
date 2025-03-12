@@ -3,7 +3,8 @@ import { Link, useOutletContext } from "react-router";
 import { cn } from "@/lib/utils";
 
 export default function Asset() {
-  const { asset, meta, assetValue } = useOutletContext();
+  const { asset, assetValue } = useOutletContext();
+  const meta = asset["asset_meta"];
 
   return (
     <div className="flex flex-col gap-2">

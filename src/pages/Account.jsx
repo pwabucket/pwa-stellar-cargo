@@ -67,10 +67,10 @@ export default function Account() {
               <AccountAsset
                 key={index}
                 as={Link}
-                to={`asset/${
+                to={`assets/${
                   balance["asset_type"] === "native"
                     ? "XLM"
-                    : balance["asset_issuer"]
+                    : `${balance["asset_code"]}-${balance["asset_issuer"]}`
                 }`}
                 asset={balance}
                 icon={balance["asset_icon"]}

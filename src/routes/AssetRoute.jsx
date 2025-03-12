@@ -14,18 +14,14 @@ export default function AssetRoute() {
       balances.find((item) =>
         params.asset === "XLM"
           ? item["asset_type"] === "native"
-          : item["asset_issuer"] === params.asset
+          : item["asset_code"] === params.asset.split("-")[0] &&
+            item["asset_issuer"] === params.asset.split("-")[1]
       ),
     [params.asset, balances]
   );
 
   const assetName = asset?.["asset_name"];
   const assetTransactionName = asset?.["transaction_name"];
-
-  const meta = useMemo(
-    () => assetMeta[params.asset],
-    [params.asset, assetMeta]
-  );
 
   const assetPriceQuery = useAssetPriceQuery(
     asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"],
@@ -45,7 +41,6 @@ export default function AssetRoute() {
       context={{
         ...context,
         asset,
-        meta,
         assetPriceQuery,
         assetValue,
         assetName,
