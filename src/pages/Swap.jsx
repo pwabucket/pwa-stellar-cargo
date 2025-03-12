@@ -235,7 +235,7 @@ export default function Swap() {
         />
       ) : null}
 
-      {/* Asset */}
+      {/* Source Asset */}
       <AccountAsset
         asset={asset}
         icon={asset["asset_icon"]}
@@ -247,7 +247,7 @@ export default function Swap() {
           onSubmit={form.handleSubmit(handleFormSubmit)}
           className="flex flex-col gap-2"
         >
-          {/* Amount */}
+          {/* Source Amount */}
           <Controller
             name="amount"
             disabled={
@@ -286,7 +286,7 @@ export default function Swap() {
             <IoSwapVerticalOutline className="size-8" />
           </div>
 
-          {/* Address */}
+          {/* Received Asset and Amount */}
           <Controller
             name="receivedAmount"
             disabled={
@@ -311,11 +311,13 @@ export default function Swap() {
                   >
                     <Dialog.Trigger
                       type="button"
+                      disabled={field.disabled}
                       className={cn(
                         "shrink-0",
                         "bg-neutral-100 dark:bg-neutral-800",
                         "px-3 rounded-xl text-sm",
-                        "flex gap-2 items-center"
+                        "flex gap-2 items-center",
+                        "disabled:opacity-60"
                       )}
                     >
                       <img

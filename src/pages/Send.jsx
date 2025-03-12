@@ -196,17 +196,19 @@ export default function Send() {
                     placeholder={"Address"}
                   />
 
-                  {/* Picker */}
+                  {/* Address Picker */}
                   <Dialog.Root
                     open={showAddressPicker}
                     onOpenChange={toggleAddressPicker}
                   >
                     <Dialog.Trigger
                       type="button"
+                      disabled={field.disabled}
                       className={cn(
                         "text-blue-500 shrink-0",
                         "bg-neutral-100 dark:bg-neutral-800",
-                        "px-3 rounded-xl"
+                        "px-3 rounded-xl",
+                        "disabled:opacity-60"
                       )}
                     >
                       <HiOutlineBookOpen className="size-4" />
