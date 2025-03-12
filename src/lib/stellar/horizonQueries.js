@@ -9,26 +9,23 @@ export const USDC = new Asset(
 
 export async function fetchAssetPrice(assetCode, assetIssuer, amount) {
   try {
-    const sellingAsset =
-      assetCode === "XLM"
-        ? new Asset.native()
-        : new Asset(assetCode, assetIssuer);
+    if (amount > 0) {
+      const sellingAsset =
+        assetCode === "XLM"
+          ? new Asset.native()
+          : new Asset(assetCode, assetIssuer);
 
-    if (amount) {
-      let response = await server
+      const response = await server
         .strictSendPaths(sellingAsset, amount.toString(), [USDC])
         .call();
+
       if (response.records.length > 0) {
         return response.records[0]["destination_amount"];
       } else {
         throw error(400, { message: "no strict send paths available" });
       }
     } else {
-      const orderBook = await server.orderbook(sellingAsset, USDC).call();
-
-      return orderBook.asks.length > 0
-        ? parseFloat(orderBook.asks[0].price)
-        : null;
+      return null;
     }
   } catch (error) {
     console.error("Error:", error.message);
@@ -72,6 +69,10 @@ export async function findStrictSendPaths({
   destinationAsset,
   destinationPublicKey,
 }) {
+  if (sourceAmount <= 0) {
+    throw error(400, { message: "amount is less than or equal to zero" });
+  }
+
   let destination = destinationAsset
     ? [
         destinationAsset === "native"
@@ -91,6 +92,7 @@ export async function findStrictSendPaths({
   let response = await server
     .strictSendPaths(asset, sourceAmount.toString(), destination)
     .call();
+
   if (response.records.length > 0) {
     return response.records;
   } else {
@@ -104,6 +106,10 @@ export async function findStrictReceivePaths({
   destinationAsset,
   destinationAmount,
 }) {
+  if (destinationAmount <= 0) {
+    throw error(400, { message: "amount is less than or equal to zero" });
+  }
+
   let source = sourceAsset
     ? [
         sourceAsset === "native"
@@ -119,9 +125,11 @@ export async function findStrictReceivePaths({
           destinationAsset.split(":")[0],
           destinationAsset.split(":")[1]
         );
+
   let response = await server
     .strictReceivePaths(source, asset, destinationAmount.toString())
     .call();
+
   if (response.records.length > 0) {
     return response.records;
   } else {
