@@ -1,3 +1,4 @@
+import AccountAsset from "@/components/AccountAsset";
 import AccountBelowReserveError from "@/components/AccountBelowReserveError";
 import Spinner from "@/components/Spinner";
 import useAppStore from "@/store/useAppStore";
@@ -205,6 +206,13 @@ export default function Merge() {
           )}
         </p>
       </div>
+
+      {/* Asset */}
+      <AccountAsset
+        asset={asset}
+        icon={asset["asset_icon"]}
+        domain={asset["asset_domain"]}
+      />
 
       {/* Accounts List */}
       {otherAccounts.length >= 1 ? (
