@@ -187,7 +187,7 @@ export default function Send() {
                   <Input
                     {...field}
                     spellCheck={false}
-                    className="grow"
+                    className="grow min-w-0"
                     autoComplete={"off"}
                     placeholder={"Address"}
                   />
@@ -250,7 +250,7 @@ export default function Send() {
                 <div className="flex gap-2">
                   <Input
                     {...field}
-                    className="grow"
+                    className="grow min-w-0"
                     type="number"
                     spellCheck={false}
                     autoComplete={"off"}

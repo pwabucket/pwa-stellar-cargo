@@ -126,7 +126,7 @@ export default function EditAccount() {
               spellCheck={false}
               value={account.publicKey}
               placeholder={"Public Key"}
-              className="grow"
+              className="grow min-w-0"
             />
 
             <ToolButton
@@ -142,7 +142,7 @@ export default function EditAccount() {
               spellCheck={false}
               value={secretKey}
               placeholder={"Reveal Secret Key"}
-              className="grow"
+              className="grow min-w-0"
             />
             {secretKey ? (
               <ToolButton
