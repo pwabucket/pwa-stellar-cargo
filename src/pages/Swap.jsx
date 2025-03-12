@@ -131,7 +131,7 @@ export default function Swap() {
 
   /** Handle Form Submission */
   const handleFormSubmit = async (data) => {
-    if (data.amount > asset["balance"]) {
+    if (parseFloat(data.amount) > parseFloat(asset["balance"])) {
       form.setError("amount", {
         message: "Amount is greater than balance!",
       });
@@ -258,7 +258,7 @@ export default function Swap() {
                 <div className="flex gap-2">
                   <Input
                     {...field}
-                    className="grow"
+                    className="grow min-w-0"
                     type="number"
                     spellCheck={false}
                     autoComplete={"off"}
@@ -299,7 +299,7 @@ export default function Swap() {
                   <Input
                     {...field}
                     spellCheck={false}
-                    className="grow"
+                    className="grow min-w-0"
                     autoComplete={"off"}
                     placeholder={"0.0"}
                   />
