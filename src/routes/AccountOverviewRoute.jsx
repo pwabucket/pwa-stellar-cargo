@@ -1,10 +1,12 @@
 import AccountImage from "@/components/AccountImage";
 import copy from "copy-to-clipboard";
+import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link, NavLink, Outlet } from "react-router";
 import { cn, truncatePublicKey } from "@/lib/utils";
 import { useMatch } from "react-router";
+import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
 const PageNavLink = ({ styleActive = true, ...props }) => (
@@ -27,8 +29,22 @@ const PageNavLink = ({ styleActive = true, ...props }) => (
 
 export default function AccountOverviewRoute() {
   const context = useOutletContext();
+  const { account, balances } = context;
 
-  const { account, totalAssetsPrice } = context;
+  /** Total Assets */
+  const totalAssetsPriceQuery = useTotalAssetsPriceQuery(balances, {
+    enabled: balances?.length > 0,
+  });
+
+  const totalAssetsPrice = useMemo(
+    () =>
+      totalAssetsPriceQuery.data?.reduce(
+        (result, current) => result + parseFloat(current || 0),
+        0
+      ),
+    [totalAssetsPriceQuery.data]
+  );
+
   const assetsPage = `/accounts/${account.publicKey}`;
   const match = useMatch(assetsPage);
   const isAssetsPage = match && match.pattern.end;
@@ -60,9 +76,13 @@ export default function AccountOverviewRoute() {
             </Link>
           </div>
 
-          <p className="text-3xl">
-            ~${Intl.NumberFormat().format(totalAssetsPrice)}
-          </p>
+          {totalAssetsPriceQuery.isSuccess ? (
+            <p className="text-3xl">
+              ~${Intl.NumberFormat().format(totalAssetsPrice)}
+            </p>
+          ) : (
+            <div className="bg-blue-500 rounded-full h-4 w-1/2 animate-pulse" />
+          )}
 
           {/* Address */}
           <div className="flex items-center gap-2">

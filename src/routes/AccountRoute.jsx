@@ -7,7 +7,6 @@ import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
 import useAssetMetaQuery from "@/hooks/useAssetMetaQuery";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
-import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
 import { IoCopyOutline } from "react-icons/io5";
 import { Outlet, useParams } from "react-router";
 import { cn, repeatComponent, truncatePublicKey } from "@/lib/utils";
@@ -107,20 +106,6 @@ export default function AccountRoute() {
     [accountQuery.data, assetMeta, assetIcon]
   );
 
-  /** Total Assets */
-  const totalAssetsPriceQuery = useTotalAssetsPriceQuery(balances, {
-    enabled: balances?.length > 0,
-  });
-
-  const totalAssetsPrice = useMemo(
-    () =>
-      totalAssetsPriceQuery.data?.reduce(
-        (result, current) => result + parseFloat(current || 0),
-        0
-      ),
-    [totalAssetsPriceQuery.data]
-  );
-
   /** Redirect */
   useCheckOrNavigate(account, "/app", {
     replace: true,
@@ -166,7 +151,6 @@ export default function AccountRoute() {
             assetMeta,
             assetIcon,
             balances,
-            totalAssetsPrice,
             publicKey,
           }}
         />
