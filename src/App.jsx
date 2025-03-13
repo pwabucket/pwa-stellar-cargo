@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router";
 
 import About from "./pages/About";
 import Account from "./pages/Account";
+import AccountOverviewRoute from "./routes/AccountOverviewRoute";
 import AccountRoute from "./routes/AccountRoute";
 import Asset from "./pages/Asset";
 import AssetRoute from "./routes/AssetRoute";
@@ -21,6 +22,7 @@ import Merge from "./pages/Merge";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Send from "./pages/Send";
 import Swap from "./pages/Swap";
+import Transactions from "./pages/Transactions";
 import useAppStore from "./store/useAppStore";
 import useInactivity from "./hooks/useInactivity";
 import useTheme from "./hooks/useTheme";
@@ -58,7 +60,10 @@ function App() {
         {/* Account */}
         <Route path="accounts/:publicKey/edit" element={<EditAccount />} />
         <Route path="accounts/:publicKey" element={<AccountRoute />}>
-          <Route index element={<Account />} />
+          <Route element={<AccountOverviewRoute />}>
+            <Route index element={<Account />} />
+            <Route path="transactions" element={<Transactions />} />
+          </Route>
 
           {/* Asset */}
           <Route path="assets/:asset" element={<AssetRoute />}>

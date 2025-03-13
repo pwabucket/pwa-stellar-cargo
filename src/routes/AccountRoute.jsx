@@ -175,6 +175,12 @@ export default function AccountRoute() {
           {/* Account */}
           <AccountPlaceholder />
 
+          {/* NavLinks */}
+          <div className="p-2">
+            {/* Asset */}
+            <div className="rounded-full w-1/2 h-6 bg-neutral-200 dark:bg-neutral-800" />
+          </div>
+
           {/* Assets */}
           {repeatComponent(<AccountAssetPlaceholder />, 4)}
         </div>
