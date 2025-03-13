@@ -10,7 +10,7 @@ import useTotalAssetsPriceQuery from "./useTotalAssetsPriceQuery";
 const queryOptions = {
   refetchOnMount: false,
   refetchOnWindowFocus: false,
-  refetchInterval: 20_000,
+  refetchInterval: 30_000,
 };
 
 export default function useNetWorth() {
