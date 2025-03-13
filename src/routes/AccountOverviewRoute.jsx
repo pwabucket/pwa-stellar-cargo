@@ -4,21 +4,22 @@ import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link, NavLink, Outlet } from "react-router";
 import { cn, truncatePublicKey } from "@/lib/utils";
+import { useMatch } from "react-router";
 import { useOutletContext } from "react-router";
 
-const PageNavLink = (props) => (
+const PageNavLink = ({ styleActive = true, ...props }) => (
   <NavLink
     {...props}
     end
-    replace
     className={({ isActive }) =>
       cn(
         "text-center",
-        isActive && [
-          "font-bold text-blue-500",
-          "bg-neutral-100 dark:bg-neutral-800",
-          "rounded-full py-1",
-        ]
+        isActive &&
+          styleActive && [
+            "font-bold text-blue-500",
+            "bg-neutral-100 dark:bg-neutral-800",
+            "rounded-full py-1",
+          ]
       )
     }
   />
@@ -28,6 +29,9 @@ export default function AccountOverviewRoute() {
   const context = useOutletContext();
 
   const { account, totalAssetsPrice } = context;
+  const assetsPage = `/accounts/${account.publicKey}`;
+  const match = useMatch(assetsPage);
+  const isAssetsPage = match && match.pattern.end;
 
   return (
     <>
@@ -81,7 +85,11 @@ export default function AccountOverviewRoute() {
 
         {/* NavLinks */}
         <div className="grid grid-cols-2 p-2">
-          <PageNavLink to={`/accounts/${account.publicKey}`}>
+          <PageNavLink
+            replace
+            styleActive={isAssetsPage}
+            to={isAssetsPage ? assetsPage : -1}
+          >
             Assets
           </PageNavLink>
           <PageNavLink to={`/accounts/${account.publicKey}/transactions`}>
