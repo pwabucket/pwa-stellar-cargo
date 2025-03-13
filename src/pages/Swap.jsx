@@ -8,8 +8,8 @@ import RequiredReserve from "@/components/RequiredReserve";
 import useAppStore from "@/store/useAppStore";
 import { Controller, useForm } from "react-hook-form";
 import { FormProvider } from "react-hook-form";
+import { HiOutlineArrowLongDown } from "react-icons/hi2";
 import { Input } from "@/components/Input";
-import { IoSwapVerticalOutline } from "react-icons/io5";
 import { PrimaryButton } from "@/components/Button";
 import { cn } from "@/lib/utils";
 import { createPathPaymentStrictSendTransaction } from "@/lib/stellar/transactions";
@@ -290,7 +290,7 @@ export default function Swap() {
 
           {/* Swap Icon */}
           <div className="py-2 flex justify-center items-center">
-            <IoSwapVerticalOutline className="size-8" />
+            <HiOutlineArrowLongDown className="size-8" />
           </div>
 
           {/* Received Asset and Amount */}
