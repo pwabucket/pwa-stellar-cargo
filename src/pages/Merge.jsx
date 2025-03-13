@@ -124,7 +124,7 @@ export default function Merge() {
             }
           } catch (error) {
             /** Log Error */
-            console.log(error);
+            console.error(error);
 
             /** Set Error */
             setResults((prev) =>

@@ -1,5 +1,4 @@
 import InnerAppLayout from "@/layouts/InnerAppLayout";
-import MenuButton from "@/components/MenuButton";
 import useAppStore, { THEMES } from "@/store/useAppStore";
 import {
   HiOutlineArrowLeftOnRectangle,
@@ -10,10 +9,14 @@ import {
   HiOutlineSun,
 } from "react-icons/hi2";
 import { Link } from "react-router";
+import { MenuButton, MenuToggleButton } from "@/components/MenuButton";
+import { TbChartAreaLine } from "react-icons/tb";
 import { TbSunMoon } from "react-icons/tb";
 
 export default function Menu() {
   const theme = useAppStore((state) => state.theme);
+  const showNetWorth = useAppStore((state) => state.showNetWorth);
+  const setShowNetWorth = useAppStore((state) => state.setShowNetWorth);
   const toggleTheme = useAppStore((state) => state.toggleTheme);
   const logout = useAppStore((state) => state.logout);
   const themeIcon =
@@ -25,6 +28,24 @@ export default function Menu() {
 
   return (
     <InnerAppLayout className="gap-4">
+      <div className="flex flex-col gap-2">
+        {/* Net Worth */}
+        <MenuToggleButton
+          title="Net Worth"
+          icon={TbChartAreaLine}
+          checked={showNetWorth}
+          onChange={(ev) => setShowNetWorth(ev.target.checked)}
+        />
+
+        {/* Theme */}
+        <MenuButton
+          title={`${theme} Theme`}
+          icon={themeIcon}
+          onClick={toggleTheme}
+          className="capitalize"
+        />
+      </div>
+
       <div className="flex flex-col gap-2">
         {/* Batch Import */}
         <MenuButton
@@ -44,14 +65,6 @@ export default function Menu() {
       </div>
 
       <div className="flex flex-col gap-2">
-        {/* Theme */}
-        <MenuButton
-          title={`${theme} Theme`}
-          icon={themeIcon}
-          onClick={toggleTheme}
-          className="capitalize"
-        />
-
         {/* About */}
         <MenuButton
           as={Link}

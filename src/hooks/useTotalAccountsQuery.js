@@ -1,14 +1,14 @@
-import { fetchAssetPrice } from "@/lib/stellar/horizonQueries";
+import { fetchAccount } from "@/lib/stellar/horizonQueries";
 import { useCallback } from "react";
 import { useQueries } from "@tanstack/react-query";
 
 /**
  *
- * @param {array} assets
+ * @param {Array} accounts
  * @param {import("@tanstack/react-query").UseQueryOptions} options
  * @returns
  */
-export default function useTotalAssetsPriceQuery(assets, options) {
+export default function useTotalAccountsQuery(accounts, options) {
   const combine = useCallback((results) => {
     return {
       query: results,
@@ -21,17 +21,12 @@ export default function useTotalAssetsPriceQuery(assets, options) {
 
   return useQueries({
     combine,
-    queries: assets?.map((asset) => {
-      const assetCode =
-        asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"];
-      const assetIssuer = asset?.["asset_issuer"];
-      const amount = asset?.["balance"];
-
+    queries: accounts?.map((publicKey) => {
       return {
-        refetchInterval: 10000,
+        refetchInterval: 10_000,
         ...options,
-        queryKey: ["asset", assetCode, assetIssuer, amount],
-        queryFn: () => fetchAssetPrice(assetCode, assetIssuer, amount),
+        queryKey: ["account", publicKey],
+        queryFn: () => fetchAccount(publicKey),
       };
     }),
   });

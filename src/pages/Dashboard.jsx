@@ -1,5 +1,7 @@
 import AccountList from "@/partials/AccountList";
 import AppLayout from "@/layouts/AppLayout";
+import NetWorth from "@/partials/NetWorth";
+import useAppStore from "@/store/useAppStore";
 import { HeaderButton } from "@/components/HeaderButton";
 import { HiOutlineBars3BottomLeft, HiOutlinePlus } from "react-icons/hi2";
 import { Link, NavLink } from "react-router";
@@ -15,6 +17,8 @@ const DashboardHeaderNavLink = (props) => (
 );
 
 export default function Dashboard() {
+  const showNetWorth = useAppStore((state) => state.showNetWorth);
+
   return (
     <AppLayout
       headerLeftContent={
@@ -39,7 +43,12 @@ export default function Dashboard() {
           </DashboardHeaderNavLink>
         </div>
       </div>
-      <div className="px-4 pb-10">
+
+      <div className="px-4 pb-10 flex flex-col gap-2">
+        {/* Net Worth */}
+        {showNetWorth ? <NetWorth /> : null}
+
+        {/* Accounts */}
         <AccountList />
       </div>
     </AppLayout>

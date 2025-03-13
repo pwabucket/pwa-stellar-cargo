@@ -1,7 +1,6 @@
 import AccountImage from "@/components/AccountImage";
 import FullPageSpinner from "@/components/FullPageSpinner";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
-import MenuButton from "@/components/MenuButton";
 import copy from "copy-to-clipboard";
 import useAppStore from "@/store/useAppStore";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
@@ -9,6 +8,7 @@ import useContact from "@/hooks/useContact";
 import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link, useParams } from "react-router";
+import { MenuButton } from "@/components/MenuButton";
 import { truncatePublicKey } from "@/lib/utils";
 import { useCallback } from "react";
 import { useNavigate } from "react-router";

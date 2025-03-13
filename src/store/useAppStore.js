@@ -10,6 +10,7 @@ const useAppStore = create()(
         pinCode: "",
         isLoggedIn: false,
         isProcessing: false,
+        showNetWorth: false,
         theme: THEMES[0],
         accounts: [],
         contacts: [],
@@ -51,6 +52,8 @@ const useAppStore = create()(
 
         /** Extras */
         setTheme: (theme) => set({ theme }),
+        setShowNetWorth: (showNetWorth) => set({ showNetWorth }),
+        toggleShowNetWorth: () => set({ showNetWorth: !get().showNetWorth }),
         setIsProcessing: (isProcessing) => set({ isProcessing }),
         toggleTheme: () =>
           set({
@@ -62,8 +65,8 @@ const useAppStore = create()(
     ),
     {
       name: `${import.meta.env.VITE_APP_ID}:app`,
-      partialize({ theme, accounts, contacts }) {
-        return { theme, accounts, contacts };
+      partialize({ theme, showNetWorth, accounts, contacts }) {
+        return { theme, showNetWorth, accounts, contacts };
       },
     }
   )
