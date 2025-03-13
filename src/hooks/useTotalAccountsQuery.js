@@ -15,13 +15,14 @@ export default function useTotalAccountsQuery(accounts, options) {
       data: results.map((result) => result.data),
       isPending: results.some((result) => result.isPending),
       isError: results.some((result) => result.isError),
-      isSuccess: results.every((result) => result.isSuccess),
+      isSuccess:
+        results.length > 0 && results.every((result) => result.isSuccess),
     };
   }, []);
 
   return useQueries({
     combine,
-    queries: accounts?.map((publicKey) => {
+    queries: (accounts ?? []).map((publicKey) => {
       return {
         refetchInterval: 10_000,
         ...options,

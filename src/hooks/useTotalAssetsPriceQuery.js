@@ -15,13 +15,14 @@ export default function useTotalAssetsPriceQuery(assets, options) {
       data: results.map((result) => result.data),
       isPending: results.some((result) => result.isPending),
       isError: results.some((result) => result.isError),
-      isSuccess: results.every((result) => result.isSuccess),
+      isSuccess:
+        results.length > 0 && results.every((result) => result.isSuccess),
     };
   }, []);
 
   return useQueries({
     combine,
-    queries: assets?.map((asset) => {
+    queries: (assets ?? []).map((asset) => {
       const assetCode =
         asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"];
       const assetIssuer = asset?.["asset_issuer"];

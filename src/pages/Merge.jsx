@@ -183,7 +183,7 @@ export default function Merge() {
             "text-yellow-800 bg-yellow-100"
           )}
         >
-          {otherAccounts.length >= 1 ? (
+          {otherAccounts.length > 0 ? (
             <>
               You are about to merge{" "}
               <span className="font-bold">{assetName}</span> from{" "}
@@ -208,7 +208,7 @@ export default function Merge() {
       />
 
       {/* Accounts List */}
-      {otherAccounts.length >= 1 ? (
+      {otherAccounts.length > 0 ? (
         <>
           {/* Start Button */}
           <PrimaryButton onClick={executeMerge} disabled={isProcessing}>

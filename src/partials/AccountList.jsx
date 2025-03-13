@@ -31,7 +31,7 @@ export default function AccountList() {
   const accounts = useAppStore((state) => state.accounts);
   const setAccounts = useAppStore((state) => state.setAccounts);
 
-  return accounts.length >= 1 ? (
+  return accounts.length > 0 ? (
     <Reorder.Group
       values={accounts}
       onReorder={(newOrder) => setAccounts(newOrder)}

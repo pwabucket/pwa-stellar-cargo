@@ -31,7 +31,7 @@ export default function ContactList() {
   const contacts = useAppStore((state) => state.contacts);
   const setContacts = useAppStore((state) => state.setContacts);
 
-  return contacts.length >= 1 ? (
+  return contacts.length > 0 ? (
     <Reorder.Group
       values={contacts}
       onReorder={(newOrder) => setContacts(newOrder)}

@@ -44,7 +44,7 @@ export default function Welcome() {
         </p>
       </div>
 
-      {accounts.length >= 1 ? (
+      {accounts.length > 0 ? (
         <div className="flex flex-col gap-2">
           {/* Login Form */}
           <LoginForm onVerified={onCreatedOrVerified} />

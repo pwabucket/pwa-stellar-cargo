@@ -57,7 +57,7 @@ export default function AccountRoute() {
   );
 
   const assetMetaQuery = useAssetMetaQuery(assetIds, {
-    enabled: assetIds.length >= 1,
+    enabled: assetIds.length > 0,
   });
 
   const assetMeta = useMemo(
@@ -109,7 +109,7 @@ export default function AccountRoute() {
 
   /** Total Assets */
   const totalAssetsPriceQuery = useTotalAssetsPriceQuery(balances, {
-    enabled: balances?.length >= 1,
+    enabled: balances?.length > 0,
   });
 
   const totalAssetsPrice = useMemo(

@@ -50,7 +50,7 @@ export default function useNetWorth() {
 
   const totalAssetsPriceQuery = useTotalAssetsPriceQuery(filteredAssets, {
     ...queryOptions,
-    enabled: filteredAssets.length >= 1,
+    enabled: filteredAssets.length > 0,
   });
 
   const totalAssetsPrice = totalAssetsPriceQuery.data;
