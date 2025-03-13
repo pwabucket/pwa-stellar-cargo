@@ -7,7 +7,7 @@ import { useOutletContext } from "react-router";
 export default function AssetRoute() {
   const params = useParams();
   const context = useOutletContext();
-  const { assetMeta, balances } = context;
+  const { balances } = context;
 
   const asset = useMemo(
     () =>

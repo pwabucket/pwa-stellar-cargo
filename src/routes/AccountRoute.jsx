@@ -7,6 +7,7 @@ import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
 import useAssetMetaQuery from "@/hooks/useAssetMetaQuery";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
+import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
 import { IoCopyOutline } from "react-icons/io5";
 import { Outlet, useParams } from "react-router";
 import { cn, repeatComponent, truncatePublicKey } from "@/lib/utils";
@@ -102,8 +103,22 @@ export default function AccountRoute() {
           item["asset_type"] === "native"
             ? item["asset_type"]
             : `${item?.["asset_code"]}:${item?.["asset_issuer"]}`,
-      })),
+      })) || [],
     [accountQuery.data, assetMeta, assetIcon]
+  );
+
+  /** Total Assets */
+  const totalAssetsPriceQuery = useTotalAssetsPriceQuery(balances, {
+    enabled: balances?.length >= 1,
+  });
+
+  const totalAssetsPrice = useMemo(
+    () =>
+      totalAssetsPriceQuery.data?.reduce(
+        (result, current) => result + parseFloat(current || 0),
+        0
+      ),
+    [totalAssetsPriceQuery.data]
   );
 
   /** Redirect */
@@ -151,6 +166,7 @@ export default function AccountRoute() {
             assetMeta,
             assetIcon,
             balances,
+            totalAssetsPrice,
             publicKey,
           }}
         />

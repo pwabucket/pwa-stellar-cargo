@@ -9,15 +9,16 @@ import { Link } from "react-router";
 import { cn, truncatePublicKey } from "@/lib/utils";
 import { useOutletContext } from "react-router";
 export default function Account() {
-  const { account, accountQuery, balances } = useOutletContext();
+  const { account, accountQuery, balances, totalAssetsPrice } =
+    useOutletContext();
 
   return (
     <>
       <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-1 p-4 bg-blue-600 text-white rounded-2xl">
+        <div className="flex flex-col gap-2 p-4 bg-blue-600 text-white rounded-2xl">
           {/* Account Name */}
           <div className="flex items-center gap-2">
-            <h2 className="text-3xl font-light truncate grow min-w-0 flex gap-2 items-center">
+            <h2 className="text-2xl font-light truncate grow min-w-0 flex gap-2 items-center">
               <AccountImage
                 publicKey={account.publicKey}
                 className="size-10 shrink-0 rounded-full bg-white"
@@ -37,6 +38,10 @@ export default function Account() {
               <HiOutlinePencilSquare className="size-5" />
             </Link>
           </div>
+
+          <p className="text-3xl">
+            ~${Intl.NumberFormat().format(totalAssetsPrice)}
+          </p>
 
           {/* Address */}
           <div className="flex items-center gap-2">
