@@ -3,6 +3,7 @@ import LoginForm from "@/partials/LoginForm";
 import WalletForm from "@/partials/WalletForm";
 import useAppStore from "@/store/useAppStore";
 import { HiOutlineArrowLongLeft } from "react-icons/hi2";
+import { IoKeyOutline, IoLayersOutline } from "react-icons/io5";
 import { Link } from "react-router";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import { RiResetLeftFill } from "react-icons/ri";
@@ -78,15 +79,20 @@ export default function Welcome() {
       ) : (
         <>
           <div className="flex flex-col gap-2">
-            <PrimaryButton onClick={() => setShowWalletForm(true)}>
+            <PrimaryButton
+              onClick={() => setShowWalletForm(true)}
+              className="text-center flex justify-center items-center gap-2"
+            >
+              <IoKeyOutline className="size-4" />
               Import Secret Key
             </PrimaryButton>
 
             <SecondaryButton
               as={Link}
               to="/batch-import"
-              className="text-center"
+              className="text-center flex justify-center items-center gap-2"
             >
+              <IoLayersOutline className="size-4" />
               Batch Import
             </SecondaryButton>
           </div>
