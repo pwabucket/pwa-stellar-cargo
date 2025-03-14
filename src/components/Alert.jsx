@@ -10,7 +10,7 @@ const ALERT_ICONS = {
   warning: HiOutlineExclamationTriangle,
   danger: HiOutlineXCircle,
 };
-export default function Alert({ as: Component = "p", variant, ...props }) {
+export default function Alert({ as: Component = "div", variant, ...props }) {
   const Icon = ALERT_ICONS[variant];
   return (
     <Component
@@ -39,7 +39,7 @@ export default function Alert({ as: Component = "p", variant, ...props }) {
       )}
     >
       <Icon className="shrink-0 size-5" />
-      <div className="grow min-w-0 min-h-0">{props.children}</div>
+      <p className="grow min-w-0 min-h-0">{props.children}</p>
     </Component>
   );
 }
