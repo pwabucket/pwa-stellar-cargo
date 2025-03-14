@@ -136,10 +136,10 @@ export default function Split() {
             onClick={executeSplit}
             disabled={isProcessing || results.size > 0}
           >
-            {results.size > 0
-              ? "Asset Splitted"
-              : isProcessing
+            {isProcessing
               ? "Splitting..."
+              : results.size > 0
+              ? "Asset Splitted"
               : "Proceed"}
           </PrimaryButton>
 

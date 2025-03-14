@@ -151,10 +151,10 @@ export default function Merge() {
             onClick={executeMerge}
             disabled={isProcessing || results.size > 0}
           >
-            {results.size > 0
-              ? "Assets Merged"
-              : isProcessing
+            {isProcessing
               ? "Merging..."
+              : results.size > 0
+              ? "Assets Merged"
               : "Proceed"}
           </PrimaryButton>
 
