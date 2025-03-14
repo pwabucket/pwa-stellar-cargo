@@ -243,11 +243,7 @@ export default function Swap() {
       ) : null}
 
       {/* Source Asset */}
-      <AccountAsset
-        asset={asset}
-        icon={asset["asset_icon"]}
-        domain={asset["asset_domain"]}
-      />
+      <AccountAsset asset={asset} />
 
       <FormProvider {...form}>
         <form

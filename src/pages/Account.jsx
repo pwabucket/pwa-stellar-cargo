@@ -34,8 +34,6 @@ export default function Account() {
               : `${balance["asset_code"]}-${balance["asset_issuer"]}`
           }`}
           asset={balance}
-          icon={balance["asset_icon"]}
-          domain={balance["asset_domain"]}
         />
       ))}
     </div>

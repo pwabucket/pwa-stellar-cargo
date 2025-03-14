@@ -32,11 +32,9 @@ export default function AssetPicker({ assets, onSelect }) {
             {assets.map((asset) => (
               <AccountAsset
                 as={Dialog.Close}
+                asset={asset}
                 key={asset["transaction_name"]}
                 onClick={() => onSelect(asset)}
-                asset={asset}
-                icon={asset["asset_icon"]}
-                domain={asset["asset_domain"]}
                 className="text-left"
               />
             ))}

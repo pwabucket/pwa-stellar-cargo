@@ -201,11 +201,7 @@ export default function Merge() {
       </div>
 
       {/* Asset */}
-      <AccountAsset
-        asset={asset}
-        icon={asset["asset_icon"]}
-        domain={asset["asset_domain"]}
-      />
+      <AccountAsset asset={asset} />
 
       {/* Accounts List */}
       {otherAccounts.length > 0 ? (
