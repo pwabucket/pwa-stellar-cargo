@@ -64,7 +64,7 @@ export default function AccountRoute() {
       assetMetaQuery.data
         ? Object.fromEntries(
             assetMetaQuery.data.map((item) => [
-              item["toml_info"]["issuer"] || item["asset"],
+              item["toml_info"]?.["issuer"] || item["asset"],
               item,
             ])
           )
@@ -75,7 +75,10 @@ export default function AccountRoute() {
   const assetIcon = useMemo(
     () =>
       Object.fromEntries(
-        Object.entries(assetMeta).map(([k, v]) => [k, v["toml_info"]["image"]])
+        Object.entries(assetMeta).map(([k, v]) => [
+          k,
+          v["toml_info"]?.["image"],
+        ])
       ),
     [assetMeta]
   );
