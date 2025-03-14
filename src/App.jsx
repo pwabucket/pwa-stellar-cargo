@@ -21,6 +21,7 @@ import Menu from "./pages/Menu";
 import Merge from "./pages/Merge";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Send from "./pages/Send";
+import Split from "./pages/Split";
 import Swap from "./pages/Swap";
 import Transactions from "./pages/Transactions";
 import useAppStore from "./store/useAppStore";
@@ -69,6 +70,7 @@ function App() {
           <Route path="assets/:asset" element={<AssetRoute />}>
             <Route index element={<Asset />} />
             <Route path="merge" element={<Merge />} />
+            <Route path="split" element={<Split />} />
             <Route path="swap" element={<Swap />} />
             <Route path="send" element={<Send />} />
           </Route>

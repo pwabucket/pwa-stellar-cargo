@@ -6,16 +6,13 @@ import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
 import { PrimaryButton } from "@/components/Button";
 import { cn, truncatePublicKey } from "@/lib/utils";
-import {
-  createFeeBumpTransaction,
-  createPaymentTransaction,
-} from "@/lib/stellar/transactions";
-import { fetchAccountBalances, submit } from "@/lib/stellar/horizonQueries";
+import { createPaymentTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
+import { submit } from "@/lib/stellar/horizonQueries";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
-export default function Merge() {
+export default function Split() {
   const {
     account,
     accountQuery,
@@ -45,63 +42,45 @@ export default function Merge() {
   const assetName = asset["asset_name"];
   const assetTransactionName = asset["transaction_name"];
 
-  /** Execute Merge */
-  const executeMerge = async () => {
-    await execute(
-      async (source) => {
-        /** Start Process */
-        const balances = await fetchAccountBalances(source.publicKey);
-        const sourceAssetBalance = balances.find((item) =>
-          asset["asset_type"] === "native"
-            ? asset["asset_type"] === item["asset_type"]
-            : asset["asset_issuer"] === item["asset_issuer"]
-        );
+  const splitAmount = asset["balance"] / (selectedAccounts.size + 1);
 
-        const amount = sourceAssetBalance["balance"];
+  /** Execute Split */
+  const executeSplit = async () => {
+    await execute(
+      async (destination) => {
+        /** Get Amount */
+        const amount = splitAmount;
 
         if (amount > 0) {
           /** Source Transaction */
           const transaction = await createPaymentTransaction({
-            source: source.publicKey,
-            destination: account.publicKey,
+            source: account.publicKey,
+            destination: destination.publicKey,
             asset: assetTransactionName,
             amount,
           });
 
           const signedTransaction = await signTransaction({
-            keyId: source.keyId,
+            keyId: account.keyId,
             transactionXDR: transaction["transaction"],
             network: transaction["network_passphrase"],
             pinCode,
           });
 
-          /** Sponsor Transaction */
-          const feeBumpTransaction = await createFeeBumpTransaction({
-            sponsoringAccount: account.publicKey,
-            transaction: signedTransaction,
-          });
-
-          const signedFeeBumpTransaction = await signTransaction({
-            keyId: account.keyId,
-            transactionXDR: feeBumpTransaction["transaction"],
-            network: feeBumpTransaction["network_passphrase"],
-            pinCode,
-          });
-
           /** Submit Sponsor Transaction */
-          const response = await submit(signedFeeBumpTransaction);
+          const response = await submit(signedTransaction);
 
           /** Log Response */
           console.log(response);
 
           /** Set Response */
-          setResultValue(source.publicKey, {
+          setResultValue(destination.publicKey, {
             status: true,
             response,
           });
         } else {
           /** Set Response */
-          setResultValue(source.publicKey, {
+          setResultValue(destination.publicKey, {
             status: true,
             skipped: true,
           });
@@ -125,7 +104,7 @@ export default function Merge() {
           />
         ) : null}
 
-        {/* Merge Info */}
+        {/* Split Info */}
         <p
           className={cn(
             "p-2 text-center rounded-xl",
@@ -134,17 +113,17 @@ export default function Merge() {
         >
           {otherAccounts.length > 0 ? (
             <>
-              You are about to merge{" "}
-              <span className="font-bold">{assetName}</span> from{" "}
-              <span className="font-bold">{selectedAccounts.size}</span> other
-              account(s) into{" "}
+              You are about to split{" "}
+              <span className="font-bold">{assetName}</span> equally among{" "}
+              <span className="font-bold">{selectedAccounts.size}</span>{" "}
+              account(s) from{" "}
               <span className="font-bold">
                 {account.name || "Stellar Account"} (
                 {truncatePublicKey(account.publicKey)})
               </span>
             </>
           ) : (
-            <>No account to merge from!</>
+            <>No account to split into!</>
           )}
         </p>
       </div>
@@ -152,18 +131,23 @@ export default function Merge() {
       {/* Asset */}
       <AccountAsset asset={asset} />
 
+      {/* Amount */}
+      <p className="text-center text-sm">
+        Split: <span className="font-bold">{splitAmount}</span>
+      </p>
+
       {/* Accounts List */}
       {otherAccounts.length > 0 ? (
         <>
           {/* Start Button */}
           <PrimaryButton
-            onClick={executeMerge}
+            onClick={executeSplit}
             disabled={isProcessing || results.size > 0}
           >
             {results.size > 0
-              ? "Assets Merged"
+              ? "Asset Splitted"
               : isProcessing
-              ? "Merging..."
+              ? "Splitting..."
               : "Proceed"}
           </PrimaryButton>
 

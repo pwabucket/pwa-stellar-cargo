@@ -1,6 +1,24 @@
-import { AiOutlineMerge, AiOutlineSend, AiOutlineSwap } from "react-icons/ai";
+import {
+  AiOutlineMerge,
+  AiOutlineSend,
+  AiOutlineSplitCells,
+  AiOutlineSwap,
+} from "react-icons/ai";
 import { Link, useOutletContext } from "react-router";
 import { cn } from "@/lib/utils";
+
+const PageLink = ({ icon: Icon, title, ...props }) => (
+  <Link
+    {...props}
+    className={cn(
+      "p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-center",
+      "flex gap-2 justify-center items-center"
+    )}
+  >
+    <Icon className="size-4" />
+    {title}
+  </Link>
+);
 
 export default function Asset() {
   const { asset, assetValue } = useOutletContext();
@@ -40,38 +58,16 @@ export default function Asset() {
       </div>
 
       {/* Send */}
-      <Link
-        to={"send"}
-        className={cn(
-          "p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-center",
-          "flex gap-2 justify-center items-center"
-        )}
-      >
-        <AiOutlineSend className="size-4" />
-        Send
-      </Link>
+      <PageLink to={"send"} icon={AiOutlineSend} title="Send" />
 
-      <Link
-        to={"swap"}
-        className={cn(
-          "p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-center",
-          "flex gap-2 justify-center items-center"
-        )}
-      >
-        <AiOutlineSwap className="size-4" />
-        Swap
-      </Link>
+      {/* Swap */}
+      <PageLink to={"swap"} icon={AiOutlineSwap} title="Swap" />
+
       {/* Merge */}
-      <Link
-        to={"merge"}
-        className={cn(
-          "p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-center",
-          "flex gap-2 justify-center items-center"
-        )}
-      >
-        <AiOutlineMerge className="size-4" />
-        Merge
-      </Link>
+      <PageLink to={"merge"} icon={AiOutlineMerge} title="Merge" />
+
+      {/* Split */}
+      <PageLink to={"split"} icon={AiOutlineSplitCells} title="Split" />
     </div>
   );
 }

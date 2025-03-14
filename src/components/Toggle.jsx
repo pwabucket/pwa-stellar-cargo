@@ -10,7 +10,7 @@ export default memo(function Toggle({ className, ...props }) {
           "shrink-0",
           "relative rounded-full",
           "inline-flex h-6 w-11 items-center",
-          "bg-neutral-300 dark:bg-neutral-600",
+          "bg-neutral-200 dark:bg-neutral-600",
           "peer-checked:bg-blue-500",
 
           // Before
