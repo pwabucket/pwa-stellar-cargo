@@ -124,7 +124,8 @@ export default function Split() {
 
       {/* Amount */}
       <p className="text-center text-sm">
-        Split: <span className="font-bold">{splitAmount}</span>
+        Per Account: <span className="font-bold">{splitAmount}</span>{" "}
+        {assetName}
       </p>
 
       {/* Accounts List */}
