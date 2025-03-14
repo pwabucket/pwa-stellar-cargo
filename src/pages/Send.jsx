@@ -41,8 +41,6 @@ export default function Send() {
     account,
     accountQuery,
     asset,
-    assetMeta,
-    assetIcon,
     assetTransactionName,
     accountIsBelowReserve,
     accountReserveBalance,
@@ -161,19 +159,7 @@ export default function Send() {
       ) : null}
 
       {/* Asset */}
-      <AccountAsset
-        asset={asset}
-        icon={
-          assetIcon[
-            asset["asset_type"] === "native" ? "XLM" : asset["asset_issuer"]
-          ]
-        }
-        domain={
-          assetMeta[
-            asset["asset_type"] === "native" ? "XLM" : asset["asset_issuer"]
-          ]["domain"]
-        }
-      />
+      <AccountAsset asset={asset} />
 
       <FormProvider {...form}>
         <form

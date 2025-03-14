@@ -5,8 +5,6 @@ import { memo } from "react";
 export default memo(function AccountAsset({
   as: Component = "div",
   asset,
-  icon,
-  domain,
   displayPrice = true,
   ...props
 }) {
@@ -33,7 +31,7 @@ export default memo(function AccountAsset({
     >
       {/* Icon */}
       <img
-        src={icon}
+        src={asset["asset_icon"]}
         className={cn("shrink-0 size-8 rounded-full", "bg-white")}
       />
 
@@ -45,7 +43,7 @@ export default memo(function AccountAsset({
         </h4>
 
         {/* Domain */}
-        <p className="text-xs">{domain}</p>
+        <p className="text-xs">{asset["asset_domain"]}</p>
       </div>
 
       {/* Balance */}
