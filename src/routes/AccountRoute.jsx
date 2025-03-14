@@ -1,6 +1,7 @@
 import AccountAssetPlaceholder from "@/components/AccountAssetPlaceholder";
 import AccountImage from "@/components/AccountImage";
 import AccountPlaceholder from "@/components/AccountPlaceholder";
+import DefaultAssetIcon from "@/assets/images/asset.png?format=webp&w=80";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import copy from "copy-to-clipboard";
 import useAccount from "@/hooks/useAccount";
@@ -97,7 +98,7 @@ export default function AccountRoute() {
         ["asset_icon"]:
           assetIcon?.[
             item["asset_type"] === "native" ? "XLM" : item["asset_issuer"]
-          ],
+          ] || DefaultAssetIcon,
         ["asset_meta"]:
           assetMeta?.[
             item["asset_type"] === "native" ? "XLM" : item["asset_issuer"]
@@ -146,7 +147,7 @@ export default function AccountRoute() {
         ) : null
       }
     >
-      {assetMetaQuery.isSuccess ? (
+      {accountQuery.isSuccess ? (
         <Outlet
           context={{
             ...context,
