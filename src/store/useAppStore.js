@@ -1,7 +1,7 @@
 import { combine, persist } from "zustand/middleware";
 import { create } from "zustand";
 
-export const THEMES = ["system", "light", "dark"];
+export const THEMES = ["light", "dark", "system"];
 
 const useAppStore = create()(
   persist(
