@@ -4,20 +4,19 @@ import { cn } from "@/lib/utils";
 
 export default function Asset() {
   const { asset, assetValue } = useOutletContext();
-  const meta = asset["asset_meta"];
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-2 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-xl">
         <img
-          src={meta["toml_info"]["image"]}
+          src={asset["asset_icon"]}
           className="size-10 shrink-0 rounded-full bg-white"
         />
         <div className="flex flex-col grow min-w-0">
           <h3 className="font-bold">
             {asset["asset_type"] === "native" ? "XLM" : asset["asset_code"]}
           </h3>
-          <p className="text-xs">{meta["domain"]}</p>
+          <p className="text-xs">{asset["asset_domain"]}</p>
           <p className="text-right font-bold text-2xl">
             {Intl.NumberFormat("en-US", {
               maximumFractionDigits: 20,
@@ -30,7 +29,7 @@ export default function Asset() {
           ) : null}
           <p className="text-right">
             <a
-              href={`https://stellar.expert/explorer/public/asset/${meta["asset"]}`}
+              href={`https://stellar.expert/explorer/public/asset/${asset["asset_id"]}`}
               target="_blank"
               className="text-blue-500"
             >

@@ -87,6 +87,11 @@ export default function AccountRoute() {
     () =>
       accountQuery.data?.balances?.map((item) => ({
         ...item,
+        ["asset_id"]:
+          item["asset_type"] === "native"
+            ? "XLM"
+            : `${item["asset_code"]}-${item["asset_issuer"]}`,
+
         ["asset_name"]:
           item["asset_type"] === "native" ? "XLM" : item["asset_code"],
         ["asset_icon"]:
