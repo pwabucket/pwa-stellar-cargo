@@ -18,27 +18,28 @@ export default function Alert({ as: Component = "div", variant, ...props }) {
       className={cn(
         "px-4 py-2 rounded-xl",
         "flex items-center gap-4",
+
         {
           info: [
             "text-blue-800 dark:text-blue-500",
-            "bg-blue-50",
+            "bg-blue-100",
             "dark:bg-blue-500/20",
           ],
           warning: [
-            "text-yellow-800 dark:text-yellow-500",
-            "bg-yellow-50",
-            "dark:bg-yellow-500/20",
+            "text-orange-800 dark:text-orange-500",
+            "bg-orange-100",
+            "dark:bg-orange-500/20",
           ],
           danger: [
             "text-red-800 dark:text-red-500",
-            "bg-red-50",
+            "bg-red-100",
             "dark:bg-red-500/20",
           ],
         }[variant],
         props.className
       )}
     >
-      <Icon className="shrink-0 size-5" />
+      <Icon className={cn("shrink-0 size-6")} />
       <p className="grow min-w-0 min-h-0">{props.children}</p>
     </Component>
   );
