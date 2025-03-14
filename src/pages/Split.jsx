@@ -44,7 +44,7 @@ export default function Split() {
   const assetTransactionName = asset["transaction_name"];
   const assetBalance = asset["balance"];
 
-  const [includeSource, setIncludeSource] = useState(false);
+  const [includeSource, setIncludeSource] = useState(true);
 
   const extraCount = includeSource ? 1 : 0;
   const totalCount = selectedAccounts.size + extraCount;
