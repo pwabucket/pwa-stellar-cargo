@@ -1,4 +1,5 @@
 import AccountAsset from "@/components/AccountAsset";
+import { HiOutlinePlusCircle } from "react-icons/hi2";
 import { Link, NavLink } from "react-router";
 import { cn } from "@/lib/utils";
 import { useOutletContext } from "react-router";
@@ -36,6 +37,17 @@ export default function Account() {
           asset={balance}
         />
       ))}
+
+      {/* Add Trustline */}
+      <div className="flex p-2 justify-center">
+        <Link
+          to={"trustlines/add"}
+          className="text-blue-500 flex items-center gap-2"
+        >
+          <HiOutlinePlusCircle className="size-4" />
+          Add Trustline
+        </Link>
+      </div>
     </div>
   );
 }

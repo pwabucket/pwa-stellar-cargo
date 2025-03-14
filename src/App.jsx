@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Account from "./pages/Account";
 import AccountOverviewRoute from "./routes/AccountOverviewRoute";
 import AccountRoute from "./routes/AccountRoute";
+import AddTrustline from "./pages/AddTrustline";
 import Asset from "./pages/Asset";
 import AssetRoute from "./routes/AssetRoute";
 import BatchExport from "./pages/BatchExport";
@@ -76,6 +77,9 @@ function App() {
             <Route path="swap" element={<Swap />} />
             <Route path="send" element={<Send />} />
           </Route>
+
+          {/* Trustline */}
+          <Route path="trustlines/add" element={<AddTrustline />} />
         </Route>
 
         {/* Import Wallet */}

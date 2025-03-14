@@ -175,3 +175,32 @@ export async function createPathPaymentStrictReceiveTransaction({
     network_passphrase: networkPassphrase,
   };
 }
+
+export async function createTrustlineTransaction({
+  source,
+  assetCode,
+  assetIssuer,
+  limit = "922337203685.4775807",
+}) {
+  let server = new Horizon.Server(horizonUrl);
+  let sourceAccount = await server.loadAccount(source);
+  let transaction = new TransactionBuilder(sourceAccount, {
+    networkPassphrase: networkPassphrase,
+    fee: maxFeePerOperation,
+  });
+
+  const asset = new Asset(assetCode, assetIssuer);
+
+  transaction.addOperation(
+    Operation.changeTrust({
+      asset,
+      limit,
+    })
+  );
+
+  let builtTransaction = transaction.setTimeout(standardTimebounds).build();
+  return {
+    transaction: builtTransaction.toXDR(),
+    network_passphrase: networkPassphrase,
+  };
+}
