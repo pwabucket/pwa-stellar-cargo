@@ -123,7 +123,7 @@ export default function Split() {
       <AccountAsset asset={asset} />
 
       {/* Amount */}
-      <p className="text-center text-sm">
+      <p className="text-center text-sm px-2">
         Per Account: <span className="font-bold">{splitAmount}</span>{" "}
         {assetName}
       </p>
