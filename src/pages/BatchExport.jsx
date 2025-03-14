@@ -1,3 +1,4 @@
+import Alert from "@/components/Alert";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAppStore from "@/store/useAppStore";
 import { PrimaryButton } from "@/components/Button";
@@ -25,9 +26,7 @@ export default function BatchExport() {
   };
   return (
     <InnerAppLayout className="gap-2">
-      <p className="text-center p-2 rounded-xl bg-blue-100 text-blue-800">
-        All accounts and contacts will be exported
-      </p>
+      <Alert variant={"info"}>All accounts and contacts will be exported</Alert>
       <PrimaryButton onClick={exportAll}>Export All</PrimaryButton>
     </InnerAppLayout>
   );

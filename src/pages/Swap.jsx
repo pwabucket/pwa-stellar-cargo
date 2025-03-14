@@ -1,7 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import * as yup from "yup";
 import AccountAsset from "@/components/AccountAsset";
-import AccountBelowReserveError from "@/components/AccountBelowReserveError";
 import AssetPicker from "@/partials/AssetPicker";
 import FieldStateError from "@/components/FieldStateError";
 import RequiredReserve from "@/components/RequiredReserve";
@@ -233,14 +232,10 @@ export default function Swap() {
   return (
     <div className="flex flex-col gap-2">
       {/* Reserve Info */}
-      <RequiredReserve balance={accountReserveBalance} />
-
-      {/* Below Reserve info */}
-      {accountIsBelowReserve ? (
-        <AccountBelowReserveError
-          accountReserveBalance={accountReserveBalance}
-        />
-      ) : null}
+      <RequiredReserve
+        isBelowReserve={accountIsBelowReserve}
+        requiredBalance={accountReserveBalance}
+      />
 
       {/* Source Asset */}
       <AccountAsset asset={asset} />

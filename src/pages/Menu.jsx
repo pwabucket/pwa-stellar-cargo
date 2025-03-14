@@ -21,10 +21,10 @@ export default function Menu() {
   const logout = useAppStore((state) => state.logout);
   const themeIcon =
     theme === THEMES[0]
-      ? TbSunMoon
-      : theme === THEMES[1]
       ? HiOutlineSun
-      : HiOutlineMoon;
+      : theme === THEMES[1]
+      ? HiOutlineMoon
+      : TbSunMoon;
 
   return (
     <InnerAppLayout className="gap-4">

@@ -1,11 +1,17 @@
-import { cn } from "@/lib/utils";
+import AccountBelowReserveError from "./AccountBelowReserveError";
+import Alert from "./Alert";
 
-export default function RequiredReserve({ balance }) {
+export default function RequiredReserve({ isBelowReserve, requiredBalance }) {
   return (
-    <p
-      className={cn("p-2 text-center rounded-xl", "text-blue-800 bg-blue-100")}
-    >
-      Required Reserve: <span className="font-bold">{balance} XLM</span>
-    </p>
+    <>
+      <Alert variant={"info"}>
+        Required Reserve:{" "}
+        <span className="font-bold">{requiredBalance} XLM</span>
+      </Alert>
+
+      {isBelowReserve ? (
+        <AccountBelowReserveError requiredBalance={requiredBalance} />
+      ) : null}
+    </>
   );
 }

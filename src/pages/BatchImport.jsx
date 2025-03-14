@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import Alert from "@/components/Alert";
 import FieldStateError from "@/components/FieldStateError";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAppStore from "@/store/useAppStore";
@@ -6,7 +7,6 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/Input";
 import { PasswordInput } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
-import { cn } from "@/lib/utils";
 import { importAllKeys, removeAllKeys } from "@/lib/stellar/keyManager";
 import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -79,16 +79,9 @@ export default function BatchImport() {
 
   return (
     <InnerAppLayout className="gap-2">
-      <p
-        className={cn(
-          "text-center p-2 rounded-xl",
-          isLoggedIn
-            ? "bg-yellow-100 text-yellow-800"
-            : "bg-blue-100 text-blue-800"
-        )}
-      >
+      <Alert variant={isLoggedIn ? "warning" : "info"}>
         {isLoggedIn ? (
-          <>All accounts and contacts will be replaced with imported ones</>
+          <>All data will be replaced with imported ones</>
         ) : (
           <>
             Select a file exported through{" "}
@@ -97,7 +90,7 @@ export default function BatchImport() {
             </span>
           </>
         )}
-      </p>
+      </Alert>
 
       <FormProvider {...form}>
         <form

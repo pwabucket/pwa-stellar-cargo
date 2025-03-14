@@ -1,17 +1,17 @@
 import AccountAsset from "@/components/AccountAsset";
-import AccountBelowReserveError from "@/components/AccountBelowReserveError";
+import Alert from "@/components/Alert";
 import BatchTransactionAccounts from "@/partials/BatchTransactionAccounts";
 import RequiredReserve from "@/components/RequiredReserve";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
 import { PrimaryButton } from "@/components/Button";
-import { cn, truncatePublicKey } from "@/lib/utils";
 import {
   createFeeBumpTransaction,
   createPaymentTransaction,
 } from "@/lib/stellar/transactions";
 import { fetchAccountBalances, submit } from "@/lib/stellar/horizonQueries";
 import { signTransaction } from "@/lib/stellar/keyManager";
+import { truncatePublicKey } from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
@@ -116,22 +116,13 @@ export default function Merge() {
     <div className="flex flex-col gap-4 grow min-h-0 min-w-0">
       <div className="flex flex-col gap-2">
         {/* Reserve Info */}
-        <RequiredReserve balance={accountReserveBalance} />
-
-        {/* Below Reserve info */}
-        {accountIsBelowReserve ? (
-          <AccountBelowReserveError
-            accountReserveBalance={accountReserveBalance}
-          />
-        ) : null}
+        <RequiredReserve
+          isBelowReserve={accountIsBelowReserve}
+          requiredBalance={accountReserveBalance}
+        />
 
         {/* Merge Info */}
-        <p
-          className={cn(
-            "p-2 text-center rounded-xl",
-            "text-yellow-800 bg-yellow-100"
-          )}
-        >
+        <Alert variant={"warning"}>
           {otherAccounts.length > 0 ? (
             <>
               You are about to merge{" "}
@@ -146,7 +137,7 @@ export default function Merge() {
           ) : (
             <>No account to merge from!</>
           )}
-        </p>
+        </Alert>
       </div>
 
       {/* Asset */}

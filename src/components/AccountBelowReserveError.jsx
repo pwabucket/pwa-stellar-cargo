@@ -1,12 +1,12 @@
-import { cn } from "@/lib/utils";
 import { memo } from "react";
+import Alert from "./Alert";
 
-export default memo(function AccountBelowReserve({ accountReserveBalance }) {
+export default memo(function AccountBelowReserve({ requiredBalance }) {
   return (
-    <p className={cn("p-2 text-center rounded-xl", "text-red-800 bg-red-100")}>
+    <Alert variant={"danger"}>
       Account is below reserve! Transactions are likely to fail. You need a
-      minimum of <span className="font-bold">{accountReserveBalance} XLM</span>{" "}
-      + transaction fees.
-    </p>
+      minimum of <span className="font-bold">{requiredBalance} XLM</span> +
+      transaction fees.
+    </Alert>
   );
 });
