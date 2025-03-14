@@ -273,8 +273,9 @@ export default function Send() {
                   {/* Max */}
                   <button
                     type="button"
+                    disabled={field.disabled}
                     onClick={() => field.onChange(asset["balance"])}
-                    className="text-blue-500 shrink-0"
+                    className="text-blue-500 shrink-0 disabled:opacity-60"
                   >
                     MAX
                   </button>
