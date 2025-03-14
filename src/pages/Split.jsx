@@ -1,6 +1,7 @@
 import AccountAsset from "@/components/AccountAsset";
 import Alert from "@/components/Alert";
 import BatchTransactionAccounts from "@/partials/BatchTransactionAccounts";
+import LabelToggle from "@/components/LabelToggle";
 import RequiredReserve from "@/components/RequiredReserve";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
@@ -11,6 +12,7 @@ import { submit } from "@/lib/stellar/horizonQueries";
 import { truncatePublicKey } from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
+import { useState } from "react";
 
 export default function Split() {
   const {
@@ -42,10 +44,16 @@ export default function Split() {
   const assetTransactionName = asset["transaction_name"];
   const assetBalance = asset["balance"];
 
-  const splitAmount = useMemo(
-    () => parseFloat((assetBalance / (selectedAccounts.size + 1)).toFixed(7)),
-    [assetBalance, selectedAccounts]
-  );
+  const [includeSource, setIncludeSource] = useState(false);
+
+  const extraCount = includeSource ? 1 : 0;
+  const totalCount = selectedAccounts.size + extraCount;
+
+  const splitAmount = useMemo(() => {
+    return totalCount > 0
+      ? parseFloat((assetBalance / totalCount).toFixed(7))
+      : 0;
+  }, [totalCount, assetBalance]);
 
   /** Execute Split */
   const executeSplit = async () => {
@@ -100,8 +108,7 @@ export default function Split() {
             <>
               You are about to split{" "}
               <span className="font-bold">{assetName}</span> equally among{" "}
-              <span className="font-bold">{selectedAccounts.size}</span>{" "}
-              account(s) from{" "}
+              <span className="font-bold">{totalCount}</span> account(s) from{" "}
               <span className="font-bold">
                 {account.name || "Stellar Account"} (
                 {truncatePublicKey(account.publicKey)})
@@ -125,6 +132,14 @@ export default function Split() {
       {/* Accounts List */}
       {otherAccounts.length > 0 ? (
         <>
+          <LabelToggle
+            checked={includeSource}
+            onChange={(ev) => setIncludeSource(ev.target.checked)}
+            disabled={isProcessing || results.size > 0}
+          >
+            Include Source
+          </LabelToggle>
+
           {/* Start Button */}
           <PrimaryButton
             onClick={executeSplit}
