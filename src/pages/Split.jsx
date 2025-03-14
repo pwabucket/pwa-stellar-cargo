@@ -41,8 +41,12 @@ export default function Split() {
 
   const assetName = asset["asset_name"];
   const assetTransactionName = asset["transaction_name"];
+  const assetBalance = asset["balance"];
 
-  const splitAmount = asset["balance"] / (selectedAccounts.size + 1);
+  const splitAmount = useMemo(
+    () => parseFloat((assetBalance / (selectedAccounts.size + 1)).toFixed(7)),
+    [assetBalance, selectedAccounts]
+  );
 
   /** Execute Split */
   const executeSplit = async () => {
