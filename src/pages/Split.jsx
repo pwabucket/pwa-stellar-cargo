@@ -34,7 +34,6 @@ export default function Split() {
     results,
     isProcessing,
     execute,
-    setResultValue,
     toggleAccount,
     toggleAllAccounts,
   } = useBatchTransactions(otherAccounts);
@@ -51,7 +50,7 @@ export default function Split() {
   /** Execute Split */
   const executeSplit = async () => {
     await execute(
-      async (destination) => {
+      async (chunk) => {
         /** Get Amount */
         const amount = splitAmount;
 
@@ -59,7 +58,7 @@ export default function Split() {
           /** Source Transaction */
           const transaction = await createPaymentTransaction({
             source: account.publicKey,
-            destination: destination.publicKey,
+            destination: chunk.map((item) => item.publicKey),
             asset: assetTransactionName,
             amount,
           });
@@ -74,24 +73,15 @@ export default function Split() {
           /** Submit Sponsor Transaction */
           const response = await submit(signedTransaction);
 
-          /** Log Response */
-          console.log(response);
-
-          /** Set Response */
-          setResultValue(destination.publicKey, {
-            status: true,
-            response,
-          });
-        } else {
-          /** Set Response */
-          setResultValue(destination.publicKey, {
-            status: true,
-            skipped: true,
-          });
+          return response;
         }
       },
-      /** Refetch */
-      accountQuery.refetch
+      /** Options */
+      {
+        refetch: accountQuery.refetch,
+        single: true,
+        size: 100,
+      }
     );
   };
 

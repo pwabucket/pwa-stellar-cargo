@@ -37,7 +37,6 @@ export default function Merge() {
     results,
     isProcessing,
     execute,
-    setResultValue,
     toggleAccount,
     toggleAllAccounts,
   } = useBatchTransactions(otherAccounts);
@@ -91,24 +90,14 @@ export default function Merge() {
           /** Submit Sponsor Transaction */
           const response = await submit(signedFeeBumpTransaction);
 
-          /** Log Response */
-          console.log(response);
-
-          /** Set Response */
-          setResultValue(source.publicKey, {
-            status: true,
-            response,
-          });
-        } else {
-          /** Set Response */
-          setResultValue(source.publicKey, {
-            status: true,
-            skipped: true,
-          });
+          return response;
         }
       },
-      /** Refetch */
-      accountQuery.refetch
+
+      /** Options */
+      {
+        refetch: accountQuery.refetch,
+      }
     );
   };
 

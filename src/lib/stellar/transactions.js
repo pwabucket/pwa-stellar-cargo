@@ -41,13 +41,17 @@ export async function createPaymentTransaction({
     }
   }
 
-  transaction.addOperation(
-    Operation.payment({
-      destination: destination,
-      amount: amount.toString(),
-      asset: sendAsset,
-    })
-  );
+  const paths = Array.isArray(destination) ? destination : [destination];
+
+  paths.forEach((path) => {
+    transaction.addOperation(
+      Operation.payment({
+        destination: path,
+        amount: amount.toString(),
+        asset: sendAsset,
+      })
+    );
+  });
 
   let builtTransaction = transaction.setTimeout(standardTimebounds).build();
   return {

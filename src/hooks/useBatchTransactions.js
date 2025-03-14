@@ -24,6 +24,17 @@ export default function useBatchTransactions(accounts) {
     setResults((prev) => new Map(prev).set(publicKey, data));
   }, []);
 
+  /** Skip */
+  const skipAccount = useCallback(
+    (publicKey) => {
+      setResultValue(publicKey, {
+        status: true,
+        skipped: true,
+      });
+    },
+    [setResultValue]
+  );
+
   const toggleAllAccounts = useCallback(
     (checked) => {
       if (checked) {
@@ -49,65 +60,144 @@ export default function useBatchTransactions(accounts) {
     }
   }, []);
 
+  const toggleProcessingState = useCallback((publicKey, state = true) => {
+    if (state) {
+      setActiveAccounts((prev) => new Set(prev).add(publicKey));
+    } else {
+      /** Remove from Processing */
+      setActiveAccounts((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(publicKey);
+        return newSet;
+      });
+    }
+  }, []);
+
+  /** Execute */
+  const baseExecute = useCallback(async (callback, { refetch }) => {
+    /** Reset */
+    setResults(new Map());
+    setActiveAccounts(new Set());
+    setIsProcessing(true);
+
+    /** Run Callback */
+    await callback?.();
+
+    try {
+      /** Refetch */
+      await refetch?.();
+    } catch (e) {
+      console.warn("Failed to Refetch");
+      console.error(e);
+    }
+
+    /** Stop Processing */
+    setIsProcessing(false);
+  }, []);
+
   /** Execute */
   const execute = useCallback(
-    async (callback, refetch) => {
-      /** Reset */
-      setResults(new Map());
-      setActiveAccounts(new Set());
-      setIsProcessing(true);
+    async (callback, { size = 5, single = false, refetch }) => {
+      await baseExecute(
+        async function () {
+          /** Skip all unselected accounts */
+          accounts
+            .filter((item) => selectedAccounts.has(item.publicKey) === false)
+            .forEach((item) => {
+              skipAccount(item.publicKey);
+            });
 
-      for (const chunk of chunkArrayGenerator(accounts, 5)) {
-        await Promise.allSettled(
-          chunk.map(async (destination) => {
-            if (selectedAccounts.has(destination.publicKey)) {
+          for (const chunk of chunkArrayGenerator(
+            Array.from(selectedAccounts.values()),
+            size
+          )) {
+            if (single) {
               try {
-                /** Mark as Active */
-                setActiveAccounts((prev) =>
-                  new Set(prev).add(destination.publicKey)
-                );
+                /** Mark group as Active */
+                chunk.forEach((item) => {
+                  toggleProcessingState(item.publicKey, true);
+                });
 
-                await callback(destination);
+                /** Callback */
+                const response = await callback(chunk);
+
+                /** Log Response */
+                console.log(response);
+
+                /** Set Response */
+                chunk.forEach((item) => {
+                  setResultValue(item.publicKey, {
+                    status: true,
+                    skipped: typeof response === "undefined",
+                    response,
+                  });
+                });
               } catch (error) {
                 /** Log Error */
                 console.error(error);
 
                 /** Set Error */
-                setResultValue(destination.publicKey, {
-                  status: false,
-                  error,
+                chunk.forEach((item) => {
+                  setResultValue(item.publicKey, {
+                    status: false,
+                    error,
+                  });
                 });
               } finally {
-                /** Remove from Processing */
-                setActiveAccounts((prev) => {
-                  const newSet = new Set(prev);
-                  newSet.delete(destination.publicKey);
-                  return newSet;
+                /** Mark group as Inactive */
+                chunk.forEach((item) => {
+                  toggleProcessingState(item.publicKey, false);
                 });
               }
             } else {
-              /** Skip */
-              setResultValue(destination.publicKey, {
-                status: true,
-                skipped: true,
-              });
+              await Promise.allSettled(
+                chunk.map(async (item) => {
+                  try {
+                    /** Mark as Active */
+                    toggleProcessingState(item.publicKey, true);
+
+                    /** Callback */
+                    const response = await callback(item);
+
+                    /** Log Response */
+                    console.log(response);
+
+                    /** Set Response */
+                    setResultValue(item.publicKey, {
+                      status: true,
+                      skipped: typeof response === "undefined",
+                      response,
+                    });
+                  } catch (error) {
+                    /** Log Error */
+                    console.error(error);
+
+                    /** Set Error */
+                    setResultValue(item.publicKey, {
+                      status: false,
+                      error,
+                    });
+                  } finally {
+                    /** Mark as Active */
+                    toggleProcessingState(item.publicKey, false);
+                  }
+                })
+              );
             }
-          })
-        );
-      }
-
-      try {
-        /** Refetch */
-        await refetch?.();
-      } catch (e) {
-        console.warn("Failed to Refetch");
-        console.error(e);
-      }
-
-      /** Stop Processing */
-      setIsProcessing(false);
+          }
+        },
+        /** Options */
+        { refetch }
+      );
     },
-    [accounts, setResultValue, selectedAccounts]
+    [
+      accounts,
+      selectedAccounts,
+      baseExecute,
+      skipAccount,
+      setResultValue,
+      toggleProcessingState,
+    ]
   );
 
   /** Acquire WakeLock */
@@ -124,9 +214,12 @@ export default function useBatchTransactions(accounts) {
       results,
       isProcessing,
       execute,
+      baseExecute,
+      skipAccount,
       setResultValue,
       toggleAccount,
       toggleAllAccounts,
+      toggleProcessingState,
     }),
     [
       accountsMapped,
@@ -135,9 +228,12 @@ export default function useBatchTransactions(accounts) {
       results,
       isProcessing,
       execute,
+      baseExecute,
+      skipAccount,
       setResultValue,
       toggleAccount,
       toggleAllAccounts,
+      toggleProcessingState,
     ]
   );
 }
