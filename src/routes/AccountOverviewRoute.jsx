@@ -1,6 +1,5 @@
 import AccountImage from "@/components/AccountImage";
 import AssetValueMask from "@/components/AssetValueMask";
-import copy from "copy-to-clipboard";
 import useAppStore from "@/store/useAppStore";
 import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
 import {
@@ -12,7 +11,7 @@ import {
 } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link, NavLink, Outlet } from "react-router";
-import { cn, truncatePublicKey } from "@/lib/utils";
+import { cn, copyToClipboard, truncatePublicKey } from "@/lib/utils";
 import { useMatch } from "react-router";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
@@ -124,7 +123,7 @@ export default function AccountOverviewRoute() {
           {/* Address */}
           <div className="flex items-center gap-2">
             <button
-              onClick={() => copy(account.publicKey)}
+              onClick={() => copyToClipboard(account.publicKey)}
               className="shrink-0"
             >
               <IoCopyOutline className="size-4" />

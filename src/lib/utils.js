@@ -1,6 +1,8 @@
 import clsx from "clsx";
+import copy from "copy-to-clipboard";
 import createStellarIdenticon from "stellar-identicon-js/index";
 import repeatElement from "repeat-element";
+import toast from "react-hot-toast";
 import { Fragment } from "react";
 import { createElement } from "react";
 import { twMerge } from "tailwind-merge";
@@ -77,4 +79,10 @@ export function calculateXLMReserve(account) {
   }
 
   return BASE_XLM_RESERVE * unfundedEntries;
+}
+
+export function copyToClipboard(content) {
+  copy(content);
+  toast.dismiss();
+  toast.success("Copied!");
 }

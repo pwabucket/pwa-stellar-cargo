@@ -1,7 +1,6 @@
 import AccountImage from "@/components/AccountImage";
 import FullPageSpinner from "@/components/FullPageSpinner";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
-import copy from "copy-to-clipboard";
 import useAppStore from "@/store/useAppStore";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
 import useContact from "@/hooks/useContact";
@@ -9,7 +8,7 @@ import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link, useParams } from "react-router";
 import { MenuButton } from "@/components/MenuButton";
-import { truncatePublicKey } from "@/lib/utils";
+import { copyToClipboard, truncatePublicKey } from "@/lib/utils";
 import { useCallback } from "react";
 import { useNavigate } from "react-router";
 
@@ -61,7 +60,10 @@ export default function ContactDetails() {
 
         {/* Contact Address */}
         <div className="flex items-center gap-2">
-          <button onClick={() => copy(contact.address)} className="shrink-0">
+          <button
+            onClick={() => copyToClipboard(contact.address)}
+            className="shrink-0"
+          >
             <IoCopyOutline className="size-4" />
           </button>
           <h3 className="truncate grow min-w-0 text-sm">

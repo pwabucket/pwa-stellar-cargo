@@ -1,7 +1,6 @@
 import Alert from "@/components/Alert";
 import BatchTransactionAccounts from "@/partials/BatchTransactionAccounts";
 import RequiredReserve from "@/components/RequiredReserve";
-import copy from "copy-to-clipboard";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
 import { IoCopyOutline } from "react-icons/io5";
@@ -14,6 +13,7 @@ import { fetchAccountBalances, submit } from "@/lib/stellar/horizonQueries";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
+import { copyToClipboard } from "@/lib/utils";
 
 export default function AddTrustlineToOthers() {
   const {
@@ -143,7 +143,7 @@ export default function AddTrustlineToOthers() {
           {/* Asset Code */}
           <p
             className="truncate cursor-pointer"
-            onClick={() => copy(asset["asset_code"])}
+            onClick={() => copyToClipboard(asset["asset_code"])}
           >
             <IoCopyOutline className="size-4 inline-flex" />{" "}
             <span className="font-bold">Asset Code:</span> {asset["asset_code"]}
@@ -152,7 +152,7 @@ export default function AddTrustlineToOthers() {
           {/* Asset Issuer */}
           <p
             className="truncate cursor-pointer"
-            onClick={() => copy(asset["asset_issuer"])}
+            onClick={() => copyToClipboard(asset["asset_issuer"])}
           >
             <IoCopyOutline className="size-4 inline-flex" />{" "}
             <span className="font-bold">Asset Issuer:</span>{" "}

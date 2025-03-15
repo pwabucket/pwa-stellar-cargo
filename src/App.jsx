@@ -1,5 +1,6 @@
 import Home from "@/pages/Home";
 import { Route, Routes } from "react-router";
+import { Toaster } from "react-hot-toast";
 
 import About from "./pages/About";
 import Account from "./pages/Account";
@@ -44,64 +45,67 @@ function App() {
   useResizeForPWA();
 
   return (
-    <Routes>
-      <Route element={<GuestRoute />}>
-        <Route index element={<Home />} />
-      </Route>
-
-      {/* About */}
-      <Route path="about" element={<About />} />
-
-      {/* Batch Import */}
-      <Route path="batch-import" element={<BatchImport />} />
-
-      {/* Protected Routes */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="app" element={<Dashboard />} />
-
-        {/* Contacts */}
-        <Route path="contacts/:id/edit" element={<EditContact />} />
-        <Route path="contacts/:id" element={<ContactDetails />} />
-        <Route path="contacts/create" element={<CreateContact />} />
-        <Route path="contacts" element={<Contacts />} />
-
-        {/* Account */}
-        <Route path="accounts/:publicKey/edit" element={<EditAccount />} />
-        <Route path="accounts/:publicKey" element={<AccountRoute />}>
-          <Route element={<AccountOverviewRoute />}>
-            <Route index element={<Account />} />
-            <Route path="transactions" element={<Transactions />} />
-          </Route>
-
-          {/* Asset */}
-          <Route path="assets/:asset" element={<AssetRoute />}>
-            <Route index element={<Asset />} />
-            <Route path="add-to-others" element={<AddTrustlineToOthers />} />
-            <Route path="merge" element={<Merge />} />
-            <Route path="split" element={<Split />} />
-            <Route path="swap" element={<Swap />} />
-            <Route path="send" element={<Send />} />
-          </Route>
-
-          {/* Trustline */}
-          <Route path="trustlines/add" element={<AddTrustline />} />
-
-          {/* Receive */}
-          <Route path="send" element={<SendAnyAsset />} />
-          <Route path="swap" element={<SwapAnyAsset />} />
-          <Route path="receive" element={<Receive />} />
+    <>
+      <Routes>
+        <Route element={<GuestRoute />}>
+          <Route index element={<Home />} />
         </Route>
 
-        {/* Import Wallet */}
-        <Route path="import" element={<ImportWallet />} />
+        {/* About */}
+        <Route path="about" element={<About />} />
 
-        {/* Batch Export */}
-        <Route path="batch-export" element={<BatchExport />} />
+        {/* Batch Import */}
+        <Route path="batch-import" element={<BatchImport />} />
 
-        {/* Menu */}
-        <Route path="menu" element={<Menu />} />
-      </Route>
-    </Routes>
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="app" element={<Dashboard />} />
+
+          {/* Contacts */}
+          <Route path="contacts/:id/edit" element={<EditContact />} />
+          <Route path="contacts/:id" element={<ContactDetails />} />
+          <Route path="contacts/create" element={<CreateContact />} />
+          <Route path="contacts" element={<Contacts />} />
+
+          {/* Account */}
+          <Route path="accounts/:publicKey/edit" element={<EditAccount />} />
+          <Route path="accounts/:publicKey" element={<AccountRoute />}>
+            <Route element={<AccountOverviewRoute />}>
+              <Route index element={<Account />} />
+              <Route path="transactions" element={<Transactions />} />
+            </Route>
+
+            {/* Asset */}
+            <Route path="assets/:asset" element={<AssetRoute />}>
+              <Route index element={<Asset />} />
+              <Route path="add-to-others" element={<AddTrustlineToOthers />} />
+              <Route path="merge" element={<Merge />} />
+              <Route path="split" element={<Split />} />
+              <Route path="swap" element={<Swap />} />
+              <Route path="send" element={<Send />} />
+            </Route>
+
+            {/* Trustline */}
+            <Route path="trustlines/add" element={<AddTrustline />} />
+
+            {/* Receive */}
+            <Route path="send" element={<SendAnyAsset />} />
+            <Route path="swap" element={<SwapAnyAsset />} />
+            <Route path="receive" element={<Receive />} />
+          </Route>
+
+          {/* Import Wallet */}
+          <Route path="import" element={<ImportWallet />} />
+
+          {/* Batch Export */}
+          <Route path="batch-export" element={<BatchExport />} />
+
+          {/* Menu */}
+          <Route path="menu" element={<Menu />} />
+        </Route>
+      </Routes>
+      <Toaster position="top-center" />
+    </>
   );
 }
 

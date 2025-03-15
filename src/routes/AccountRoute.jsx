@@ -3,7 +3,6 @@ import AccountImage from "@/components/AccountImage";
 import AccountPlaceholder from "@/components/AccountPlaceholder";
 import DefaultAssetIcon from "@/assets/images/asset.png?format=webp&w=80";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
-import copy from "copy-to-clipboard";
 import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
 import useAssetMetaQuery from "@/hooks/useAssetMetaQuery";
@@ -13,6 +12,7 @@ import { Outlet, useParams } from "react-router";
 import {
   calculateXLMReserve,
   cn,
+  copyToClipboard,
   repeatComponent,
   truncatePublicKey,
 } from "@/lib/utils";
@@ -138,7 +138,7 @@ export default function AccountRoute() {
                 "flex items-center justify-center gap-1",
                 "cursor-pointer"
               )}
-              onClick={() => copy(account.publicKey)}
+              onClick={() => copyToClipboard(account.publicKey)}
             >
               <IoCopyOutline className="size-3" />
               {truncatePublicKey(account.publicKey)}

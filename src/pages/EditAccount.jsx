@@ -2,7 +2,6 @@ import * as yup from "yup";
 import FieldStateError from "@/components/FieldStateError";
 import FullPageSpinner from "@/components/FullPageSpinner";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
-import copy from "copy-to-clipboard";
 import useAccount from "@/hooks/useAccount";
 import useAppStore from "@/store/useAppStore";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
@@ -12,7 +11,7 @@ import { HiOutlineEye, HiOutlineTrash } from "react-icons/hi2";
 import { Input } from "@/components/Input";
 import { IoCopyOutline } from "react-icons/io5";
 import { PrimaryButton } from "@/components/Button";
-import { cn } from "@/lib/utils";
+import { cn, copyToClipboard } from "@/lib/utils";
 import { loadKey, setupKeyManager } from "@/lib/stellar/keyManager";
 import { useCallback } from "react";
 import { useNavigate } from "react-router";
@@ -131,7 +130,7 @@ export default function EditAccount() {
 
             <ToolButton
               icon={IoCopyOutline}
-              onClick={() => copy(account.publicKey)}
+              onClick={() => copyToClipboard(account.publicKey)}
             />
           </div>
 
@@ -147,7 +146,7 @@ export default function EditAccount() {
             {secretKey ? (
               <ToolButton
                 icon={IoCopyOutline}
-                onClick={() => copy(secretKey)}
+                onClick={() => copyToClipboard(secretKey)}
               />
             ) : (
               <ToolButton icon={HiOutlineEye} onClick={revealSecretKey} />

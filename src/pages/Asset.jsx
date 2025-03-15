@@ -1,5 +1,4 @@
 import AssetValueMask from "@/components/AssetValueMask";
-import copy from "copy-to-clipboard";
 import useAppStore from "@/store/useAppStore";
 import {
   AiOutlineMerge,
@@ -10,7 +9,7 @@ import {
 import { HiOutlineEye } from "react-icons/hi2";
 import { IoAddCircleOutline, IoCopyOutline } from "react-icons/io5";
 import { Link, useOutletContext } from "react-router";
-import { cn } from "@/lib/utils";
+import { cn, copyToClipboard } from "@/lib/utils";
 
 const PageLink = ({ icon: Icon, title, ...props }) => (
   <Link
@@ -82,7 +81,7 @@ export default function Asset() {
             {/* Asset Code */}
             <p
               className="truncate cursor-pointer"
-              onClick={() => copy(asset["asset_code"])}
+              onClick={() => copyToClipboard(asset["asset_code"])}
             >
               <IoCopyOutline className="size-4 inline-flex" />{" "}
               <span className="font-bold">Asset Code:</span>{" "}
@@ -92,7 +91,7 @@ export default function Asset() {
             {/* Asset Issuer */}
             <p
               className="truncate cursor-pointer"
-              onClick={() => copy(asset["asset_issuer"])}
+              onClick={() => copyToClipboard(asset["asset_issuer"])}
             >
               <IoCopyOutline className="size-4 inline-flex" />{" "}
               <span className="font-bold">Asset Issuer:</span>{" "}

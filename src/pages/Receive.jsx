@@ -1,7 +1,7 @@
 import { IoCopyOutline } from "react-icons/io5";
 import { PrimaryButton } from "@/components/Button";
 import { QRCodeSVG } from "qrcode.react";
-import { createAccountImage } from "@/lib/utils";
+import { copyToClipboard, createAccountImage } from "@/lib/utils";
 import { memo } from "react";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
@@ -42,7 +42,7 @@ export default memo(function Receive() {
       <p className="break-words text-center px-4 font-bold">
         {account.publicKey}
       </p>
-      <PrimaryButton>
+      <PrimaryButton onClick={() => copyToClipboard(account.publicKey)}>
         <IoCopyOutline className="size-4 inline-flex" /> Copy
       </PrimaryButton>
     </div>
