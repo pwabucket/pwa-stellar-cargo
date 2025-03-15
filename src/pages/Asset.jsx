@@ -1,10 +1,13 @@
+import AssetValueMask from "@/components/AssetValueMask";
 import copy from "copy-to-clipboard";
+import useAppStore from "@/store/useAppStore";
 import {
   AiOutlineMerge,
   AiOutlineSend,
   AiOutlineSplitCells,
   AiOutlineSwap,
 } from "react-icons/ai";
+import { HiOutlineEye } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link, useOutletContext } from "react-router";
 import { cn } from "@/lib/utils";
@@ -24,6 +27,9 @@ const PageLink = ({ icon: Icon, title, ...props }) => (
 
 export default function Asset() {
   const { asset, assetValue } = useOutletContext();
+  const toggleShowAssetValue = useAppStore(
+    (state) => state.toggleShowAssetValue
+  );
 
   return (
     <div className="flex flex-col gap-2">
@@ -38,25 +44,36 @@ export default function Asset() {
               {asset["asset_type"] === "native" ? "XLM" : asset["asset_code"]}
             </h3>
             <p className="text-xs">{asset["asset_domain"]}</p>
-            <p className="text-right font-bold text-2xl">
-              {Intl.NumberFormat("en-US", {
-                maximumFractionDigits: 20,
-              }).format(asset["balance"])}
-            </p>
-            {assetValue ? (
-              <p className="text-right text-neutral-500">
-                ~${Intl.NumberFormat().format(assetValue)}
+
+            <div className="flex flex-col items-end text-right">
+              <div className="flex items-center gap-2">
+                <p className="font-bold text-2xl">
+                  <AssetValueMask
+                    prefix=""
+                    value={asset["balance"]}
+                    maskLength={10}
+                    maximumFractionDigits={7}
+                  />
+                </p>
+                <button onClick={toggleShowAssetValue}>
+                  <HiOutlineEye className="size-6" />
+                </button>
+              </div>
+              {assetValue ? (
+                <p className="text-right text-neutral-500">
+                  <AssetValueMask value={assetValue} />
+                </p>
+              ) : null}
+              <p className="text-right">
+                <a
+                  href={`https://stellar.expert/explorer/public/asset/${asset["asset_id"]}`}
+                  target="_blank"
+                  className="text-blue-500"
+                >
+                  View Asset
+                </a>
               </p>
-            ) : null}
-            <p className="text-right">
-              <a
-                href={`https://stellar.expert/explorer/public/asset/${asset["asset_id"]}`}
-                target="_blank"
-                className="text-blue-500"
-              >
-                View Asset
-              </a>
-            </p>
+            </div>
           </div>
         </div>
 

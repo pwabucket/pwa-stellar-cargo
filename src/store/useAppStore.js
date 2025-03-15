@@ -11,6 +11,7 @@ const useAppStore = create()(
         isLoggedIn: false,
         isProcessing: false,
         showNetWorth: false,
+        showAssetValue: true,
         theme: THEMES[0],
         accounts: [],
         contacts: [],
@@ -51,14 +52,25 @@ const useAppStore = create()(
         setContacts: (contacts) => set({ contacts }),
 
         /** Extras */
-        setTheme: (theme) => set({ theme }),
+        setIsProcessing: (isProcessing) => set({ isProcessing }),
+
+        /** Set Show Net Worth */
         setShowNetWorth: (showNetWorth) => set({ showNetWorth }),
         toggleShowNetWorth: () => set({ showNetWorth: !get().showNetWorth }),
-        setIsProcessing: (isProcessing) => set({ isProcessing }),
+
+        /** Set Show USD Value */
+        setShowAssetValue: (showAssetValue) => set({ showAssetValue }),
+        toggleShowAssetValue: () =>
+          set({ showAssetValue: !get().showAssetValue }),
+
+        /** Theme */
+        setTheme: (theme) => set({ theme }),
         toggleTheme: () =>
           set({
             theme: THEMES[(THEMES.indexOf(get().theme) + 1) % THEMES.length],
           }),
+
+        /** Login and Logout */
         login: (pinCode) => set({ isLoggedIn: true, pinCode }),
         logout: () => set({ isLoggedIn: false, pinCode: "" }),
       })

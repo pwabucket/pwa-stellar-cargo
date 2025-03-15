@@ -2,6 +2,8 @@ import useAssetPriceQuery from "@/hooks/useAssetPriceQuery";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 
+import AssetValueMask from "./AssetValueMask";
+
 export default memo(function AccountAsset({
   as: Component = "div",
   asset,
@@ -50,11 +52,11 @@ export default memo(function AccountAsset({
       {/* Balance */}
       <div className="flex flex-col min-w-1/5 items-end shrink-0">
         <p className="font-bold text-right">
-          {Intl.NumberFormat("en-US", {}).format(asset["balance"])}
+          <AssetValueMask prefix="" value={asset["balance"]} maskLength={10} />
         </p>
         {assetPriceQuery.isSuccess ? (
           <p className="text-right text-neutral-500 text-sm">
-            ~${Intl.NumberFormat().format(assetValue)}
+            <AssetValueMask value={assetValue} />
           </p>
         ) : (
           <div className="rounded-full w-3/5 h-2 bg-neutral-200 dark:bg-neutral-700" />

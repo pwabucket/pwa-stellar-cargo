@@ -1,10 +1,16 @@
+import AssetValueMask from "@/components/AssetValueMask";
+import useAppStore from "@/store/useAppStore";
 import useNetWorth from "@/hooks/useNetWorth";
+import { HiOutlineEye } from "react-icons/hi2";
 import { TbChartAreaLine } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 
 export default memo(function NetWorth() {
   const { isSuccess, totalNetWorth } = useNetWorth();
+  const toggleShowAssetValue = useAppStore(
+    (state) => state.toggleShowAssetValue
+  );
 
   return (
     <div
@@ -18,11 +24,14 @@ export default memo(function NetWorth() {
         Net Worth
       </h3>
       {isSuccess ? (
-        <>
+        <div className="flex items-center gap-2">
+          <button onClick={toggleShowAssetValue}>
+            <HiOutlineEye className="size-6" />
+          </button>
           <p className="text-3xl">
-            ~${Intl.NumberFormat().format(totalNetWorth)}
+            <AssetValueMask value={totalNetWorth} maskLength={10} />
           </p>
-        </>
+        </div>
       ) : (
         <>
           <div className="bg-blue-500 rounded-full h-4 w-1/2 animate-pulse" />

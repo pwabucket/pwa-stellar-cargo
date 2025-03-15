@@ -194,7 +194,7 @@ export default function AccountRoute() {
           {/* NavLinks */}
           <div className="p-2">
             {/* Asset */}
-            <div className="rounded-full w-1/2 h-6 bg-neutral-200 dark:bg-neutral-800" />
+            <div className="rounded-full w-1/2 h-6 bg-neutral-100 dark:bg-neutral-800" />
           </div>
 
           {/* Assets */}

@@ -1,8 +1,11 @@
 import AccountImage from "@/components/AccountImage";
+import AssetValueMask from "@/components/AssetValueMask";
 import copy from "copy-to-clipboard";
+import useAppStore from "@/store/useAppStore";
 import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
 import {
   HiOutlineArrowPath,
+  HiOutlineEye,
   HiOutlinePaperAirplane,
   HiOutlinePencilSquare,
   HiOutlineQrCode,
@@ -55,6 +58,9 @@ const ToolLink = ({ icon: Icon, title, ...props }) => (
 
 export default function AccountOverviewRoute() {
   const context = useOutletContext();
+  const toggleShowAssetValue = useAppStore(
+    (state) => state.toggleShowAssetValue
+  );
   const { account, balances } = context;
 
   /** Total Assets */
@@ -103,9 +109,14 @@ export default function AccountOverviewRoute() {
           </div>
 
           {totalAssetsPriceQuery.isSuccess ? (
-            <p className="text-3xl">
-              ~${Intl.NumberFormat().format(totalAssetsPrice)}
-            </p>
+            <div className="flex items-center gap-2">
+              <button onClick={toggleShowAssetValue}>
+                <HiOutlineEye className="size-6" />
+              </button>
+              <p className="text-3xl">
+                <AssetValueMask value={totalAssetsPrice} maskLength={10} />
+              </p>
+            </div>
           ) : (
             <div className="bg-blue-500 rounded-full h-4 w-1/2 animate-pulse" />
           )}
