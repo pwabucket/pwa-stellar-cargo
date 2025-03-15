@@ -32,7 +32,6 @@ import SwapAnyAsset from "./pages/SwapAnyAsset";
 import Transactions from "./pages/Transactions";
 import useAppStore from "./store/useAppStore";
 import useInactivity from "./hooks/useInactivity";
-import useResizeForPWA from "./hooks/useResizeForPWA";
 import useTheme from "./hooks/useTheme";
 
 const INACTIVITY_DURATION = 3 * 60 * 1000;
@@ -42,7 +41,6 @@ function App() {
 
   useTheme(theme);
   useInactivity(INACTIVITY_DURATION);
-  useResizeForPWA();
 
   return (
     <>
