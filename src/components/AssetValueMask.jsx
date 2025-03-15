@@ -1,6 +1,6 @@
-import repeatElement from "repeat-element";
 import useAppStore from "@/store/useAppStore";
 import { memo } from "react";
+import { repeatComponent } from "@/lib/utils";
 
 export default memo(function AssetValueMask({
   value,
@@ -12,5 +12,5 @@ export default memo(function AssetValueMask({
   const showAssetValue = useAppStore((state) => state.showAssetValue);
   return forceShow || showAssetValue
     ? `${prefix}${Intl.NumberFormat("en-US", options).format(value)}`
-    : repeatElement(<>&bull;</>, maskLength);
+    : repeatComponent(<>&bull;</>, maskLength);
 });
