@@ -11,7 +11,7 @@ import { FormProvider } from "react-hook-form";
 import { HiOutlineArrowLongDown, HiOutlineArrowPath } from "react-icons/hi2";
 import { Input } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
-import { cn } from "@/lib/utils";
+import { calculateAssetMaxAmount, cn } from "@/lib/utils";
 import { createPathPaymentStrictSendTransaction } from "@/lib/stellar/transactions";
 import {
   findStrictReceivePaths,
@@ -122,10 +122,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
   );
 
   const maxAmount = useMemo(
-    () =>
-      selectedSourceAsset?.["asset_type"] === "native"
-        ? (selectedSourceAsset?.["balance"] - accountReserveBalance).toFixed(7)
-        : selectedSourceAsset?.["balance"],
+    () => calculateAssetMaxAmount(selectedSourceAsset, accountReserveBalance),
     [selectedSourceAsset, accountReserveBalance]
   );
 
@@ -160,9 +157,9 @@ export default function SwapAsset({ defaultAsset = "" }) {
 
   /** Handle Form Submission */
   const handleFormSubmit = async (data) => {
-    if (parseFloat(data.amount) > parseFloat(selectedSourceAsset["balance"])) {
+    if (parseFloat(data.amount) > parseFloat(maxAmount)) {
       form.setError("amount", {
-        message: "Amount is greater than balance!",
+        message: "Amount is greater than available balance!",
       });
     } else {
       await swapMutation.mutateAsync(data);

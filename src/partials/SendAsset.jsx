@@ -12,7 +12,7 @@ import { HiOutlineBookOpen, HiOutlinePlusCircle } from "react-icons/hi2";
 import { Input } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
 import { StrKey } from "@stellar/stellar-sdk";
-import { cn } from "@/lib/utils";
+import { calculateAssetMaxAmount, cn } from "@/lib/utils";
 import { createPaymentTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { submit } from "@/lib/stellar/horizonQueries";
@@ -73,10 +73,7 @@ export default function SendAsset({ defaultAsset = "" }) {
   );
 
   const maxAmount = useMemo(
-    () =>
-      selectedAsset?.["asset_type"] === "native"
-        ? (selectedAsset?.["balance"] - accountReserveBalance).toFixed(7)
-        : selectedAsset?.["balance"],
+    () => calculateAssetMaxAmount(selectedAsset, accountReserveBalance),
     [selectedAsset, accountReserveBalance]
   );
 
@@ -128,9 +125,9 @@ export default function SendAsset({ defaultAsset = "" }) {
       form.setError("address", {
         message: "Can't send to the same address",
       });
-    } else if (parseFloat(data.amount) > parseFloat(selectedAsset["balance"])) {
+    } else if (parseFloat(data.amount) > parseFloat(maxAmount)) {
       form.setError("amount", {
-        message: "Amount is greater than balance!",
+        message: "Amount is greater than available balance!",
       });
     } else {
       try {

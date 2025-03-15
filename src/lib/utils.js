@@ -7,6 +7,8 @@ import { Fragment } from "react";
 import { createElement } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { maxXLMPerTransaction } from "./stellar/transactions";
+
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
@@ -85,4 +87,20 @@ export function copyToClipboard(content) {
   copy(content);
   toast.dismiss();
   toast.success("Copied!");
+}
+
+export function calculateAssetMaxAmount(
+  asset,
+  accountReserveBalance,
+  transactionsCount = 1
+) {
+  const result =
+    asset?.["asset_type"] === "native"
+      ? (
+          asset?.["balance"] -
+          accountReserveBalance -
+          transactionsCount * maxXLMPerTransaction
+        ).toFixed(7)
+      : asset?.["balance"];
+  return result > 0 ? result : 0;
 }

@@ -6,10 +6,10 @@ import RequiredReserve from "@/components/RequiredReserve";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
 import { PrimaryButton } from "@/components/Button";
+import { calculateAssetMaxAmount, truncatePublicKey } from "@/lib/utils";
 import { createPaymentTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { submit } from "@/lib/stellar/horizonQueries";
-import { truncatePublicKey } from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 import { useState } from "react";
@@ -42,7 +42,6 @@ export default function Split() {
 
   const assetName = asset["asset_name"];
   const assetTransactionName = asset["transaction_name"];
-  const assetBalance = asset["balance"];
 
   const [includeSource, setIncludeSource] = useState(true);
 
@@ -51,9 +50,14 @@ export default function Split() {
 
   const splitAmount = useMemo(() => {
     return totalCount > 0
-      ? parseFloat((assetBalance / totalCount).toFixed(7))
+      ? parseFloat(
+          (
+            calculateAssetMaxAmount(asset, accountReserveBalance, totalCount) /
+            totalCount
+          ).toFixed(7)
+        )
       : 0;
-  }, [totalCount, assetBalance]);
+  }, [asset, totalCount, accountReserveBalance]);
 
   /** Execute Split */
   const executeSplit = async () => {

@@ -9,9 +9,13 @@ import {
   createFeeBumpTransaction,
   createPaymentTransaction,
 } from "@/lib/stellar/transactions";
-import { fetchAccountBalances, submit } from "@/lib/stellar/horizonQueries";
+import { fetchAccount, submit } from "@/lib/stellar/horizonQueries";
 import { signTransaction } from "@/lib/stellar/keyManager";
-import { truncatePublicKey } from "@/lib/utils";
+import {
+  calculateAssetMaxAmount,
+  calculateXLMReserve,
+  truncatePublicKey,
+} from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
@@ -49,14 +53,15 @@ export default function Merge() {
     await execute(
       async (source) => {
         /** Start Process */
-        const balances = await fetchAccountBalances(source.publicKey);
-        const sourceAssetBalance = balances.find((item) =>
-          asset["asset_type"] === "native"
-            ? asset["asset_type"] === item["asset_type"]
-            : asset["asset_issuer"] === item["asset_issuer"]
+        const sourceAccount = await fetchAccount(source.publicKey);
+        const sourceAsset = sourceAccount["balances"].find(
+          (item) =>
+            item["asset_code"] === asset["asset_code"] &&
+            item["asset_issuer"] === asset["asset_issuer"]
         );
 
-        const amount = sourceAssetBalance["balance"];
+        const reservedXLM = calculateXLMReserve(sourceAccount);
+        const amount = calculateAssetMaxAmount(sourceAsset, reservedXLM, 0);
 
         if (amount > 0) {
           /** Source Transaction */

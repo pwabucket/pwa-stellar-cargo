@@ -1,5 +1,6 @@
 import {
   Asset,
+  BASE_FEE,
   Horizon,
   Memo,
   Networks,
@@ -7,10 +8,11 @@ import {
   TransactionBuilder,
 } from "@stellar/stellar-sdk";
 
-const maxFeePerOperation = "100000";
-const horizonUrl = import.meta.env.VITE_APP_HORIZON_URL;
-const networkPassphrase = Networks.PUBLIC;
-const standardTimebounds = 300;
+export const maxFeePerOperation = BASE_FEE;
+export const maxXLMPerTransaction = maxFeePerOperation / 10_000_000;
+export const horizonUrl = import.meta.env.VITE_APP_HORIZON_URL;
+export const networkPassphrase = Networks.PUBLIC;
+export const standardTimebounds = 300;
 
 export async function createPaymentTransaction({
   source,
@@ -54,6 +56,7 @@ export async function createPaymentTransaction({
   });
 
   let builtTransaction = transaction.setTimeout(standardTimebounds).build();
+
   return {
     transaction: builtTransaction.toXDR(),
     network_passphrase: networkPassphrase,
