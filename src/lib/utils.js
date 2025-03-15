@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import createStellarIdenticon from "stellar-identicon-js/index";
 import repeatElement from "repeat-element";
 import { Fragment } from "react";
 import { createElement } from "react";
@@ -51,4 +52,8 @@ export function delay(length, precised = false) {
         : (length * (Math.floor(Math.random() * 50) + 100)) / 100
     );
   });
+}
+
+export function createAccountImage(publicKey) {
+  return createStellarIdenticon(publicKey).toDataURL();
 }

@@ -1,6 +1,6 @@
-import createStellarIdenticon from "stellar-identicon-js/index";
 import { memo } from "react";
+import { createAccountImage } from "@/lib/utils";
 
 export default memo(function AccountImage({ publicKey, ...props }) {
-  return <img {...props} src={createStellarIdenticon(publicKey).toDataURL()} />;
+  return <img {...props} src={createAccountImage(publicKey)} />;
 });

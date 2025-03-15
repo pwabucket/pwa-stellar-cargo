@@ -22,10 +22,11 @@ export default memo(function AccountAsset({
     <Component
       {...props}
       className={cn(
-        "p-2 pr-3 rounded-xl",
+        "p-2 pr-3 rounded-xl text-left",
         "bg-neutral-100 hover:bg-neutral-200",
         "dark:bg-neutral-800 dark:hover:bg-neutral-700",
         "flex items-center gap-2",
+        "disabled:opacity-60",
         props.className
       )}
     >

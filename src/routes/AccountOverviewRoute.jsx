@@ -1,7 +1,12 @@
 import AccountImage from "@/components/AccountImage";
 import copy from "copy-to-clipboard";
 import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
-import { HiOutlinePencilSquare } from "react-icons/hi2";
+import {
+  HiOutlineArrowPath,
+  HiOutlinePaperAirplane,
+  HiOutlinePencilSquare,
+  HiOutlineQrCode,
+} from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { Link, NavLink, Outlet } from "react-router";
 import { cn, truncatePublicKey } from "@/lib/utils";
@@ -25,6 +30,27 @@ const PageNavLink = ({ styleActive = true, ...props }) => (
       )
     }
   />
+);
+
+const ToolLink = ({ icon: Icon, title, ...props }) => (
+  <Link
+    {...props}
+    className={cn(
+      "flex flex-col justify-center items-center gap-1",
+      props.className
+    )}
+  >
+    <span
+      className={cn(
+        "bg-neutral-100 dark:bg-neutral-800",
+        "flex justify-center items-center",
+        "rounded-full size-12"
+      )}
+    >
+      <Icon className="size-6" />
+    </span>
+    <h5 className="text-xs">{title}</h5>
+  </Link>
 );
 
 export default function AccountOverviewRoute() {
@@ -101,6 +127,26 @@ export default function AccountOverviewRoute() {
               </a>
             </h3>
           </div>
+        </div>
+
+        <div className="mt-2 flex gap-4 justify-center">
+          <ToolLink
+            title={"Send"}
+            icon={HiOutlinePaperAirplane}
+            to={`/accounts/${account.publicKey}/send`}
+          />
+
+          <ToolLink
+            title={"Receive"}
+            icon={HiOutlineQrCode}
+            to={`/accounts/${account.publicKey}/receive`}
+          />
+
+          <ToolLink
+            title={"Swap"}
+            icon={HiOutlineArrowPath}
+            to={`/accounts/${account.publicKey}/swap`}
+          />
         </div>
 
         {/* NavLinks */}

@@ -168,6 +168,29 @@ export default function AccountRoute() {
           {/* Account */}
           <AccountPlaceholder />
 
+          {/* Send & Receive */}
+          <div className="flex gap-4 justify-center">
+            {repeatComponent(
+              <div
+                className={cn(
+                  "flex flex-col justify-center items-center gap-1"
+                )}
+              >
+                {/* Icon */}
+                <span
+                  className={cn(
+                    "bg-neutral-100 dark:bg-neutral-800",
+                    "flex justify-center items-center",
+                    "rounded-full size-12"
+                  )}
+                />
+                {/* Title */}
+                <div className="rounded-full w-full h-3 bg-neutral-100 dark:bg-neutral-800" />
+              </div>,
+              3
+            )}
+          </div>
+
           {/* NavLinks */}
           <div className="p-2">
             {/* Asset */}

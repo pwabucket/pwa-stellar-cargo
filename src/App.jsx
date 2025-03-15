@@ -21,9 +21,12 @@ import ImportWallet from "./pages/ImportWallet";
 import Menu from "./pages/Menu";
 import Merge from "./pages/Merge";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Receive from "./pages/Receive";
 import Send from "./pages/Send";
+import SendAnyAsset from "./pages/SendAnyAsset";
 import Split from "./pages/Split";
 import Swap from "./pages/Swap";
+import SwapAnyAsset from "./pages/SwapAnyAsset";
 import Transactions from "./pages/Transactions";
 import useAppStore from "./store/useAppStore";
 import useInactivity from "./hooks/useInactivity";
@@ -80,6 +83,11 @@ function App() {
 
           {/* Trustline */}
           <Route path="trustlines/add" element={<AddTrustline />} />
+
+          {/* Receive */}
+          <Route path="send" element={<SendAnyAsset />} />
+          <Route path="swap" element={<SwapAnyAsset />} />
+          <Route path="receive" element={<Receive />} />
         </Route>
 
         {/* Import Wallet */}
