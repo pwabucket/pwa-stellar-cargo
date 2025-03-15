@@ -10,11 +10,14 @@ import useAssetMetaQuery from "@/hooks/useAssetMetaQuery";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
 import { IoCopyOutline } from "react-icons/io5";
 import { Outlet, useParams } from "react-router";
-import { cn, repeatComponent, truncatePublicKey } from "@/lib/utils";
+import {
+  calculateXLMReserve,
+  cn,
+  repeatComponent,
+  truncatePublicKey,
+} from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
-
-const BASE_RESERVE = 0.5;
 
 export default function AccountRoute() {
   const { publicKey } = useParams();
@@ -24,14 +27,6 @@ export default function AccountRoute() {
     enabled: typeof account !== "undefined",
   });
 
-  const accountReserveBalance = useMemo(
-    () =>
-      accountQuery.data
-        ? BASE_RESERVE * (2 + accountQuery.data["subentry_count"])
-        : 0,
-    [accountQuery.data]
-  );
-
   const accountXLM = useMemo(
     () =>
       accountQuery.data
@@ -39,6 +34,11 @@ export default function AccountRoute() {
             (balance) => balance["asset_type"] === "native"
           )
         : [],
+    [accountQuery.data]
+  );
+
+  const accountReserveBalance = useMemo(
+    () => (accountQuery.data ? calculateXLMReserve(accountQuery.data) : 0),
     [accountQuery.data]
   );
 

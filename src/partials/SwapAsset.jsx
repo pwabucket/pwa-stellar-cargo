@@ -121,6 +121,14 @@ export default function SwapAsset({ defaultAsset = "" }) {
     [sourceAsset, balances]
   );
 
+  const maxAmount = useMemo(
+    () =>
+      selectedSourceAsset?.["asset_type"] === "native"
+        ? (selectedSourceAsset?.["balance"] - accountReserveBalance).toFixed(7)
+        : selectedSourceAsset?.["balance"],
+    [selectedSourceAsset, accountReserveBalance]
+  );
+
   const swapMutation = useMutation({
     mutationKey: [accountPublicKey, "swap", sourceAsset],
     mutationFn: async () => {
@@ -333,9 +341,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                     <button
                       type="button"
                       disabled={field.disabled}
-                      onClick={() =>
-                        field.onChange(selectedSourceAsset["balance"])
-                      }
+                      onClick={() => field.onChange(maxAmount)}
                       className={cn(
                         "shrink-0",
                         "px-4 py-1 rounded-full",

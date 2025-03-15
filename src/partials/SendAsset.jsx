@@ -72,6 +72,14 @@ export default function SendAsset({ defaultAsset = "" }) {
     [balances, asset]
   );
 
+  const maxAmount = useMemo(
+    () =>
+      selectedAsset?.["asset_type"] === "native"
+        ? (selectedAsset?.["balance"] - accountReserveBalance).toFixed(7)
+        : selectedAsset?.["balance"],
+    [selectedAsset, accountReserveBalance]
+  );
+
   const address = form.watch("address");
   const memo = form.watch("memo");
   const matchedAccount = useMemo(
@@ -303,7 +311,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                   <button
                     type="button"
                     disabled={field.disabled}
-                    onClick={() => field.onChange(selectedAsset["balance"])}
+                    onClick={() => field.onChange(maxAmount)}
                     className="text-blue-500 shrink-0 disabled:opacity-60"
                   >
                     MAX

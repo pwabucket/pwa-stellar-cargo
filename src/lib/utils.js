@@ -57,3 +57,24 @@ export function delay(length, precised = false) {
 export function createAccountImage(publicKey) {
   return createStellarIdenticon(publicKey).toDataURL();
 }
+
+export function calculateXLMReserve(account) {
+  const BASE_XLM_RESERVE = 0.5;
+  const reserveIsSponsored = Boolean(account["sponsor"]);
+
+  let unfundedEntries = reserveIsSponsored ? 0 : 2;
+
+  if (account["balances"]) {
+    unfundedEntries += account["balances"].filter(
+      (item) => item["asset_type"] !== "native" && !item["sponsor"]
+    ).length;
+  }
+
+  if (account["signers"]) {
+    unfundedEntries += account["signers"].filter(
+      (item) => item["key"] !== account["id"] && !item["sponsor"]
+    ).length;
+  }
+
+  return BASE_XLM_RESERVE * unfundedEntries;
+}
