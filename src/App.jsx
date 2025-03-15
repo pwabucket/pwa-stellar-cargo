@@ -6,6 +6,7 @@ import Account from "./pages/Account";
 import AccountOverviewRoute from "./routes/AccountOverviewRoute";
 import AccountRoute from "./routes/AccountRoute";
 import AddTrustline from "./pages/AddTrustline";
+import AddTrustlineToOthers from "./pages/AddTrustlineToOthers";
 import Asset from "./pages/Asset";
 import AssetRoute from "./routes/AssetRoute";
 import BatchExport from "./pages/BatchExport";
@@ -75,6 +76,7 @@ function App() {
           {/* Asset */}
           <Route path="assets/:asset" element={<AssetRoute />}>
             <Route index element={<Asset />} />
+            <Route path="add-to-others" element={<AddTrustlineToOthers />} />
             <Route path="merge" element={<Merge />} />
             <Route path="split" element={<Split />} />
             <Route path="swap" element={<Swap />} />

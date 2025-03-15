@@ -8,7 +8,7 @@ import {
   AiOutlineSwap,
 } from "react-icons/ai";
 import { HiOutlineEye } from "react-icons/hi2";
-import { IoCopyOutline } from "react-icons/io5";
+import { IoAddCircleOutline, IoCopyOutline } from "react-icons/io5";
 import { Link, useOutletContext } from "react-router";
 import { cn } from "@/lib/utils";
 
@@ -78,7 +78,7 @@ export default function Asset() {
         </div>
 
         {asset["asset_type"] !== "native" ? (
-          <div>
+          <div className="flex flex-col">
             {/* Asset Code */}
             <p
               className="truncate cursor-pointer"
@@ -98,6 +98,12 @@ export default function Asset() {
               <span className="font-bold">Asset Issuer:</span>{" "}
               <span className="truncate">{asset["asset_issuer"]}</span>
             </p>
+
+            {/* Add to Others */}
+            <Link to={"add-to-others"} className="text-blue-500 mt-1">
+              <IoAddCircleOutline className="size-4 inline-flex" /> Add to
+              Others
+            </Link>
           </div>
         ) : null}
       </div>
