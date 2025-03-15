@@ -1,5 +1,7 @@
 import * as yup from "yup";
+import Alert from "@/components/Alert";
 import FieldStateError from "@/components/FieldStateError";
+import RequiredReserve from "@/components/RequiredReserve";
 import useAppStore from "@/store/useAppStore";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/Input";
@@ -26,7 +28,13 @@ const schema = yup
   .required();
 
 export default function AddTrustline() {
-  const { account, balances, accountQuery } = useOutletContext();
+  const {
+    account,
+    balances,
+    accountQuery,
+    accountReserveBalance,
+    accountIsBelowReserve,
+  } = useOutletContext();
   const pinCode = useAppStore((state) => state.pinCode);
 
   /** Form */
@@ -89,65 +97,76 @@ export default function AddTrustline() {
   };
 
   return (
-    <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleFormSubmit)}
-        className="flex flex-col gap-2"
-      >
-        {/* Asset Code */}
-        <Controller
-          name="assetCode"
-          disabled={form.formState.isSubmitting}
-          render={({ field, fieldState }) => (
-            <>
-              <Input
-                {...field}
-                spellCheck={false}
-                autoComplete={"off"}
-                placeholder={"Asset Code"}
-              />
-              <FieldStateError fieldState={fieldState} />
-            </>
-          )}
-        />
+    <div className="flex flex-col gap-2">
+      {/* Reserve Info */}
+      <RequiredReserve
+        isBelowReserve={accountIsBelowReserve}
+        requiredBalance={accountReserveBalance}
+      />
+      <Alert variant={"warning"}>
+        You need a minimum of {accountReserveBalance + 0.5} XLM to add a
+        trustline.
+      </Alert>
+      <FormProvider {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleFormSubmit)}
+          className="flex flex-col gap-2"
+        >
+          {/* Asset Code */}
+          <Controller
+            name="assetCode"
+            disabled={form.formState.isSubmitting}
+            render={({ field, fieldState }) => (
+              <>
+                <Input
+                  {...field}
+                  spellCheck={false}
+                  autoComplete={"off"}
+                  placeholder={"Asset Code"}
+                />
+                <FieldStateError fieldState={fieldState} />
+              </>
+            )}
+          />
 
-        {/* Asset Issuer */}
-        <Controller
-          name="assetIssuer"
-          disabled={form.formState.isSubmitting}
-          render={({ field, fieldState }) => (
-            <>
-              <Input
-                {...field}
-                spellCheck={false}
-                autoComplete={"off"}
-                placeholder={"Asset Issuer"}
-              />
-              <FieldStateError fieldState={fieldState} />
-            </>
-          )}
-        />
+          {/* Asset Issuer */}
+          <Controller
+            name="assetIssuer"
+            disabled={form.formState.isSubmitting}
+            render={({ field, fieldState }) => (
+              <>
+                <Input
+                  {...field}
+                  spellCheck={false}
+                  autoComplete={"off"}
+                  placeholder={"Asset Issuer"}
+                />
+                <FieldStateError fieldState={fieldState} />
+              </>
+            )}
+          />
 
-        {/* Submit Button */}
-        <PrimaryButton disabled={form.formState.isSubmitting} type="submit">
-          {form.formState.isSubmitting ? "Adding..." : "Add Trustline"}
-        </PrimaryButton>
+          {/* Submit Button */}
+          <PrimaryButton disabled={form.formState.isSubmitting} type="submit">
+            {form.formState.isSubmitting ? "Adding..." : "Add Trustline"}
+          </PrimaryButton>
 
-        {mutation.isSuccess ? (
-          <p className="text-center text-green-500">
-            Transaction was successful:{" "}
-            <a
-              target="_blank"
-              href={`https://stellar.expert/explorer/public/tx/${mutation.data.hash}`}
-              className="text-blue-500"
-            >
-              View Details
-            </a>
-          </p>
-        ) : mutation.isError ? (
-          <p className="text-center text-red-500">Failed to Add Trustline</p>
-        ) : null}
-      </form>
-    </FormProvider>
+          {mutation.isSuccess ? (
+            <p className="text-center text-green-500">
+              Transaction was successful:{" "}
+              <a
+                target="_blank"
+                href={`https://stellar.expert/explorer/public/tx/${mutation.data.hash}`}
+                className="text-blue-500"
+              >
+                View Details
+              </a>
+            </p>
+          ) : mutation.isError ? (
+            <p className="text-center text-red-500">Failed to Add Trustline</p>
+          ) : null}
+        </form>
+      </FormProvider>
+    </div>
   );
 }
