@@ -83,7 +83,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
   const form = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      asset: defaultAsset,
+      asset: defaultAsset || balances[0]?.["transaction_name"],
       amount: "",
       receivedAsset: "",
       receivedAmount: "",
