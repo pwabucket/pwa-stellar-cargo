@@ -4,7 +4,7 @@ import { repeatComponent } from "@/lib/utils";
 
 export default memo(function AssetValueMask({
   value,
-  prefix = "~$",
+  prefix = "$",
   maskLength = 5,
   forceShow = false,
   ...options
