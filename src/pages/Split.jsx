@@ -3,6 +3,7 @@ import Alert from "@/components/Alert";
 import BatchTransactionAccounts from "@/partials/BatchTransactionAccounts";
 import LabelToggle from "@/components/LabelToggle";
 import RequiredReserve from "@/components/RequiredReserve";
+import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
 import { PrimaryButton } from "@/components/Button";
@@ -105,6 +106,9 @@ export default function Split() {
           isBelowReserve={accountIsBelowReserve}
           requiredBalance={accountReserveBalance}
         />
+
+        {/* Fee */}
+        <TransactionsFee count={totalCount} />
 
         {/* Split Info */}
         <Alert variant={"warning"}>

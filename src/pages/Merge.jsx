@@ -2,20 +2,21 @@ import AccountAsset from "@/components/AccountAsset";
 import Alert from "@/components/Alert";
 import BatchTransactionAccounts from "@/partials/BatchTransactionAccounts";
 import RequiredReserve from "@/components/RequiredReserve";
+import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
 import { PrimaryButton } from "@/components/Button";
+import {
+  calculateAssetMaxAmount,
+  calculateXLMReserve,
+  truncatePublicKey,
+} from "@/lib/utils";
 import {
   createFeeBumpTransaction,
   createPaymentTransaction,
 } from "@/lib/stellar/transactions";
 import { fetchAccount, submit } from "@/lib/stellar/horizonQueries";
 import { signTransaction } from "@/lib/stellar/keyManager";
-import {
-  calculateAssetMaxAmount,
-  calculateXLMReserve,
-  truncatePublicKey,
-} from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
@@ -114,6 +115,9 @@ export default function Merge() {
           isBelowReserve={accountIsBelowReserve}
           requiredBalance={accountReserveBalance}
         />
+
+        {/* Fee */}
+        <TransactionsFee count={selectedAccounts.size} />
 
         {/* Merge Info */}
         <Alert variant={"warning"}>

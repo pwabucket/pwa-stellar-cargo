@@ -4,6 +4,7 @@ import AccountAsset from "@/components/AccountAsset";
 import AddressPicker from "@/partials/AddressPicker";
 import FieldStateError from "@/components/FieldStateError";
 import RequiredReserve from "@/components/RequiredReserve";
+import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useLocationToggle from "@/hooks/useLocationToggle";
 import { Controller, useForm } from "react-hook-form";
@@ -160,6 +161,9 @@ export default function SendAsset({ defaultAsset = "" }) {
         isBelowReserve={accountIsBelowReserve}
         requiredBalance={accountReserveBalance}
       />
+
+      {/* Fee */}
+      <TransactionsFee />
 
       <FormProvider {...form}>
         <form

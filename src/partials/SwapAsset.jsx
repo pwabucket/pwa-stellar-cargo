@@ -4,6 +4,7 @@ import AccountAsset from "@/components/AccountAsset";
 import AssetPicker from "@/partials/AssetPicker";
 import FieldStateError from "@/components/FieldStateError";
 import RequiredReserve from "@/components/RequiredReserve";
+import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useLocationToggle from "@/hooks/useLocationToggle";
 import { Controller, useForm } from "react-hook-form";
@@ -282,6 +283,9 @@ export default function SwapAsset({ defaultAsset = "" }) {
         isBelowReserve={accountIsBelowReserve}
         requiredBalance={accountReserveBalance}
       />
+
+      {/* Fee */}
+      <TransactionsFee />
 
       {/* Source Asset */}
       {selectedSourceAsset ? (

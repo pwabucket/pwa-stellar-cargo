@@ -2,6 +2,7 @@ import * as yup from "yup";
 import Alert from "@/components/Alert";
 import FieldStateError from "@/components/FieldStateError";
 import RequiredReserve from "@/components/RequiredReserve";
+import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/Input";
@@ -107,6 +108,8 @@ export default function AddTrustline() {
         You need a minimum of {accountReserveBalance + 0.5} XLM to add a
         trustline.
       </Alert>
+
+      <TransactionsFee />
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(handleFormSubmit)}

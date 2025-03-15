@@ -1,6 +1,7 @@
 import Alert from "@/components/Alert";
 import BatchTransactionAccounts from "@/partials/BatchTransactionAccounts";
 import RequiredReserve from "@/components/RequiredReserve";
+import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
 import { IoCopyOutline } from "react-icons/io5";
@@ -133,6 +134,8 @@ export default function AddTrustlineToOthers() {
             <>No account to add to!</>
           )}
         </Alert>
+
+        <TransactionsFee count={selectedAccounts.size} />
       </div>
 
       {/* Asset */}

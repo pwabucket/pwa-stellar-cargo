@@ -99,8 +99,12 @@ export function calculateAssetMaxAmount(
       ? (
           asset?.["balance"] -
           accountReserveBalance -
-          transactionsCount * maxXLMPerTransaction
+          calculateTransactionsFee(transactionsCount)
         ).toFixed(7)
       : asset?.["balance"];
   return result > 0 ? result : 0;
+}
+
+export function calculateTransactionsFee(count) {
+  return parseFloat((count * maxXLMPerTransaction).toFixed(7));
 }
