@@ -10,13 +10,7 @@ export default function AssetRoute() {
   const { balances } = context;
 
   const asset = useMemo(
-    () =>
-      balances.find((item) =>
-        params.asset === "XLM"
-          ? item["asset_type"] === "native"
-          : item["asset_code"] === params.asset.split("-")[0] &&
-            item["asset_issuer"] === params.asset.split("-")[1]
-      ),
+    () => balances.find((item) => params.asset === item["asset_id"]),
     [params.asset, balances]
   );
 

@@ -29,11 +29,7 @@ export default function Account() {
         <AccountAsset
           key={index}
           as={Link}
-          to={`assets/${
-            balance["asset_type"] === "native"
-              ? "XLM"
-              : `${balance["asset_code"]}-${balance["asset_issuer"]}`
-          }`}
+          to={`assets/${balance["asset_id"]}`}
           asset={balance}
         />
       ))}

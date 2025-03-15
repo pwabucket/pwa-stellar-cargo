@@ -65,7 +65,7 @@ export default function AccountRoute() {
       assetMetaQuery.data
         ? Object.fromEntries(
             assetMetaQuery.data.map((item) => [
-              item["toml_info"]?.["issuer"] || item["asset"],
+              item["asset"].split("-").slice(0, 2).join("-"),
               item,
             ])
           )
@@ -86,32 +86,26 @@ export default function AccountRoute() {
 
   const balances = useMemo(
     () =>
-      accountQuery.data?.balances?.map((item) => ({
-        ...item,
-        ["asset_id"]:
+      accountQuery.data?.balances?.map((item) => {
+        const assetId =
           item["asset_type"] === "native"
             ? "XLM"
-            : `${item["asset_code"]}-${item["asset_issuer"]}`,
+            : `${item["asset_code"]}-${item["asset_issuer"]}`;
 
-        ["asset_name"]:
-          item["asset_type"] === "native" ? "XLM" : item["asset_code"],
-        ["asset_icon"]:
-          assetIcon?.[
-            item["asset_type"] === "native" ? "XLM" : item["asset_issuer"]
-          ] || DefaultAssetIcon,
-        ["asset_meta"]:
-          assetMeta?.[
-            item["asset_type"] === "native" ? "XLM" : item["asset_issuer"]
-          ],
-        ["asset_domain"]:
-          assetMeta?.[
-            item["asset_type"] === "native" ? "XLM" : item["asset_issuer"]
-          ]?.["domain"],
-        ["transaction_name"]:
-          item["asset_type"] === "native"
-            ? item["asset_type"]
-            : `${item?.["asset_code"]}:${item?.["asset_issuer"]}`,
-      })) || [],
+        return {
+          ...item,
+          ["asset_id"]: assetId,
+          ["asset_name"]:
+            item["asset_type"] === "native" ? "XLM" : item["asset_code"],
+          ["asset_icon"]: assetIcon?.[assetId] || DefaultAssetIcon,
+          ["asset_meta"]: assetMeta?.[assetId],
+          ["asset_domain"]: assetMeta?.[assetId]?.["domain"],
+          ["transaction_name"]:
+            item["asset_type"] === "native"
+              ? item["asset_type"]
+              : `${item?.["asset_code"]}:${item?.["asset_issuer"]}`,
+        };
+      }) || [],
     [accountQuery.data, assetMeta, assetIcon]
   );
 
