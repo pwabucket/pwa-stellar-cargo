@@ -125,7 +125,9 @@ export default function AddTrustlineToOthers() {
               You are about to add the trustline{" "}
               <span className="font-bold">{assetName}</span> to{" "}
               <span className="font-bold">{selectedAccounts.size}</span> other
-              account(s)
+              account(s). Each account must have a minimum of{" "}
+              <span className="font-bold">0.5 XLM</span> + their required
+              reserve
             </>
           ) : (
             <>No account to add to!</>
