@@ -3,8 +3,9 @@ import AssetValueMask from "@/components/AssetValueMask";
 import useAppStore from "@/store/useAppStore";
 import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
 import {
+  HiEye,
   HiOutlineArrowPath,
-  HiOutlineEye,
+  HiOutlineInformationCircle,
   HiOutlinePaperAirplane,
   HiOutlinePencilSquare,
   HiOutlineQrCode,
@@ -83,10 +84,16 @@ export default function AccountOverviewRoute() {
   return (
     <>
       <div className="flex flex-col gap-2">
-        <div className="flex flex-col gap-2 p-4 bg-blue-600 text-white rounded-2xl">
+        <div
+          className={cn(
+            "flex flex-col gap-2 p-4 justify-center items-center",
+            "text-center bg-blue-600 text-white rounded-2xl",
+            "relative"
+          )}
+        >
           {/* Account Name */}
-          <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-light truncate grow min-w-0 flex gap-2 items-center">
+          <div className="flex items-center gap-2 pl-11 w-full">
+            <h2 className="text-2xl font-light truncate grow min-w-0 flex gap-2 justify-center items-center">
               <AccountImage
                 publicKey={account.publicKey}
                 className="size-10 shrink-0 rounded-full bg-white"
@@ -108,35 +115,28 @@ export default function AccountOverviewRoute() {
           </div>
 
           {totalAssetsPriceQuery.isSuccess ? (
-            <div className="flex items-center gap-2">
-              <button onClick={toggleShowAssetValue}>
-                <HiOutlineEye className="size-6" />
-              </button>
-              <p className="text-3xl">
+            <div className="flex justify-center items-center gap-2 pl-8">
+              <p className="text-3xl font-bold min-w-0">
                 <AssetValueMask value={totalAssetsPrice} maskLength={10} />
               </p>
+              <button className="shrink-0" onClick={toggleShowAssetValue}>
+                <HiEye className="size-6" />
+              </button>
             </div>
           ) : (
             <div className="bg-blue-500 rounded-full h-4 w-1/2 animate-pulse" />
           )}
 
           {/* Address */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => copyToClipboard(account.publicKey)}
-              className="shrink-0"
-            >
-              <IoCopyOutline className="size-4" />
-            </button>
+          <button
+            onClick={() => copyToClipboard(account.publicKey)}
+            className="flex items-center gap-2"
+          >
+            <IoCopyOutline className="size-4" />
             <h3 className="text-blue-100 truncate grow min-w-0 text-sm">
-              <a
-                target="_blank"
-                href={`https://stellar.expert/explorer/public/account/${account.publicKey}`}
-              >
-                {truncatePublicKey(account.publicKey, 8)}
-              </a>
+              {truncatePublicKey(account.publicKey, 8)}
             </h3>
-          </div>
+          </button>
         </div>
 
         <div className="mt-2 flex gap-4 justify-center">
@@ -156,6 +156,13 @@ export default function AccountOverviewRoute() {
             title={"Swap"}
             icon={HiOutlineArrowPath}
             to={`/accounts/${account.publicKey}/swap`}
+          />
+
+          <ToolLink
+            target="_blank"
+            title={"Details"}
+            icon={HiOutlineInformationCircle}
+            to={`https://stellar.expert/explorer/public/account/${account.publicKey}`}
           />
         </div>
 
