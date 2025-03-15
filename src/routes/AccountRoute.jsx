@@ -148,6 +148,7 @@ export default function AccountRoute() {
             account,
             accountReserveBalance,
             accountIsBelowReserve,
+            accountXLM,
             accountQuery,
             assetMetaQuery,
             assetIds,
