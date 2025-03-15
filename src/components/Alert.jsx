@@ -1,4 +1,5 @@
 import {
+  HiOutlineCheckCircle,
   HiOutlineExclamationTriangle,
   HiOutlineInformationCircle,
   HiOutlineXCircle,
@@ -9,6 +10,7 @@ const ALERT_ICONS = {
   info: HiOutlineInformationCircle,
   warning: HiOutlineExclamationTriangle,
   danger: HiOutlineXCircle,
+  success: HiOutlineCheckCircle,
 };
 export default function Alert({ as: Component = "div", variant, ...props }) {
   const Icon = ALERT_ICONS[variant];
@@ -34,6 +36,11 @@ export default function Alert({ as: Component = "div", variant, ...props }) {
             "text-red-800 dark:text-red-500",
             "bg-red-100",
             "dark:bg-red-500/20",
+          ],
+          success: [
+            "text-green-800 dark:text-green-500",
+            "bg-green-100",
+            "dark:bg-green-500/20",
           ],
         }[variant],
         props.className
