@@ -21,14 +21,7 @@ import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
 export default function Merge() {
-  const {
-    account,
-    accountQuery,
-    accountReserveBalance,
-    accountIsBelowReserve,
-    asset,
-    publicKey,
-  } = useOutletContext();
+  const { account, accountQuery, asset, publicKey } = useOutletContext();
   const pinCode = useAppStore((state) => state.pinCode);
   const list = useAppStore((state) => state.accounts);
   const otherAccounts = useMemo(
@@ -111,10 +104,7 @@ export default function Merge() {
     <div className="flex flex-col gap-4 grow min-h-0 min-w-0">
       <div className="flex flex-col gap-2">
         {/* Reserve Info */}
-        <RequiredReserve
-          isBelowReserve={accountIsBelowReserve}
-          requiredBalance={accountReserveBalance}
-        />
+        <RequiredReserve />
 
         {/* Fee */}
         <TransactionsFee count={selectedAccounts.size} />

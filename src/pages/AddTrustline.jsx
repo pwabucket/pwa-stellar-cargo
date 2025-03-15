@@ -29,13 +29,8 @@ const schema = yup
   .required();
 
 export default function AddTrustline() {
-  const {
-    account,
-    balances,
-    accountQuery,
-    accountReserveBalance,
-    accountIsBelowReserve,
-  } = useOutletContext();
+  const { account, balances, accountQuery, accountReserveBalance } =
+    useOutletContext();
   const pinCode = useAppStore((state) => state.pinCode);
 
   /** Form */
@@ -100,10 +95,9 @@ export default function AddTrustline() {
   return (
     <div className="flex flex-col gap-2">
       {/* Reserve Info */}
-      <RequiredReserve
-        isBelowReserve={accountIsBelowReserve}
-        requiredBalance={accountReserveBalance}
-      />
+      <RequiredReserve />
+
+      {/* Trustline Reserve */}
       <Alert variant={"warning"}>
         You need a minimum of {accountReserveBalance + 0.5} XLM to add a
         trustline.

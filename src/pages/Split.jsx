@@ -16,14 +16,8 @@ import { useOutletContext } from "react-router";
 import { useState } from "react";
 
 export default function Split() {
-  const {
-    account,
-    accountQuery,
-    accountReserveBalance,
-    accountIsBelowReserve,
-    asset,
-    publicKey,
-  } = useOutletContext();
+  const { account, accountQuery, accountReserveBalance, asset, publicKey } =
+    useOutletContext();
   const pinCode = useAppStore((state) => state.pinCode);
   const list = useAppStore((state) => state.accounts);
   const otherAccounts = useMemo(
@@ -102,10 +96,7 @@ export default function Split() {
     <div className="flex flex-col gap-4 grow min-h-0 min-w-0">
       <div className="flex flex-col gap-2">
         {/* Reserve Info */}
-        <RequiredReserve
-          isBelowReserve={accountIsBelowReserve}
-          requiredBalance={accountReserveBalance}
-        />
+        <RequiredReserve />
 
         {/* Fee */}
         <TransactionsFee count={totalCount} />

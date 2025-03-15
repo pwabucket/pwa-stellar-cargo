@@ -40,13 +40,8 @@ const schema = yup
   .required();
 
 export default function SendAsset({ defaultAsset = "" }) {
-  const {
-    account,
-    balances,
-    accountQuery,
-    accountIsBelowReserve,
-    accountReserveBalance,
-  } = useOutletContext();
+  const { account, balances, accountQuery, accountReserveBalance } =
+    useOutletContext();
   const accountList = useAppStore((state) => state.accounts);
   const contacts = useAppStore((state) => state.contacts);
   const pinCode = useAppStore((state) => state.pinCode);
@@ -157,10 +152,7 @@ export default function SendAsset({ defaultAsset = "" }) {
   return (
     <div className="flex flex-col gap-2">
       {/* Reserve Info */}
-      <RequiredReserve
-        isBelowReserve={accountIsBelowReserve}
-        requiredBalance={accountReserveBalance}
-      />
+      <RequiredReserve />
 
       {/* Fee */}
       <TransactionsFee />

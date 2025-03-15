@@ -64,13 +64,8 @@ const AssetPickerTrigger = ({ asset, disabled }) => (
 );
 
 export default function SwapAsset({ defaultAsset = "" }) {
-  const {
-    account,
-    balances,
-    accountQuery,
-    accountIsBelowReserve,
-    accountReserveBalance,
-  } = useOutletContext();
+  const { account, balances, accountQuery, accountReserveBalance } =
+    useOutletContext();
   const pinCode = useAppStore((state) => state.pinCode);
 
   const [showSourceAssetPicker, toggleSourceAssetPicker] = useLocationToggle(
@@ -279,10 +274,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
   return (
     <div className="flex flex-col gap-2">
       {/* Reserve Info */}
-      <RequiredReserve
-        isBelowReserve={accountIsBelowReserve}
-        requiredBalance={accountReserveBalance}
-      />
+      <RequiredReserve />
 
       {/* Fee */}
       <TransactionsFee />

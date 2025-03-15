@@ -1,16 +1,19 @@
+import { useOutletContext } from "react-router";
+
 import AccountBelowReserveError from "./AccountBelowReserveError";
 import Alert from "./Alert";
 
-export default function RequiredReserve({ isBelowReserve, requiredBalance }) {
+export default function RequiredReserve() {
+  const { accountReserveBalance, accountIsBelowReserve } = useOutletContext();
   return (
     <>
       <Alert variant={"info"}>
         Required Reserve:{" "}
-        <span className="font-bold">{requiredBalance} XLM</span>
+        <span className="font-bold">{accountReserveBalance} XLM</span>
       </Alert>
 
-      {isBelowReserve ? (
-        <AccountBelowReserveError requiredBalance={requiredBalance} />
+      {accountIsBelowReserve ? (
+        <AccountBelowReserveError requiredBalance={accountIsBelowReserve} />
       ) : null}
     </>
   );
