@@ -9,10 +9,10 @@ export default function AccountPlaceholder() {
         <div className="rounded-full w-2/12 h-4 bg-neutral-200 dark:bg-neutral-700" />
       </div>
       {/* Value */}
-      <div className="rounded-full w-5/12 h-5 bg-neutral-200 dark:bg-neutral-700" />
+      <div className="rounded-full w-5/12 h-4 bg-neutral-200 dark:bg-neutral-700" />
 
       {/* Address */}
-      <div className="rounded-full w-4/6 h-3 bg-neutral-200 dark:bg-neutral-700" />
+      <div className="rounded-full w-4/6 h-4 bg-neutral-200 dark:bg-neutral-700" />
     </div>
   );
 }
