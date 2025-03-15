@@ -1,15 +1,43 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Tabs from "@radix-ui/react-tabs";
 import useAppStore from "@/store/useAppStore";
+import { Input } from "@/components/Input";
 import { cn, truncatePublicKey } from "@/lib/utils";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 export default function AddressPicker({ publicKey, onSelect }) {
-  const list = useAppStore((state) => state.accounts);
-  const contacts = useAppStore((state) => state.contacts);
-  const otherAccounts = useMemo(
-    () => list.filter((item) => item.publicKey !== publicKey),
-    [list, publicKey]
+  const [accountSearch, setAccountSearch] = useState("");
+  const [contactSearch, setContactSearch] = useState("");
+  const allAccountsList = useAppStore((state) => state.accounts);
+  const contactsList = useAppStore((state) => state.contacts);
+
+  const accountsList = useMemo(
+    () => allAccountsList.filter((item) => item.publicKey !== publicKey),
+    [allAccountsList, publicKey]
+  );
+
+  const accounts = useMemo(
+    () =>
+      accountSearch
+        ? accountsList.filter(
+            (item) =>
+              item.name.toLowerCase().includes(accountSearch.toLowerCase()) ||
+              item.publicKey.toLowerCase() === accountSearch.toLowerCase()
+          )
+        : accountsList,
+    [accountsList, accountSearch]
+  );
+
+  const contacts = useMemo(
+    () =>
+      contactSearch
+        ? contactsList.filter(
+            (item) =>
+              item.name.toLowerCase().includes(contactSearch.toLowerCase()) ||
+              item.address.toLowerCase() === contactSearch.toLowerCase()
+          )
+        : contactsList,
+    [contactsList, contactSearch]
   );
 
   return (
@@ -59,7 +87,14 @@ export default function AddressPicker({ publicKey, onSelect }) {
             {/* Accounts */}
             <Tabs.Content value="accounts">
               <div className="flex flex-col gap-2">
-                {otherAccounts.map((account) => (
+                {/* Account Search */}
+                <Input
+                  value={accountSearch}
+                  type="search"
+                  placeholder="Search"
+                  onChange={(ev) => setAccountSearch(ev.target.value)}
+                />
+                {accounts.map((account) => (
                   <Dialog.Close
                     key={account.publicKey}
                     className={cn(
@@ -96,6 +131,14 @@ export default function AddressPicker({ publicKey, onSelect }) {
             {/* Contacts */}
             <Tabs.Content value="contacts">
               <div className="flex flex-col gap-2">
+                {/* Contact Search */}
+                <Input
+                  type="search"
+                  placeholder="Search"
+                  value={contactSearch}
+                  onChange={(ev) => setContactSearch(ev.target.value)}
+                />
+
                 {contacts.map((contact) => (
                   <Dialog.Close
                     key={contact.id}
