@@ -5,15 +5,15 @@ import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
 import { IoCopyOutline } from "react-icons/io5";
 import { PrimaryButton } from "@/components/Button";
+import { calculateXLMReserve, copyToClipboard } from "@/lib/utils";
 import {
   createFeeBumpTransaction,
   createTrustlineTransaction,
 } from "@/lib/stellar/transactions";
-import { fetchAccountBalances, submit } from "@/lib/stellar/horizonQueries";
+import { fetchAccount, submit } from "@/lib/stellar/horizonQueries";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
-import { copyToClipboard } from "@/lib/utils";
 
 export default function AddTrustlineToOthers() {
   const {
@@ -50,7 +50,8 @@ export default function AddTrustlineToOthers() {
     await execute(
       async (source) => {
         /** Start Process */
-        const balances = await fetchAccountBalances(source.publicKey);
+        const sourceAccount = await fetchAccount(source.publicKey);
+        const balances = sourceAccount["balances"];
         const exists = balances.some(
           (item) =>
             assetCode === item["asset_code"] &&
@@ -58,37 +59,46 @@ export default function AddTrustlineToOthers() {
         );
 
         if (!exists) {
-          /** Source Transaction */
-          const transaction = await createTrustlineTransaction({
-            source: source.publicKey,
-            assetCode,
-            assetIssuer,
-          });
+          const requiredXLM = calculateXLMReserve(sourceAccount) + 0.5;
+          const XLMAsset = balances.find(
+            (item) => item["asset_type"] === "native"
+          );
+          const canAddTrustline =
+            parseFloat(XLMAsset["balance"]) >= parseFloat(requiredXLM);
 
-          const signedTransaction = await signTransaction({
-            keyId: source.keyId,
-            transactionXDR: transaction["transaction"],
-            network: transaction["network_passphrase"],
-            pinCode,
-          });
+          if (canAddTrustline) {
+            /** Source Transaction */
+            const transaction = await createTrustlineTransaction({
+              source: source.publicKey,
+              assetCode,
+              assetIssuer,
+            });
 
-          /** Sponsor Transaction */
-          const feeBumpTransaction = await createFeeBumpTransaction({
-            sponsoringAccount: account.publicKey,
-            transaction: signedTransaction,
-          });
+            const signedTransaction = await signTransaction({
+              keyId: source.keyId,
+              transactionXDR: transaction["transaction"],
+              network: transaction["network_passphrase"],
+              pinCode,
+            });
 
-          const signedFeeBumpTransaction = await signTransaction({
-            keyId: account.keyId,
-            transactionXDR: feeBumpTransaction["transaction"],
-            network: feeBumpTransaction["network_passphrase"],
-            pinCode,
-          });
+            /** Sponsor Transaction */
+            const feeBumpTransaction = await createFeeBumpTransaction({
+              sponsoringAccount: account.publicKey,
+              transaction: signedTransaction,
+            });
 
-          /** Submit Sponsor Transaction */
-          const response = await submit(signedFeeBumpTransaction);
+            const signedFeeBumpTransaction = await signTransaction({
+              keyId: account.keyId,
+              transactionXDR: feeBumpTransaction["transaction"],
+              network: feeBumpTransaction["network_passphrase"],
+              pinCode,
+            });
 
-          return response;
+            /** Submit Sponsor Transaction */
+            const response = await submit(signedFeeBumpTransaction);
+
+            return response;
+          }
         }
       },
 
