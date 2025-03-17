@@ -38,10 +38,10 @@ export default memo(function AccountAsset({
         className={cn("shrink-0 size-8 rounded-full", "bg-white")}
       />
 
-      {/* Asset Type */}
+      {/* Asset Info */}
       <div className="flex flex-col grow min-w-0">
         {/* Name */}
-        <h4 className=" truncate">
+        <h4 className="truncate">
           {asset["asset_type"] === "native" ? "XLM" : asset["asset_code"]}
         </h4>
 

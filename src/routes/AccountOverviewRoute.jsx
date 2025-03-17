@@ -87,7 +87,7 @@ export default function AccountOverviewRoute() {
         <div
           className={cn(
             "flex flex-col gap-2 p-4 justify-center items-center",
-            "text-center bg-blue-600 text-white rounded-2xl",
+            "text-center bg-blue-700 text-white rounded-2xl",
             "relative"
           )}
         >
@@ -105,7 +105,7 @@ export default function AccountOverviewRoute() {
             <Link
               to={`edit`}
               className={cn(
-                "shrink-0 bg-blue-500 size-9",
+                "shrink-0 bg-blue-600 size-9",
                 "flex items-center justify-center",
                 "rounded-full"
               )}
@@ -124,7 +124,7 @@ export default function AccountOverviewRoute() {
               </button>
             </div>
           ) : (
-            <div className="bg-blue-500 rounded-full h-4 w-1/2 animate-pulse" />
+            <div className="bg-blue-600 rounded-full h-4 w-1/2 animate-pulse" />
           )}
 
           {/* Address */}

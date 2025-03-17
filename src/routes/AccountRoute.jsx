@@ -1,11 +1,10 @@
 import AccountAssetPlaceholder from "@/components/AccountAssetPlaceholder";
 import AccountImage from "@/components/AccountImage";
 import AccountPlaceholder from "@/components/AccountPlaceholder";
-import DefaultAssetIcon from "@/assets/images/asset.png?format=webp&w=80";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
-import useAssetMetaQuery from "@/hooks/useAssetMetaQuery";
+import useAssetsMeta from "@/hooks/useAssetsMeta";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
 import { IoCopyOutline } from "react-icons/io5";
 import { Outlet, useParams } from "react-router";
@@ -56,33 +55,7 @@ export default function AccountRoute() {
     [accountQuery.data]
   );
 
-  const assetMetaQuery = useAssetMetaQuery(assetIds, {
-    enabled: assetIds.length > 0,
-  });
-
-  const assetMeta = useMemo(
-    () =>
-      assetMetaQuery.data
-        ? Object.fromEntries(
-            assetMetaQuery.data.map((item) => [
-              item["asset"].split("-").slice(0, 2).join("-"),
-              item,
-            ])
-          )
-        : {},
-    [assetMetaQuery.data]
-  );
-
-  const assetIcon = useMemo(
-    () =>
-      Object.fromEntries(
-        Object.entries(assetMeta).map(([k, v]) => [
-          k,
-          v["toml_info"]?.["image"],
-        ])
-      ),
-    [assetMeta]
-  );
+  const assetsMeta = useAssetsMeta(assetIds);
 
   const balances = useMemo(
     () =>
@@ -97,16 +70,16 @@ export default function AccountRoute() {
           ["asset_id"]: assetId,
           ["asset_name"]:
             item["asset_type"] === "native" ? "XLM" : item["asset_code"],
-          ["asset_icon"]: assetIcon?.[assetId] || DefaultAssetIcon,
-          ["asset_meta"]: assetMeta?.[assetId],
-          ["asset_domain"]: assetMeta?.[assetId]?.["domain"],
+          ["asset_icon"]: assetsMeta?.[assetId]?.["icon"],
+          ["asset_meta"]: assetsMeta?.[assetId],
+          ["asset_domain"]: assetsMeta?.[assetId]?.["domain"],
           ["transaction_name"]:
             item["asset_type"] === "native"
               ? item["asset_type"]
               : `${item?.["asset_code"]}:${item?.["asset_issuer"]}`,
         };
       }) || [],
-    [accountQuery.data, assetMeta, assetIcon]
+    [accountQuery.data, assetsMeta]
   );
 
   /** Redirect */
@@ -150,10 +123,8 @@ export default function AccountRoute() {
             accountIsBelowReserve,
             accountXLM,
             accountQuery,
-            assetMetaQuery,
             assetIds,
-            assetMeta,
-            assetIcon,
+            assetsMeta,
             balances,
             publicKey,
           }}
