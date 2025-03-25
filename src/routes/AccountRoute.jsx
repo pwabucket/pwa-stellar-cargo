@@ -1,6 +1,4 @@
-import AccountAssetPlaceholder from "@/components/AccountAssetPlaceholder";
 import AccountImage from "@/components/AccountImage";
-import AccountPlaceholder from "@/components/AccountPlaceholder";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
@@ -12,7 +10,6 @@ import {
   calculateXLMReserve,
   cn,
   copyToClipboard,
-  repeatComponent,
   truncatePublicKey,
 } from "@/lib/utils";
 import { useMemo } from "react";
@@ -114,59 +111,20 @@ export default function AccountRoute() {
         ) : null
       }
     >
-      {accountQuery.isSuccess ? (
-        <Outlet
-          context={{
-            ...context,
-            account,
-            accountReserveBalance,
-            accountIsBelowReserve,
-            accountXLM,
-            accountQuery,
-            assetIds,
-            assetsMeta,
-            balances,
-            publicKey,
-          }}
-        />
-      ) : (
-        <div className="flex flex-col gap-2">
-          {/* Account */}
-          <AccountPlaceholder />
-
-          {/* Send & Receive */}
-          <div className="flex gap-4 justify-center">
-            {repeatComponent(
-              <div
-                className={cn(
-                  "flex flex-col justify-center items-center gap-1"
-                )}
-              >
-                {/* Icon */}
-                <span
-                  className={cn(
-                    "bg-neutral-100 dark:bg-neutral-800",
-                    "flex justify-center items-center",
-                    "rounded-full size-12"
-                  )}
-                />
-                {/* Title */}
-                <div className="rounded-full w-full h-3 bg-neutral-100 dark:bg-neutral-800" />
-              </div>,
-              4
-            )}
-          </div>
-
-          {/* NavLinks */}
-          <div className="p-2">
-            {/* Asset */}
-            <div className="rounded-full w-1/2 h-6 bg-neutral-100 dark:bg-neutral-800" />
-          </div>
-
-          {/* Assets */}
-          {repeatComponent(<AccountAssetPlaceholder />, 4)}
-        </div>
-      )}
+      <Outlet
+        context={{
+          ...context,
+          account,
+          accountReserveBalance,
+          accountIsBelowReserve,
+          accountXLM,
+          accountQuery,
+          assetIds,
+          assetsMeta,
+          balances,
+          publicKey,
+        }}
+      />
     </InnerAppLayout>
   );
 }

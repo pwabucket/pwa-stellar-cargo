@@ -1,38 +1,25 @@
 import AccountAsset from "@/components/AccountAsset";
+import AccountAssetPlaceholder from "@/components/AccountAssetPlaceholder";
 import { HiOutlinePlusCircle } from "react-icons/hi2";
-import { Link, NavLink } from "react-router";
-import { cn } from "@/lib/utils";
+import { Link } from "react-router";
+import { repeatComponent } from "@/lib/utils";
 import { useOutletContext } from "react-router";
 
-const PageNavLink = (props) => (
-  <NavLink
-    {...props}
-    className={({ isActive }) =>
-      cn(
-        "text-center uppercase",
-        isActive && [
-          "font-bold text-blue-500",
-          "bg-neutral-100 dark:bg-neutral-800",
-          "rounded-full px-3 py-1",
-        ]
-      )
-    }
-  />
-);
-
 export default function Account() {
-  const { balances } = useOutletContext();
+  const { balances, accountQuery } = useOutletContext();
 
   return (
     <div className="flex flex-col gap-2">
-      {balances.map((balance, index) => (
-        <AccountAsset
-          key={index}
-          as={Link}
-          to={`assets/${balance["asset_id"]}`}
-          asset={balance}
-        />
-      ))}
+      {accountQuery.isSuccess
+        ? balances.map((balance, index) => (
+            <AccountAsset
+              key={index}
+              as={Link}
+              to={`assets/${balance["asset_id"]}`}
+              asset={balance}
+            />
+          ))
+        : repeatComponent(<AccountAssetPlaceholder />, 4)}
 
       {/* Add Trustline */}
       <div className="flex p-2 justify-center">
