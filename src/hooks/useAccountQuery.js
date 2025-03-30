@@ -12,6 +12,6 @@ export default function useAccountQuery(publicKey, options) {
     refetchInterval: 10_000,
     ...options,
     queryKey: ["account", publicKey],
-    queryFn: () => fetchAccount(publicKey),
+    queryFn: () => fetchAccount(publicKey).catch(() => null),
   });
 }
