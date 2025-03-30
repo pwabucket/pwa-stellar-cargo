@@ -80,9 +80,8 @@ export default function useNetWorth() {
     [totalAssetsPrice]
   );
 
-  const isComplete =
-    totalAccountsQuery.isPending === false &&
-    totalAssetsPriceQuery.isPending === false;
+  const isSuccess =
+    totalAccountsQuery.isSuccess && totalAssetsPriceQuery.isSuccess;
 
   const assets = useMemo(
     () =>
@@ -105,10 +104,10 @@ export default function useNetWorth() {
 
   return useMemo(
     () => ({
-      isComplete,
+      isSuccess,
       assets,
       totalNetWorth,
     }),
-    [isComplete, assets, totalNetWorth]
+    [isSuccess, assets, totalNetWorth]
   );
 }

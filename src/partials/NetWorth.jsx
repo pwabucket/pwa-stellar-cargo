@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { memo } from "react";
 
 export default memo(function NetWorth() {
-  const { isComplete, assets, totalNetWorth } = useNetWorth();
+  const { isSuccess, assets, totalNetWorth } = useNetWorth();
   const toggleShowAssetValue = useAppStore(
     (state) => state.toggleShowAssetValue
   );
@@ -24,7 +24,7 @@ export default memo(function NetWorth() {
         <TbChartAreaLine className="size-5 inline" />
         Net Worth
       </h3>
-      {isComplete ? (
+      {isSuccess ? (
         <>
           <div className="flex items-center gap-2">
             <button className="shrink-0" onClick={toggleShowAssetValue}>
