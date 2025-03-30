@@ -24,14 +24,10 @@ export default function useTotalAccountsQuery(accounts, options) {
     combine,
     queries: (accounts ?? []).map((publicKey) => {
       return {
-        retry: (_failureCount, error) => {
-          return error?.code !== 404;
-        },
-        retryOnMount: false,
         refetchInterval: 10_000,
         ...options,
         queryKey: ["account", publicKey],
-        queryFn: () => fetchAccount(publicKey),
+        queryFn: () => fetchAccount(publicKey).catch(() => null),
       };
     }),
   });
