@@ -27,6 +27,7 @@ export default function useTotalAccountsQuery(accounts, options) {
         retry: (_failureCount, error) => {
           return error?.code !== 404;
         },
+        retryOnMount: false,
         refetchInterval: 10_000,
         ...options,
         queryKey: ["account", publicKey],
