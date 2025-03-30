@@ -24,13 +24,11 @@ export default function useNetWorth() {
   const totalAccountsQuery = useTotalAccountsQuery(list, queryOptions);
   const totalAssets = useMemo(
     () =>
-      totalAccountsQuery.isSuccess
-        ? totalAccountsQuery.data?.reduce(
-            (result, current) => result.concat(current?.balances),
-            []
-          )
-        : [],
-    [totalAccountsQuery.isSuccess, totalAccountsQuery.data]
+      totalAccountsQuery.data?.reduce(
+        (result, current) => result.concat(current?.balances || []),
+        []
+      ) || [],
+    [totalAccountsQuery.data]
   );
 
   const totalAssetsBalance = useMemo(
@@ -82,8 +80,9 @@ export default function useNetWorth() {
     [totalAssetsPrice]
   );
 
-  const isSuccess =
-    totalAccountsQuery.isSuccess && totalAssetsPriceQuery.isSuccess;
+  const isComplete =
+    totalAccountsQuery.isPending === false &&
+    totalAssetsPriceQuery.isPending === false;
 
   const assets = useMemo(
     () =>
@@ -106,10 +105,10 @@ export default function useNetWorth() {
 
   return useMemo(
     () => ({
-      isSuccess,
+      isComplete,
       assets,
       totalNetWorth,
     }),
-    [isSuccess, assets, totalNetWorth]
+    [isComplete, assets, totalNetWorth]
   );
 }
