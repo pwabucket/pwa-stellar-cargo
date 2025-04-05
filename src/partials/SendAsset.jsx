@@ -23,6 +23,7 @@ import { useOutletContext } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import AssetPicker from "./AssetPicker";
+import AssetValue from "./AssetValue";
 
 /** Schema */
 const schema = yup
@@ -63,6 +64,7 @@ export default function SendAsset({ defaultAsset = "" }) {
   });
 
   const asset = form.watch("asset");
+  const amount = form.watch("amount");
   const selectedAsset = useMemo(
     () => balances.find((item) => item["transaction_name"] === asset),
     [balances, asset]
@@ -311,7 +313,10 @@ export default function SendAsset({ defaultAsset = "" }) {
                   </button>
                 </div>
 
-                <FieldStateError fieldState={fieldState} />
+                <div className="flex">
+                  <AssetValue asset={selectedAsset} amount={amount} />
+                  <FieldStateError fieldState={fieldState} />
+                </div>
               </>
             )}
           />

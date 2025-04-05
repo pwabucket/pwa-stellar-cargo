@@ -27,6 +27,8 @@ import { useOutletContext } from "react-router";
 import { useRef } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import AssetValue from "./AssetValue";
+
 /** Schema */
 const schema = yup
   .object({
@@ -327,6 +329,12 @@ export default function SwapAsset({ defaultAsset = "" }) {
                 </div>
 
                 <div className="flex justify-end px-2">
+                  {/* Asset Value */}
+                  <AssetValue
+                    asset={selectedSourceAsset}
+                    amount={sourceAmount}
+                  />
+
                   <div className="grow min-w-0 min-h-0">
                     <FieldStateError fieldState={fieldState} />
                   </div>
