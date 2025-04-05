@@ -10,6 +10,10 @@ export const USDC = new Asset(
 export async function fetchAssetPrice(assetCode, assetIssuer, amount) {
   try {
     if (amount > 0) {
+      if (assetCode === USDC.getCode() && assetIssuer === USDC.getIssuer()) {
+        return amount;
+      }
+
       const sellingAsset =
         assetCode === "XLM"
           ? new Asset.native()
