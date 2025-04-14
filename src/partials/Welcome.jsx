@@ -1,6 +1,7 @@
 import AppIcon from "@/assets/images/icon.svg";
 import LoginForm from "@/partials/LoginForm";
 import WalletForm from "@/partials/WalletForm";
+import useAppContext from "@/hooks/useAppContext";
 import useAppStore from "@/store/useAppStore";
 import { HiOutlineArrowLongLeft } from "react-icons/hi2";
 import { IoKeyOutline, IoLayersOutline } from "react-icons/io5";
@@ -11,6 +12,7 @@ import { removeAllKeys } from "@/lib/stellar/keyManager";
 import { useState } from "react";
 
 export default function Welcome() {
+  const { googleApi } = useAppContext();
   const login = useAppStore((state) => state.login);
   const accounts = useAppStore((state) => state.accounts);
   const setAccounts = useAppStore((state) => state.setAccounts);
@@ -24,6 +26,7 @@ export default function Welcome() {
   /** Reset Wallet */
   const resetWallet = async () => {
     await removeAllKeys();
+    await googleApi.logout();
     setAccounts([]);
     setContacts([]);
   };
