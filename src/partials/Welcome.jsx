@@ -3,12 +3,15 @@ import LoginForm from "@/partials/LoginForm";
 import WalletForm from "@/partials/WalletForm";
 import useAppContext from "@/hooks/useAppContext";
 import useAppStore from "@/store/useAppStore";
+import useGoogleAuthStore from "@/store/useGoogleAuthStore";
+import { FaGoogleDrive } from "react-icons/fa";
 import { HiOutlineArrowLongLeft } from "react-icons/hi2";
 import { IoKeyOutline, IoLayersOutline } from "react-icons/io5";
 import { Link } from "react-router";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import { RiResetLeftFill } from "react-icons/ri";
 import { removeAllKeys } from "@/lib/stellar/keyManager";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export default function Welcome() {
@@ -17,7 +20,10 @@ export default function Welcome() {
   const accounts = useAppStore((state) => state.accounts);
   const setAccounts = useAppStore((state) => state.setAccounts);
   const setContacts = useAppStore((state) => state.setContacts);
+  const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
   const [showWalletForm, setShowWalletForm] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const onCreatedOrVerified = ({ pinCode }) => {
     login(pinCode);
@@ -25,8 +31,10 @@ export default function Welcome() {
 
   /** Reset Wallet */
   const resetWallet = async () => {
-    await removeAllKeys();
     await googleApi.logout();
+    await queryClient.removeQueries();
+    await removeAllKeys();
+    setBackupFile(null);
     setAccounts([]);
     setContacts([]);
   };
@@ -98,6 +106,21 @@ export default function Welcome() {
               <IoLayersOutline className="size-4" />
               Batch Import
             </SecondaryButton>
+
+            {/* Divider */}
+            <p className="text-center text-neutral-500 dark:text-neutral-400">
+              or
+            </p>
+
+            {/* Restore From Google Drive */}
+            <button
+              disabled={googleApi.initiated === false}
+              onClick={() => googleApi.handleAuth()}
+              className="flex items-center gap-2 justify-center disabled:opacity-50"
+            >
+              <FaGoogleDrive className="size-4" />
+              Restore from Google Drive
+            </button>
           </div>
 
           <div className="flex justify-center gap-2 text-blue-500 dark:text-blue-400">

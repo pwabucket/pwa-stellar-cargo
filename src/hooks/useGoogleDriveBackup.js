@@ -35,7 +35,7 @@ export default function useGoogleDriveBackup(googleApi) {
   const queryClient = useQueryClient();
   const query = useQuery({
     enabled: authorized,
-    queryKey: ["google-drive", "backup-file"],
+    queryKey: ["google-drive", "backup-file", authorized],
     queryFn: () => findBackupFile(),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -43,7 +43,7 @@ export default function useGoogleDriveBackup(googleApi) {
   });
 
   const { mutateAsync } = useMutation({
-    mutationKey: ["google-drive", "upload-to-drive"],
+    mutationKey: ["google-drive", "upload-to-drive", authorized],
     mutationFn: (content) => uploadBackup(content),
   });
 
@@ -190,8 +190,8 @@ export default function useGoogleDriveBackup(googleApi) {
   useDebounce(
     () => {
       if (authorized === false) {
-        return;
-      } else if (restoredFromCloudRef.current) {
+        restoredFromCloudRef.current = true;
+      } else if (restoredFromCloudRef.current === true) {
         restoredFromCloudRef.current = false;
       } else {
         backupToDrive();

@@ -93,7 +93,7 @@ export default function useGoogleApi() {
 
   /** Logout */
   const logout = useCallback(() => {
-    gapi.client.setToken(null);
+    gapi?.client?.setToken(null);
     setToken(null);
   }, [setToken]);
 
