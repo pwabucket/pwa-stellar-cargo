@@ -64,27 +64,16 @@ export const exportAllKeys = async (pinCode) => {
   return keys;
 };
 
-/** Export Raw Keys */
-export const exportRawKeys = async () => {
-  const keyManager = setupKeyManager();
-  const keys = [];
-
-  for (const id of await keyManager.loadAllKeyIds()) {
-    keys.push(
-      JSON.parse(
-        localStorage.getItem(`${import.meta.env.VITE_APP_ID}:keys:${id}`)
-      )
-    );
-  }
-
-  return keys;
+/** Export Encrypted Keys */
+export const exportEncryptedKeys = async () => {
+  return setupKeyStore().loadAllKeys();
 };
 
 /** Remove Existing Keys */
 export const removeAllKeys = async () => {
-  const keyManager = setupKeyManager();
-  for (const id of await keyManager.loadAllKeyIds()) {
-    await keyManager.removeKey(id);
+  const keyStore = setupKeyStore();
+  for (const key of await keyStore.loadAllKeys()) {
+    await keyStore.removeKey(key.id);
   }
 };
 
@@ -100,8 +89,8 @@ export const importAllKeys = async (keys, pinCode) => {
   }
 };
 
-/** Import Raw Keys */
-export const importRawKeys = async (keys) => {
+/** Import Encrypted Keys */
+export const importEncryptedKeys = async (keys) => {
   const keyStore = setupKeyStore();
   return keyStore.storeKeys(keys);
 };

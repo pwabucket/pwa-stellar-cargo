@@ -3,18 +3,27 @@ import axios from "axios";
 import useAppStore from "@/store/useAppStore";
 import useGoogleAuthStore from "@/store/useGoogleAuthStore";
 import {
-  exportRawKeys,
-  importRawKeys,
+  exportEncryptedKeys,
+  importEncryptedKeys,
   removeAllKeys,
 } from "@/lib/stellar/keyManager";
 import { useCallback } from "react";
+import { useDebounce } from "react-use";
 import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRef } from "react";
 
 const BACKUP_FILENAME = "backup.json";
 
+/**
+ * Google Drive Backup
+ * @param {object} googleApi Google Api
+ * @param {boolean} googleApi.authorized Is Authorized
+ * @param {function} googleApi.getValidToken Get Valid Token
+ */
 export default function useGoogleDriveBackup(googleApi) {
   const { authorized, getValidToken } = googleApi;
+  const restoredFromCloudRef = useRef(true);
 
   const accounts = useAppStore((state) => state.accounts);
   const contacts = useAppStore((state) => state.contacts);
@@ -23,7 +32,7 @@ export default function useGoogleDriveBackup(googleApi) {
   const backupFile = useGoogleAuthStore((state) => state.backupFile);
   const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
 
-  const { setQueryData } = useQueryClient();
+  const queryClient = useQueryClient();
   const query = useQuery({
     enabled: authorized,
     queryKey: ["google-drive", "backup-file"],
@@ -34,10 +43,11 @@ export default function useGoogleDriveBackup(googleApi) {
   });
 
   const { mutateAsync } = useMutation({
-    mutationKey: ["google-drive", "backup-to-drive"],
-    mutationFn: () => backupToDrive(),
+    mutationKey: ["google-drive", "upload-to-drive"],
+    mutationFn: (content) => uploadBackup(content),
   });
 
+  /** Fetch Backup Content */
   const fetchBackupContent = useCallback(
     async (fileId, options) => {
       return axios
@@ -52,6 +62,7 @@ export default function useGoogleDriveBackup(googleApi) {
     [getValidToken]
   );
 
+  /** Find Backup File */
   const findBackupFile = useCallback(async () => {
     const res = await gapi.client.drive.files.list({
       spaces: "appDataFolder",
@@ -62,6 +73,7 @@ export default function useGoogleDriveBackup(googleApi) {
     return res.result.files?.[0] || null;
   }, []);
 
+  /** Upload Backup */
   const uploadBackup = useCallback(
     async (content) => {
       const file = await findBackupFile();
@@ -108,8 +120,9 @@ export default function useGoogleDriveBackup(googleApi) {
     [findBackupFile, getValidToken]
   );
 
+  /** Backup to Drive */
   const backupToDrive = useCallback(async () => {
-    const keys = await exportRawKeys();
+    const keys = await exportEncryptedKeys();
     const content = {
       updatedAt: Date.now(),
       data: {
@@ -118,29 +131,37 @@ export default function useGoogleDriveBackup(googleApi) {
         contacts,
       },
     };
+    const file = await mutateAsync(content);
 
-    return uploadBackup(content);
-  }, [accounts, contacts, uploadBackup]);
+    /** Update Query Data */
+    queryClient.setQueryData(["google-drive", "backup-file"], () => file);
 
+    /** Set Backup File */
+    setBackupFile(file);
+  }, [accounts, contacts, mutateAsync, queryClient, setBackupFile]);
+
+  /** Import Drive Backup */
   const importDriveBackup = useCallback(
     async (content) => {
       const { data } = content;
 
       await removeAllKeys();
-      await importRawKeys(data.keys);
+      await importEncryptedKeys(data.keys);
 
       setContacts(data.contacts);
       setAccounts(data.accounts);
+
+      restoredFromCloudRef.current = true;
     },
     [setContacts, setAccounts]
   );
 
+  /** Restore From Drive */
   useEffect(() => {
     if (query.isSuccess) {
       const remoteBackupFile = query.data;
 
       if (remoteBackupFile) {
-        mutateAsync();
         if (
           remoteBackupFile.id !== backupFile?.id ||
           new Date(remoteBackupFile.modifiedTime).getTime() >
@@ -152,10 +173,7 @@ export default function useGoogleDriveBackup(googleApi) {
           });
         }
       } else {
-        mutateAsync().then((file) => {
-          setQueryData(["google-drive", "backup-file"], () => file);
-          setBackupFile(file);
-        });
+        backupToDrive();
       }
     }
   }, [
@@ -163,9 +181,23 @@ export default function useGoogleDriveBackup(googleApi) {
     query.data,
     backupFile,
     setBackupFile,
-    setQueryData,
     fetchBackupContent,
-    mutateAsync,
+    backupToDrive,
     importDriveBackup,
   ]);
+
+  /** Automatically Backup to Drive */
+  useDebounce(
+    () => {
+      if (authorized === false) {
+        return;
+      } else if (restoredFromCloudRef.current) {
+        restoredFromCloudRef.current = false;
+      } else {
+        backupToDrive();
+      }
+    },
+    500,
+    [authorized, backupToDrive]
+  );
 }
