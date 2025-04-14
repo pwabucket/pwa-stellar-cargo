@@ -22,6 +22,7 @@ export default function useGoogleApi() {
   const token = useGoogleAuthStore((state) => state.token);
   const expiresAt = useGoogleAuthStore((state) => state.expiresAt);
   const setToken = useGoogleAuthStore((state) => state.setToken);
+  const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
 
   const isValidToken = Boolean(token && expiresAt && expiresAt > Date.now());
   const initialized = gapiInitialized && gisInitialized;
@@ -95,7 +96,8 @@ export default function useGoogleApi() {
   const logout = useCallback(() => {
     gapi?.client?.setToken(null);
     setToken(null);
-  }, [setToken]);
+    setBackupFile(null);
+  }, [setToken, setBackupFile]);
 
   /** Initialize Google Scripts */
   useEffect(() => {
