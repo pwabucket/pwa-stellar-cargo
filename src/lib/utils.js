@@ -108,3 +108,16 @@ export function calculateAssetMaxAmount(
 export function calculateTransactionsFee(count) {
   return parseFloat((count * maxXLMPerTransaction).toFixed(7));
 }
+
+export function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.defer = true;
+    script.async = true;
+    script.addEventListener("load", resolve);
+    script.addEventListener("error", reject);
+
+    document.body.appendChild(script);
+  });
+}

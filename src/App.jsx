@@ -8,6 +8,7 @@ import AccountOverviewRoute from "./routes/AccountOverviewRoute";
 import AccountRoute from "./routes/AccountRoute";
 import AddTrustline from "./pages/AddTrustline";
 import AddTrustlineToOthers from "./pages/AddTrustlineToOthers";
+import AppContext from "./contexts/AppContext";
 import Asset from "./pages/Asset";
 import AssetRoute from "./routes/AssetRoute";
 import BatchExport from "./pages/BatchExport";
@@ -18,6 +19,7 @@ import CreateContact from "./pages/CreateContact";
 import Dashboard from "./pages/Dashboard";
 import EditAccount from "./pages/EditAccount";
 import EditContact from "./pages/EditContact";
+import GoogleDrive from "./pages/GoogleDrive";
 import GuestRoute from "./routes/GuestRoute";
 import ImportWallet from "./pages/ImportWallet";
 import Menu from "./pages/Menu";
@@ -31,6 +33,8 @@ import Swap from "./pages/Swap";
 import SwapAnyAsset from "./pages/SwapAnyAsset";
 import Transactions from "./pages/Transactions";
 import useAppStore from "./store/useAppStore";
+import useGoogleApi from "./hooks/useGoogleApi";
+import useGoogleDriveBackup from "./hooks/useGoogleDriveBackup";
 import useInactivity from "./hooks/useInactivity";
 import useTheme from "./hooks/useTheme";
 
@@ -38,12 +42,14 @@ const INACTIVITY_DURATION = 3 * 60 * 1000;
 
 function App() {
   const theme = useAppStore((state) => state.theme);
+  const googleApi = useGoogleApi();
 
   useTheme(theme);
   useInactivity(INACTIVITY_DURATION);
+  useGoogleDriveBackup(googleApi);
 
   return (
-    <>
+    <AppContext.Provider value={{ googleApi }}>
       <Routes>
         <Route element={<GuestRoute />}>
           <Route index element={<Home />} />
@@ -92,6 +98,9 @@ function App() {
             <Route path="receive" element={<Receive />} />
           </Route>
 
+          {/* Google Drive */}
+          <Route path="google-drive" element={<GoogleDrive />} />
+
           {/* Import Wallet */}
           <Route path="import" element={<ImportWallet />} />
 
@@ -103,7 +112,7 @@ function App() {
         </Route>
       </Routes>
       <Toaster position="top-center" />
-    </>
+    </AppContext.Provider>
   );
 }
 

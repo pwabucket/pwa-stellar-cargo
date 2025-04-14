@@ -6,17 +6,24 @@ import {
 } from "@stellar/typescript-wallet-sdk-km";
 import { TransactionBuilder } from "@stellar/stellar-sdk";
 
-/** Setup Key Manager */
-export const setupKeyManager = () => {
-  const localKeyStore = new LocalStorageKeyStore();
+/** Setup Key Store */
+export const setupKeyStore = () => {
+  const keyStore = new LocalStorageKeyStore();
 
-  localKeyStore.configure({
+  keyStore.configure({
     prefix: `${import.meta.env.VITE_APP_ID}:keys`,
     storage: localStorage,
   });
 
+  return keyStore;
+};
+
+/** Setup Key Manager */
+export const setupKeyManager = () => {
+  const keyStore = setupKeyStore();
+
   const keyManager = new KeyManager({
-    keyStore: localKeyStore,
+    keyStore,
   });
 
   keyManager.registerEncrypter(ScryptEncrypter);
@@ -57,6 +64,22 @@ export const exportAllKeys = async (pinCode) => {
   return keys;
 };
 
+/** Export Raw Keys */
+export const exportRawKeys = async () => {
+  const keyManager = setupKeyManager();
+  const keys = [];
+
+  for (const id of await keyManager.loadAllKeyIds()) {
+    keys.push(
+      JSON.parse(
+        localStorage.getItem(`${import.meta.env.VITE_APP_ID}:keys:${id}`)
+      )
+    );
+  }
+
+  return keys;
+};
+
 /** Remove Existing Keys */
 export const removeAllKeys = async () => {
   const keyManager = setupKeyManager();
@@ -75,6 +98,12 @@ export const importAllKeys = async (keys, pinCode) => {
       encrypterName: ScryptEncrypter.name,
     });
   }
+};
+
+/** Import Raw Keys */
+export const importRawKeys = async (keys) => {
+  const keyStore = setupKeyStore();
+  return keyStore.storeKeys(keys);
 };
 
 /** Sign Transaction */

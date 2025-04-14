@@ -1,5 +1,6 @@
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAppStore, { THEMES } from "@/store/useAppStore";
+import { FaGoogleDrive } from "react-icons/fa";
 import {
   HiOutlineArrowLeftOnRectangle,
   HiOutlineArrowLongDown,
@@ -61,6 +62,14 @@ export default function Menu() {
           to="/batch-export"
           title="Batch Export"
           icon={HiOutlineArrowLongUp}
+        />
+
+        {/* Google Drive */}
+        <MenuButton
+          as={Link}
+          to="/google-drive"
+          title="Google Drive Sync"
+          icon={FaGoogleDrive}
         />
       </div>
 
