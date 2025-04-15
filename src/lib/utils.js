@@ -121,3 +121,18 @@ export function loadScript(src) {
     document.body.appendChild(script);
   });
 }
+
+export function getBasePath() {
+  return import.meta.env.BASE_URL.startsWith("/")
+    ? import.meta.env.BASE_URL
+    : new URL(import.meta.env.BASE_URL).pathname;
+}
+
+export function getBaseURL(path = "") {
+  return (
+    (import.meta.env.BASE_URL.startsWith("/")
+      ? new URL(import.meta.env.BASE_URL, location.href).href
+      : import.meta.env.BASE_URL
+    ).replace(/\/$/, "") + path
+  );
+}
