@@ -3,6 +3,7 @@ import useGoogleAuthStore from "@/store/useGoogleAuthStore";
 import { loadScript } from "@/lib/utils";
 import { useCallback } from "react";
 import { useEffect } from "react";
+import { useMemo } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 
@@ -132,21 +133,50 @@ export default function useGoogleApi() {
   /** Restore Token */
   useEffect(() => {
     if (initialized && token) {
+      /** Refetch Interval */
+      let interval;
+
+      /** Refetch if Expiring */
+      const refetchIfExpiring = () => {
+        if (token["expires_at"] < Date.now() - 5 * 60 * 1000) {
+          refetchToken();
+        }
+      };
+
       if (token["expires_at"] < Date.now()) {
         refetchToken();
       } else {
+        /** Set GAPI Token */
         gapi.client.setToken(token);
+
+        /** Periodically Refetch Token */
+        interval = setInterval(refetchIfExpiring, 60_000);
       }
+
+      return () => {
+        clearInterval(interval);
+      };
     }
   }, [initialized, token, refetchToken]);
 
-  return {
-    handleAuth,
-    refetchToken,
-    getValidToken,
-    requestAccessToken,
-    logout,
-    initialized,
-    authorized,
-  };
+  return useMemo(
+    () => ({
+      handleAuth,
+      refetchToken,
+      getValidToken,
+      requestAccessToken,
+      logout,
+      initialized,
+      authorized,
+    }),
+    [
+      handleAuth,
+      refetchToken,
+      getValidToken,
+      requestAccessToken,
+      logout,
+      initialized,
+      authorized,
+    ]
+  );
 }
