@@ -4,18 +4,22 @@ import WalletForm from "@/partials/WalletForm";
 import useAppContext from "@/hooks/useAppContext";
 import useAppStore from "@/store/useAppStore";
 import useGoogleAuthStore from "@/store/useGoogleAuthStore";
+import usePrompt from "@/hooks/usePrompt";
 import { FaGoogleDrive } from "react-icons/fa";
 import { HiOutlineArrowLongLeft } from "react-icons/hi2";
 import { IoKeyOutline, IoLayersOutline } from "react-icons/io5";
 import { Link } from "react-router";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import { RiResetLeftFill } from "react-icons/ri";
+import { cn } from "@/lib/utils";
 import { removeAllKeys } from "@/lib/stellar/keyManager";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
+import GoogleBackupPrompt from "./GoogleBackupPrompt";
+
 export default function Welcome() {
-  const { googleApi } = useAppContext();
+  const { googleApi, googleDrive } = useAppContext();
   const login = useAppStore((state) => state.login);
   const accounts = useAppStore((state) => state.accounts);
   const setAccounts = useAppStore((state) => state.setAccounts);
@@ -24,6 +28,10 @@ export default function Welcome() {
   const [showWalletForm, setShowWalletForm] = useState(false);
 
   const queryClient = useQueryClient();
+
+  const { show, setShow, value, resolve, prompt } = usePrompt();
+  const authorizeGoogleDrive = () =>
+    googleDrive.authorize({ prompt, forceRestore: true });
 
   const onCreatedOrVerified = ({ pinCode }) => {
     login(pinCode);
@@ -115,12 +123,22 @@ export default function Welcome() {
             {/* Restore From Google Drive */}
             <button
               disabled={googleApi.initiated === false}
-              onClick={() => googleApi.handleAuth()}
-              className="flex items-center gap-2 justify-center disabled:opacity-50"
+              onClick={authorizeGoogleDrive}
+              className={cn(
+                "flex items-center gap-2 justify-center disabled:opacity-50"
+              )}
             >
               <FaGoogleDrive className="size-4" />
               Restore from Google Drive
             </button>
+
+            {/* Google Backup Prompt */}
+            <GoogleBackupPrompt
+              backupFile={value}
+              open={show}
+              onOpenChange={setShow}
+              resolve={resolve}
+            />
           </div>
 
           <div className="flex justify-center gap-2 text-blue-500 dark:text-blue-400">

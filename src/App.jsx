@@ -43,13 +43,13 @@ const INACTIVITY_DURATION = 3 * 60 * 1000;
 function App() {
   const theme = useAppStore((state) => state.theme);
   const googleApi = useGoogleApi();
+  const googleDrive = useGoogleDriveBackup(googleApi);
 
   useTheme(theme);
   useInactivity(INACTIVITY_DURATION);
-  useGoogleDriveBackup(googleApi);
 
   return (
-    <AppContext.Provider value={{ googleApi }}>
+    <AppContext.Provider value={{ googleApi, googleDrive }}>
       <Routes>
         <Route element={<GuestRoute />}>
           <Route index element={<Home />} />

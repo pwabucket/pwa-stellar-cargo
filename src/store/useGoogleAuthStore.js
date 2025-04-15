@@ -6,22 +6,17 @@ const useGoogleAuthStore = create()(
     combine(
       {
         token: null,
-        expiresAt: null,
         backupFile: null,
       },
       (set) => ({
         setBackupFile: (backupFile) => set({ backupFile }),
-        setToken: (token) =>
-          set({
-            token,
-            expiresAt: token ? Date.now() + token["expires_in"] * 1000 : null,
-          }),
+        setToken: (token) => set({ token }),
       })
     ),
     {
       name: `${import.meta.env.VITE_APP_ID}:google-auth`,
-      partialize({ token, expiresAt, backupFile }) {
-        return { token, expiresAt, backupFile };
+      partialize({ token, backupFile }) {
+        return { token, backupFile };
       },
     }
   )

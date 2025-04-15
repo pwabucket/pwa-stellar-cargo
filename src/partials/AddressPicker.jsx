@@ -1,6 +1,5 @@
-import * as Dialog from "@radix-ui/react-dialog";
-import * as Tabs from "@radix-ui/react-tabs";
 import useAppStore from "@/store/useAppStore";
+import { Dialog, Tabs } from "radix-ui";
 import { Input } from "@/components/Input";
 import { cn, truncatePublicKey } from "@/lib/utils";
 import { useMemo, useState } from "react";

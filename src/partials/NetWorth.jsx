@@ -1,7 +1,7 @@
-import * as Collapsible from "@radix-ui/react-collapsible";
 import AssetValueMask from "@/components/AssetValueMask";
 import useAppStore from "@/store/useAppStore";
 import useNetWorth from "@/hooks/useNetWorth";
+import { Collapsible } from "radix-ui";
 import { HiEye } from "react-icons/hi2";
 import { TbChartAreaLine } from "react-icons/tb";
 import { cn } from "@/lib/utils";

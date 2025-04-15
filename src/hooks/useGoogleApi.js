@@ -20,11 +20,10 @@ export default function useGoogleApi() {
   /** @type {import("react").Ref<google.accounts.oauth2.TokenClient>} */
   const tokenClientRef = useRef(null);
   const token = useGoogleAuthStore((state) => state.token);
-  const expiresAt = useGoogleAuthStore((state) => state.expiresAt);
   const setToken = useGoogleAuthStore((state) => state.setToken);
   const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
 
-  const isValidToken = Boolean(token && expiresAt && expiresAt > Date.now());
+  const isValidToken = Boolean(token && token["expires_at"] > Date.now());
   const initialized = gapiInitialized && gisInitialized;
   const authorized = initialized && isValidToken;
 
@@ -49,6 +48,28 @@ export default function useGoogleApi() {
     setGisInitialized(true);
   }, []);
 
+  const getCurrentToken = useCallback(() => {
+    const token = gapi.client.getToken();
+    return {
+      ...token,
+      ["expires_at"]: Date.now() + token["expires_in"] * 1000,
+    };
+  }, []);
+
+  /** Request Access Token */
+  const requestAccessToken = useCallback(() => {
+    return new Promise((resolve, reject) => {
+      tokenClientRef.current.callback = (resp) => {
+        if (resp.error) return reject(resp);
+        resolve(getCurrentToken());
+      };
+
+      tokenClientRef.current.requestAccessToken({
+        prompt: "consent",
+      });
+    });
+  }, [getCurrentToken]);
+
   /** Handle Auth */
   const handleAuth = useCallback(() => {
     return new Promise((resolve, reject) => {
@@ -56,7 +77,7 @@ export default function useGoogleApi() {
 
       tokenClientRef.current.callback = (resp) => {
         if (resp.error) return reject(resp);
-        const newToken = gapi.client.getToken();
+        const newToken = getCurrentToken();
         setToken(newToken);
         resolve(newToken);
       };
@@ -65,7 +86,7 @@ export default function useGoogleApi() {
         prompt: token ? "" : "consent",
       });
     });
-  }, [token, isValidToken, setToken]);
+  }, [token, isValidToken, setToken, getCurrentToken]);
 
   /** Refetch Token */
   const refetchToken = useCallback(
@@ -73,14 +94,14 @@ export default function useGoogleApi() {
       new Promise((resolve, reject) => {
         tokenClientRef.current.callback = (resp) => {
           if (resp.error) return reject(resp);
-          const newToken = gapi.client.getToken();
+          const newToken = getCurrentToken();
           setToken(newToken);
           resolve(newToken["access_token"]);
         };
 
         tokenClientRef.current.requestAccessToken({ prompt: "" });
       }),
-    [setToken]
+    [setToken, getCurrentToken]
   );
 
   /** Get Valid Token */
@@ -111,18 +132,19 @@ export default function useGoogleApi() {
   /** Restore Token */
   useEffect(() => {
     if (initialized && token) {
-      if (expiresAt < Date.now()) {
+      if (token["expires_at"] < Date.now()) {
         refetchToken();
       } else {
         gapi.client.setToken(token);
       }
     }
-  }, [initialized, token, expiresAt, refetchToken]);
+  }, [initialized, token, refetchToken]);
 
   return {
     handleAuth,
     refetchToken,
     getValidToken,
+    requestAccessToken,
     logout,
     initialized,
     authorized,

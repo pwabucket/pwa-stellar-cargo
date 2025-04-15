@@ -1,5 +1,6 @@
-import axios from "axios";
 /* eslint-disable no-undef */
+import axios from "axios";
+import toast from "react-hot-toast";
 import useAppStore from "@/store/useAppStore";
 import useGoogleAuthStore from "@/store/useGoogleAuthStore";
 import {
@@ -10,6 +11,7 @@ import {
 import { useCallback } from "react";
 import { useDebounce } from "react-use";
 import { useEffect } from "react";
+import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
 
@@ -19,10 +21,10 @@ const BACKUP_FILENAME = "backup.json";
  * Google Drive Backup
  * @param {object} googleApi Google Api
  * @param {boolean} googleApi.authorized Is Authorized
- * @param {function} googleApi.getValidToken Get Valid Token
+ * @param {function} googleApi.requestAccessToken Request Access Token
  */
 export default function useGoogleDriveBackup(googleApi) {
-  const { authorized, getValidToken } = googleApi;
+  const { authorized, requestAccessToken } = googleApi;
   const restoredFromCloudRef = useRef(true);
 
   const accounts = useAppStore((state) => state.accounts);
@@ -30,6 +32,7 @@ export default function useGoogleDriveBackup(googleApi) {
   const setAccounts = useAppStore((state) => state.setAccounts);
   const setContacts = useAppStore((state) => state.setContacts);
   const backupFile = useGoogleAuthStore((state) => state.backupFile);
+  const setToken = useGoogleAuthStore((state) => state.setToken);
   const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
 
   const queryClient = useQueryClient();
@@ -42,25 +45,25 @@ export default function useGoogleDriveBackup(googleApi) {
     refetchInterval: 30_000,
   });
 
+  const hasFetchedRemoteBackupFile = query.isSuccess;
+  const remoteBackupFile = query?.data;
+
   const { mutateAsync } = useMutation({
     mutationKey: ["google-drive", "upload-to-drive", authorized],
     mutationFn: (content) => uploadBackup(content),
   });
 
   /** Fetch Backup Content */
-  const fetchBackupContent = useCallback(
-    async (fileId, options) => {
-      return axios
-        .get(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
-          ...options,
-          headers: {
-            Authorization: `Bearer ${await getValidToken()}`,
-          },
-        })
-        .then((res) => res.data);
-    },
-    [getValidToken]
-  );
+  const fetchBackupContent = useCallback(async (fileId, options) => {
+    return axios
+      .get(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+        ...options,
+        headers: {
+          Authorization: `Bearer ${gapi.client.getToken()["access_token"]}`,
+        },
+      })
+      .then((res) => res.data);
+  }, []);
 
   /** Find Backup File */
   const findBackupFile = useCallback(async () => {
@@ -111,13 +114,21 @@ export default function useGoogleDriveBackup(googleApi) {
           url,
           method,
           headers: {
-            Authorization: `Bearer ${await getValidToken()}`,
+            Authorization: `Bearer ${gapi.client.getToken()["access_token"]}`,
           },
           data: form,
         })
         .then((res) => res.data);
     },
-    [findBackupFile, getValidToken]
+    [findBackupFile]
+  );
+
+  /** Update Backup File Query */
+  const updateBackupFileQuery = useCallback(
+    (file) => {
+      queryClient.setQueryData(["google-drive", "backup-file"], () => file);
+    },
+    [queryClient]
   );
 
   /** Backup to Drive */
@@ -134,11 +145,18 @@ export default function useGoogleDriveBackup(googleApi) {
     const file = await mutateAsync(content);
 
     /** Update Query Data */
-    queryClient.setQueryData(["google-drive", "backup-file"], () => file);
+    updateBackupFileQuery(file);
 
     /** Set Backup File */
     setBackupFile(file);
-  }, [accounts, contacts, mutateAsync, queryClient, setBackupFile]);
+  }, [
+    /** Deps */
+    accounts,
+    contacts,
+    setBackupFile,
+    mutateAsync,
+    updateBackupFileQuery,
+  ]);
 
   /** Import Drive Backup */
   const importDriveBackup = useCallback(
@@ -156,34 +174,103 @@ export default function useGoogleDriveBackup(googleApi) {
     [setContacts, setAccounts]
   );
 
+  /** Restore Backup */
+  const restoreBackup = useCallback(
+    async (remoteBackupFile) => {
+      const content = await fetchBackupContent(remoteBackupFile.id);
+      await importDriveBackup(content);
+
+      await updateBackupFileQuery(remoteBackupFile);
+      await setBackupFile(remoteBackupFile);
+    },
+    [
+      fetchBackupContent,
+      importDriveBackup,
+      updateBackupFileQuery,
+      setBackupFile,
+    ]
+  );
+
+  const authorize = useCallback(
+    ({ prompt, forceRestore = false }) => {
+      toast
+        .promise(requestAccessToken(), {
+          loading: "Authorizing...",
+          success: "Google Authorized",
+          error: "Failed to Authorize",
+        })
+        .then(async (token) => {
+          try {
+            /** Set Token */
+            gapi.client.setToken(token);
+
+            /** Find Backup File */
+            const remoteBackupFile = await toast.promise(findBackupFile(), {
+              loading: "Checking for Backup...",
+              success: "Completed!",
+              error: "Failed to Detect Backup!",
+            });
+
+            if (remoteBackupFile) {
+              const shouldRestore = await prompt(remoteBackupFile);
+
+              if (shouldRestore) {
+                await toast.promise(restoreBackup(remoteBackupFile), {
+                  loading: "Restoring Backup...",
+                  success: "Restored Backup!",
+                  error: "Failed to Restore Backup!",
+                });
+              } else if (forceRestore === false) {
+                await toast.promise(backupToDrive(), {
+                  loading: "Uploading Backup...",
+                  success: "Uploaded Backup!",
+                  error: "Failed to Upload Backup!",
+                });
+              } else {
+                return;
+              }
+            } else if (forceRestore) {
+              return toast.error("No backup found!");
+            }
+
+            /** Store Token */
+            setToken(token);
+          } catch {
+            /** Unset Token */
+            gapi.client.setToken(null);
+          }
+        });
+    },
+    [
+      /** Deps */
+      findBackupFile,
+      backupToDrive,
+      restoreBackup,
+      setToken,
+      requestAccessToken,
+    ]
+  );
+
   /** Restore From Drive */
   useEffect(() => {
-    if (query.isSuccess) {
-      const remoteBackupFile = query.data;
-
+    if (hasFetchedRemoteBackupFile) {
       if (remoteBackupFile) {
         if (
-          remoteBackupFile.id !== backupFile?.id ||
-          new Date(remoteBackupFile.modifiedTime).getTime() >
-            new Date(backupFile?.modifiedTime).getTime()
+          new Date(remoteBackupFile.modifiedTime || null).getTime() >
+          new Date(backupFile?.modifiedTime || null).getTime()
         ) {
-          fetchBackupContent(remoteBackupFile.id).then(async (content) => {
-            await importDriveBackup(content);
-            await setBackupFile(remoteBackupFile);
-          });
+          restoreBackup(remoteBackupFile);
         }
       } else {
         backupToDrive();
       }
     }
   }, [
-    query.isSuccess,
-    query.data,
+    hasFetchedRemoteBackupFile,
+    remoteBackupFile,
     backupFile,
-    setBackupFile,
-    fetchBackupContent,
+    restoreBackup,
     backupToDrive,
-    importDriveBackup,
   ]);
 
   /** Automatically Backup to Drive */
@@ -199,5 +286,23 @@ export default function useGoogleDriveBackup(googleApi) {
     },
     500,
     [authorized, backupToDrive]
+  );
+
+  return useMemo(
+    () => ({
+      authorize,
+      backupToDrive,
+      restoreBackup,
+      findBackupFile,
+      importDriveBackup,
+    }),
+    [
+      /** Deps */
+      authorize,
+      backupToDrive,
+      restoreBackup,
+      findBackupFile,
+      importDriveBackup,
+    ]
   );
 }

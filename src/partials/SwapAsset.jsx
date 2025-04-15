@@ -1,4 +1,3 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import * as yup from "yup";
 import AccountAsset from "@/components/AccountAsset";
 import AssetPicker from "@/partials/AssetPicker";
@@ -8,6 +7,7 @@ import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useLocationToggle from "@/hooks/useLocationToggle";
 import { Controller, useForm } from "react-hook-form";
+import { Dialog } from "radix-ui";
 import { FormProvider } from "react-hook-form";
 import { HiOutlineArrowLongDown, HiOutlineArrowPath } from "react-icons/hi2";
 import { Input } from "@/components/Input";

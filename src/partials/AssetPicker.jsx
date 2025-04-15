@@ -1,5 +1,5 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import AccountAsset from "@/components/AccountAsset";
+import { Dialog } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 export default function AssetPicker({ assets, onSelect }) {
