@@ -66,9 +66,6 @@ function App() {
         {/* Terms */}
         <Route path="terms-of-service" element={<TermsOfService />} />
 
-        {/* Privacy Policy */}
-        <Route path="privacy" element={<TermsOfService />} />
-
         {/* Batch Import */}
         <Route path="batch-import" element={<BatchImport />} />
 
