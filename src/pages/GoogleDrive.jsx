@@ -27,6 +27,12 @@ export default function GoogleDrive() {
         resolve={resolve}
       />
 
+      {/* Info */}
+      <Alert variant={"info"}>
+        Automatically backup your accounts and contacts to Google Drive. Your
+        accounts are encrypted with your pin code.
+      </Alert>
+
       {googleApi.authorized ? (
         <>
           {backupFile ? (
@@ -49,12 +55,14 @@ export default function GoogleDrive() {
           </Button>
         </>
       ) : googleApi.initialized ? (
-        <PrimaryButton
-          className="flex items-center gap-2 justify-center"
-          onClick={authorizeGoogleDrive}
-        >
-          <FaGoogleDrive /> Authorize
-        </PrimaryButton>
+        <>
+          <PrimaryButton
+            className="flex items-center gap-2 justify-center"
+            onClick={authorizeGoogleDrive}
+          >
+            <FaGoogleDrive /> Authorize
+          </PrimaryButton>
+        </>
       ) : (
         <Spinner />
       )}
