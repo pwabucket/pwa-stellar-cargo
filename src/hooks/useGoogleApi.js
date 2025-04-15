@@ -1,3 +1,4 @@
+import axios from "axios";
 /* eslint-disable no-undef */
 import useGoogleAuthStore from "@/store/useGoogleAuthStore";
 import { loadScript } from "@/lib/utils";
@@ -18,8 +19,8 @@ export default function useGoogleApi() {
   const [gisInitialized, setGisInitialized] = useState(false);
   const loadingRef = useRef(false);
 
-  /** @type {import("react").Ref<google.accounts.oauth2.TokenClient>} */
-  const tokenClientRef = useRef(null);
+  /** @type {import("react").Ref<google.accounts.oauth2.CodeClient>} */
+  const codeClientRef = useRef(null);
   const token = useGoogleAuthStore((state) => state.token);
   const setToken = useGoogleAuthStore((state) => state.setToken);
   const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
@@ -41,69 +42,71 @@ export default function useGoogleApi() {
 
   /** Callback to Initialize Gis */
   const initializeGis = useCallback(() => {
-    tokenClientRef.current = google.accounts.oauth2.initTokenClient({
+    codeClientRef.current = google.accounts.oauth2.initCodeClient({
       client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
       scope: SCOPES,
-      callback: "", // defined later
+      ux_mode: "popup",
+      callback: "",
     });
     setGisInitialized(true);
   }, []);
 
-  const getCurrentToken = useCallback(() => {
-    const token = gapi.client.getToken();
-    return {
+  const parseToken = useCallback(
+    (token) => ({
       ...token,
       ["expires_at"]: Date.now() + token["expires_in"] * 1000,
-    };
-  }, []);
+    }),
+    []
+  );
 
   /** Request Access Token */
   const requestAccessToken = useCallback(() => {
     return new Promise((resolve, reject) => {
-      tokenClientRef.current.callback = (resp) => {
-        if (resp.error) return reject(resp);
-        resolve(getCurrentToken());
+      codeClientRef.current.callback = async (response) => {
+        try {
+          const data = await axios
+            .post("https://oauth2.googleapis.com/token", {
+              code: response.code,
+              client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+              client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
+              redirect_uri: new URL(location.href).origin,
+              grant_type: "authorization_code",
+            })
+            .then((res) => res.data);
+
+          resolve(parseToken(data));
+        } catch (e) {
+          reject(e);
+        }
       };
 
-      tokenClientRef.current.requestAccessToken({
-        prompt: "consent",
-      });
+      codeClientRef.current.requestCode();
     });
-  }, [getCurrentToken]);
-
-  /** Handle Auth */
-  const handleAuth = useCallback(() => {
-    return new Promise((resolve, reject) => {
-      if (token && isValidToken) return resolve(token);
-
-      tokenClientRef.current.callback = (resp) => {
-        if (resp.error) return reject(resp);
-        const newToken = getCurrentToken();
-        setToken(newToken);
-        resolve(newToken);
-      };
-
-      tokenClientRef.current.requestAccessToken({
-        prompt: token ? "" : "consent",
-      });
-    });
-  }, [token, isValidToken, setToken, getCurrentToken]);
+  }, [parseToken]);
 
   /** Refetch Token */
-  const refetchToken = useCallback(
-    () =>
-      new Promise((resolve, reject) => {
-        tokenClientRef.current.callback = (resp) => {
-          if (resp.error) return reject(resp);
-          const newToken = getCurrentToken();
-          setToken(newToken);
-          resolve(newToken["access_token"]);
-        };
+  const refetchToken = useCallback(async () => {
+    const data = await axios
+      .post("https://oauth2.googleapis.com/token", {
+        grant_type: "refresh_token",
+        refresh_token: token["refresh_token"],
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
+      })
+      .then((res) => res.data);
 
-        tokenClientRef.current.requestAccessToken({ prompt: "" });
-      }),
-    [setToken, getCurrentToken]
-  );
+    /** Get New Token */
+    const newToken = parseToken({
+      ...token,
+      ...data,
+    });
+
+    /** Set New Token */
+    setToken(newToken);
+
+    /** Return New Token */
+    return newToken;
+  }, [token, setToken, parseToken]);
 
   /** Get Valid Token */
   const getValidToken = useCallback(async () => {
@@ -115,11 +118,16 @@ export default function useGoogleApi() {
   }, [token, isValidToken, refetchToken]);
 
   /** Logout */
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    if (token) {
+      axios.post(
+        `https://oauth2.googleapis.com/revoke?token=${token["access_token"]}`
+      );
+    }
     gapi?.client?.setToken(null);
     setToken(null);
     setBackupFile(null);
-  }, [setToken, setBackupFile]);
+  }, [token, setToken, setBackupFile]);
 
   /** Initialize Google Scripts */
   useEffect(() => {
@@ -161,7 +169,6 @@ export default function useGoogleApi() {
 
   return useMemo(
     () => ({
-      handleAuth,
       refetchToken,
       getValidToken,
       requestAccessToken,
@@ -170,7 +177,6 @@ export default function useGoogleApi() {
       authorized,
     }),
     [
-      handleAuth,
       refetchToken,
       getValidToken,
       requestAccessToken,
