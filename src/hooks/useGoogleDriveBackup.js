@@ -187,21 +187,14 @@ export default function useGoogleDriveBackup(googleApi) {
     async (remoteBackupFile) => {
       const content = await fetchBackupContent(remoteBackupFile.id);
       await importDriveBackup(content);
-
-      await updateBackupFileQuery(remoteBackupFile);
-      await setBackupFile(remoteBackupFile);
+      await updateBackupFile(remoteBackupFile);
     },
-    [
-      fetchBackupContent,
-      importDriveBackup,
-      updateBackupFileQuery,
-      setBackupFile,
-    ]
+    [fetchBackupContent, importDriveBackup, updateBackupFile]
   );
 
   const authorize = useCallback(
     ({ prompt, forceRestore = false }) => {
-      toast
+      return toast
         .promise(requestAccessToken(), {
           loading: "Authorizing...",
           success: "Google Authorized",
@@ -215,7 +208,7 @@ export default function useGoogleDriveBackup(googleApi) {
             /** Find Backup File */
             const remoteBackupFile = await toast.promise(findBackupFile(), {
               loading: "Checking for Backup...",
-              success: "Completed!",
+              success: "Done!",
               error: "Failed to Detect Backup!",
             });
 
