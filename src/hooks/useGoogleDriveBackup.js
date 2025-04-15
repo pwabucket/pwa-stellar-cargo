@@ -131,6 +131,18 @@ export default function useGoogleDriveBackup(googleApi) {
     [queryClient]
   );
 
+  /** Update Backup File */
+  const updateBackupFile = useCallback(
+    (file) => {
+      /** Update Query Data */
+      updateBackupFileQuery(file);
+
+      /** Set Backup File */
+      setBackupFile(file);
+    },
+    [updateBackupFileQuery, setBackupFile]
+  );
+
   /** Backup to Drive */
   const backupToDrive = useCallback(async () => {
     const keys = await exportEncryptedKeys();
@@ -144,18 +156,14 @@ export default function useGoogleDriveBackup(googleApi) {
     };
     const file = await mutateAsync(content);
 
-    /** Update Query Data */
-    updateBackupFileQuery(file);
-
-    /** Set Backup File */
-    setBackupFile(file);
+    /** Update Backup File */
+    updateBackupFile(file);
   }, [
     /** Deps */
     accounts,
     contacts,
-    setBackupFile,
     mutateAsync,
-    updateBackupFileQuery,
+    updateBackupFile,
   ]);
 
   /** Import Drive Backup */
