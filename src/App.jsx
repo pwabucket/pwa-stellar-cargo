@@ -24,6 +24,7 @@ import GuestRoute from "./routes/GuestRoute";
 import ImportWallet from "./pages/ImportWallet";
 import Menu from "./pages/Menu";
 import Merge from "./pages/Merge";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Receive from "./pages/Receive";
 import Send from "./pages/Send";
@@ -31,6 +32,7 @@ import SendAnyAsset from "./pages/SendAnyAsset";
 import Split from "./pages/Split";
 import Swap from "./pages/Swap";
 import SwapAnyAsset from "./pages/SwapAnyAsset";
+import TermsOfService from "./pages/TermsOfService";
 import Transactions from "./pages/Transactions";
 import useAppStore from "./store/useAppStore";
 import useGoogleApi from "./hooks/useGoogleApi";
@@ -57,6 +59,15 @@ function App() {
 
         {/* About */}
         <Route path="about" element={<About />} />
+
+        {/* Privacy Policy */}
+        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+
+        {/* Terms */}
+        <Route path="terms-of-service" element={<TermsOfService />} />
+
+        {/* Privacy Policy */}
+        <Route path="privacy" element={<TermsOfService />} />
 
         {/* Batch Import */}
         <Route path="batch-import" element={<BatchImport />} />

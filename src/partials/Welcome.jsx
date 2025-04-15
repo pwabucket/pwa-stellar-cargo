@@ -16,6 +16,7 @@ import { removeAllKeys } from "@/lib/stellar/keyManager";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
+import FooterLinks from "./FooterLinks";
 import GoogleBackupPrompt from "./GoogleBackupPrompt";
 
 export default function Welcome() {
@@ -140,16 +141,10 @@ export default function Welcome() {
               resolve={resolve}
             />
           </div>
-
-          <div className="flex justify-center gap-2 text-blue-500 dark:text-blue-400">
-            <Link to="/about">About</Link>
-            <span className="w-px  bg-neutral-200 dark:bg-neutral-700 " />
-            <a href={import.meta.env.VITE_APP_REPOSITORY} target="_blank">
-              Source
-            </a>
-          </div>
         </>
       )}
+
+      <FooterLinks />
     </div>
   );
 }

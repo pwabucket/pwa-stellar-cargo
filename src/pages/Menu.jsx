@@ -1,3 +1,4 @@
+import FooterLinks from "@/partials/FooterLinks";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAppStore, { THEMES } from "@/store/useAppStore";
 import { FaGoogleDrive } from "react-icons/fa";
@@ -5,7 +6,6 @@ import {
   HiOutlineArrowLeftOnRectangle,
   HiOutlineArrowLongDown,
   HiOutlineArrowLongUp,
-  HiOutlineInformationCircle,
   HiOutlineMoon,
   HiOutlineSun,
 } from "react-icons/hi2";
@@ -63,7 +63,9 @@ export default function Menu() {
           title="Batch Export"
           icon={HiOutlineArrowLongUp}
         />
+      </div>
 
+      <div className="flex flex-col gap-2">
         {/* Google Drive */}
         <MenuButton
           as={Link}
@@ -74,14 +76,6 @@ export default function Menu() {
       </div>
 
       <div className="flex flex-col gap-2">
-        {/* About */}
-        <MenuButton
-          as={Link}
-          to="/about"
-          title="About"
-          icon={HiOutlineInformationCircle}
-        />
-
         {/* Logout */}
         <MenuButton
           title="Logout"
@@ -90,15 +84,7 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex justify-center">
-        <a
-          href={import.meta.env.VITE_APP_REPOSITORY}
-          target="_blank"
-          className="text-blue-500"
-        >
-          Source Codes
-        </a>
-      </div>
+      <FooterLinks />
     </InnerAppLayout>
   );
 }
