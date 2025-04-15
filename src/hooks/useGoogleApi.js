@@ -1,7 +1,7 @@
 import axios from "axios";
 /* eslint-disable no-undef */
 import useGoogleAuthStore from "@/store/useGoogleAuthStore";
-import { loadScript } from "@/lib/utils";
+import { getBaseURL, loadScript } from "@/lib/utils";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import { useMemo } from "react";
@@ -69,7 +69,7 @@ export default function useGoogleApi() {
               code: response.code,
               client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
               client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
-              redirect_uri: new URL(location.href).origin,
+              redirect_uri: getBaseURL("/oauth/google"),
               grant_type: "authorization_code",
             })
             .then((res) => res.data);
