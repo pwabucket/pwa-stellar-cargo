@@ -1,5 +1,4 @@
 import Alert from "@/components/Alert";
-/* eslint-disable no-undef */
 import GoogleBackupPrompt from "@/partials/GoogleBackupPrompt";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import Spinner from "@/components/Spinner";
