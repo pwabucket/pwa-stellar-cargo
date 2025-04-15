@@ -1,16 +1,20 @@
+import Alert from "@/components/Alert";
 /* eslint-disable no-undef */
 import GoogleBackupPrompt from "@/partials/GoogleBackupPrompt";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import Spinner from "@/components/Spinner";
 import useAppContext from "@/hooks/useAppContext";
+import useGoogleAuthStore from "@/store/useGoogleAuthStore";
 import usePrompt from "@/hooks/usePrompt";
 import { Button, PrimaryButton } from "@/components/Button";
 import { FaGoogleDrive } from "react-icons/fa";
 import { cn } from "@/lib/utils";
+import { formatDate } from "date-fns";
 
 export default function GoogleDrive() {
   const { googleApi, googleDrive } = useAppContext();
   const { show, setShow, value, resolve, prompt } = usePrompt();
+  const backupFile = useGoogleAuthStore((state) => state.backupFile);
 
   const authorizeGoogleDrive = () => googleDrive.authorize({ prompt });
 
@@ -25,15 +29,26 @@ export default function GoogleDrive() {
       />
 
       {googleApi.authorized ? (
-        <Button
-          className={cn(
-            "flex items-center gap-2 justify-center",
-            "bg-red-500 text-white"
-          )}
-          onClick={() => googleApi.logout()}
-        >
-          <FaGoogleDrive /> Disconnect
-        </Button>
+        <>
+          {backupFile ? (
+            <Alert variant={"success"} className="text-sm">
+              <span className="font-bold">Last Backup:</span>{" "}
+              {formatDate(
+                new Date(backupFile?.modifiedTime || null),
+                "PPPPpppp"
+              )}
+            </Alert>
+          ) : null}
+          <Button
+            className={cn(
+              "flex items-center gap-2 justify-center",
+              "bg-red-500 text-white"
+            )}
+            onClick={() => googleApi.logout()}
+          >
+            <FaGoogleDrive /> Disconnect
+          </Button>
+        </>
       ) : googleApi.initialized ? (
         <PrimaryButton
           className="flex items-center gap-2 justify-center"
