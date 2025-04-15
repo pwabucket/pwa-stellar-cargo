@@ -13,7 +13,7 @@ import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import { RiResetLeftFill } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { removeAllKeys } from "@/lib/stellar/keyManager";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import FooterLinks from "./FooterLinks";
@@ -30,10 +30,16 @@ export default function Welcome() {
 
   const queryClient = useQueryClient();
 
+  /** Google Drive Backup Prompt */
   const { show, setShow, value, resolve, prompt } = usePrompt();
-  const authorizeGoogleDrive = () =>
-    googleDrive.authorize({ prompt, forceRestore: true });
 
+  /** Google Drive Mutation */
+  const googleDriveMutation = useMutation({
+    mutationKey: ["google-drive", "authorize"],
+    mutationFn: () => googleDrive.authorize({ prompt }),
+  });
+
+  /** Login */
   const onCreatedOrVerified = ({ pinCode }) => {
     login(pinCode);
   };
@@ -124,8 +130,10 @@ export default function Welcome() {
 
               {/* Restore From Google Drive */}
               <button
-                disabled={googleApi.initiated === false}
-                onClick={authorizeGoogleDrive}
+                disabled={
+                  googleApi.initiated === false || googleDriveMutation.isPending
+                }
+                onClick={() => googleDriveMutation.mutateAsync()}
                 className={cn(
                   "flex items-center gap-2 justify-center disabled:opacity-50"
                 )}

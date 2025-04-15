@@ -9,13 +9,17 @@ import { Button, PrimaryButton } from "@/components/Button";
 import { FaGoogleDrive } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { formatDate } from "date-fns";
+import { useMutation } from "@tanstack/react-query";
 
 export default function GoogleDrive() {
   const { googleApi, googleDrive } = useAppContext();
   const { show, setShow, value, resolve, prompt } = usePrompt();
   const backupFile = useGoogleAuthStore((state) => state.backupFile);
 
-  const authorizeGoogleDrive = () => googleDrive.authorize({ prompt });
+  const googleDriveMutation = useMutation({
+    mutationKey: ["google-drive", "authorize"],
+    mutationFn: () => googleDrive.authorize({ prompt }),
+  });
 
   return (
     <InnerAppLayout className="gap-4" headerTitle="Google Drive">
@@ -57,8 +61,9 @@ export default function GoogleDrive() {
       ) : googleApi.initialized ? (
         <>
           <PrimaryButton
+            disabled={googleDriveMutation.isPending}
             className="flex items-center gap-2 justify-center"
-            onClick={authorizeGoogleDrive}
+            onClick={() => googleDriveMutation.mutateAsync()}
           >
             <FaGoogleDrive /> Authorize
           </PrimaryButton>
