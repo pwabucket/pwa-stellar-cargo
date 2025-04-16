@@ -1,6 +1,6 @@
 # Stellar Cargo
 
-A non-custodial Stellar Wallet primarily for transferring assets from several accounts into one.
+A non-custodial Stellar Wallet for managing multiple accounts.
 
 Features:
 
@@ -8,6 +8,7 @@ Features:
 - Chunked Transactions 
 - Batch Export
 - Batch Import
+- Google Drive Backup
 
 ## Usage
 
