@@ -26,7 +26,9 @@ export default function BatchExport() {
   };
   return (
     <InnerAppLayout className="gap-2">
-      <Alert variant={"info"}>All accounts and contacts will be exported</Alert>
+      <Alert variant={"info"}>
+        All accounts and contacts will be exported (unencrypted).
+      </Alert>
       <PrimaryButton onClick={exportAll}>Export All</PrimaryButton>
     </InnerAppLayout>
   );
