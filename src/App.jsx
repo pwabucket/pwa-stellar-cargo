@@ -25,6 +25,7 @@ import GuestRoute from "./routes/GuestRoute";
 import ImportWallet from "./pages/ImportWallet";
 import Menu from "./pages/Menu";
 import Merge from "./pages/Merge";
+import PinCode from "./pages/PinCode";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Receive from "./pages/Receive";
@@ -135,6 +136,9 @@ function App() {
 
           {/* Menu */}
           <Route path="menu" element={<Menu />} />
+
+          {/* PIN Code */}
+          <Route path="pin-code" element={<PinCode />} />
         </Route>
       </Routes>
       <Toaster position="top-center" />

@@ -6,6 +6,7 @@ import {
   HiOutlineArrowLeftOnRectangle,
   HiOutlineArrowLongDown,
   HiOutlineArrowLongUp,
+  HiOutlineKey,
   HiOutlineMoon,
   HiOutlineSun,
 } from "react-icons/hi2";
@@ -76,6 +77,14 @@ export default function Menu() {
       </div>
 
       <div className="flex flex-col gap-2">
+        {/* PIN Code */}
+        <MenuButton
+          as={Link}
+          to="/pin-code"
+          title="PIN Code"
+          icon={HiOutlineKey}
+        />
+
         {/* Logout */}
         <MenuButton
           title="Logout"
