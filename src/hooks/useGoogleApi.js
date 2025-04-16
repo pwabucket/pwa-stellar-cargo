@@ -74,7 +74,7 @@ export default function useGoogleApi() {
               code: response.code,
               client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
               client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
-              redirect_uri: getBaseURL(),
+              redirect_uri: new URL(getBaseURL()).origin,
               grant_type: "authorization_code",
             })
             .then((res) => res.data);
