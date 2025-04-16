@@ -5,7 +5,7 @@ import { memo } from "react";
 import AssetValueMask from "./AssetValueMask";
 
 export default memo(function AccountAsset({
-  as: Component = "div",
+  as: Component = "div", // eslint-disable-line no-unused-vars
   asset,
   displayPrice = true,
   ...props

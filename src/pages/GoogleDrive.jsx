@@ -4,6 +4,7 @@ import InnerAppLayout from "@/layouts/InnerAppLayout";
 import Spinner from "@/components/Spinner";
 import useAppContext from "@/hooks/useAppContext";
 import useGoogleAuthStore from "@/store/useGoogleAuthStore";
+import useGoogleProfileQuery from "@/hooks/useGoogleProfileQuery";
 import usePrompt from "@/hooks/usePrompt";
 import { Button, PrimaryButton } from "@/components/Button";
 import { FaGoogleDrive } from "react-icons/fa";
@@ -13,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 
 export default function GoogleDrive() {
   const { googleApi, googleDrive } = useAppContext();
+  const { authorized, initialized, logout } = googleApi;
   const { show, setShow, value, resolve, prompt } = usePrompt();
   const backupFile = useGoogleAuthStore((state) => state.backupFile);
 
@@ -20,6 +22,9 @@ export default function GoogleDrive() {
     mutationKey: ["google-drive", "authorize"],
     mutationFn: () => googleDrive.authorize({ prompt }),
   });
+
+  const profileQuery = useGoogleProfileQuery();
+  const profile = profileQuery.data;
 
   return (
     <InnerAppLayout className="gap-4" headerTitle="Google Drive">
@@ -37,8 +42,58 @@ export default function GoogleDrive() {
         accounts are encrypted with your pin code.
       </Alert>
 
-      {googleApi.authorized ? (
+      {authorized ? (
         <>
+          {profile ? (
+            <div
+              className={cn(
+                "p-2 rounded-xl ",
+                "bg-neutral-100",
+                "dark:bg-neutral-800",
+                "flex items-center gap-2"
+              )}
+            >
+              <img
+                src={profile["picture"]}
+                className="size-10 shrink-0 rounded-full"
+              />
+
+              <div className="flex flex-col gap-1 grow min-w-0">
+                <h3 className="truncate font-bold leading-none">
+                  {profile["name"]}
+                </h3>
+                <p className="text-neutral-500 leading-none">
+                  {profile["email"]}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div
+              className={cn(
+                "p-2 rounded-xl ",
+                "bg-neutral-100",
+                "dark:bg-neutral-800",
+                "flex items-center gap-2"
+              )}
+            >
+              {/* Picture */}
+              <div
+                className={cn(
+                  "size-10 shrink-0 rounded-full",
+                  "bg-neutral-200 dark:bg-neutral-700"
+                )}
+              />
+
+              {/* User Info */}
+              <div className="flex flex-col gap-1 grow min-w-0">
+                {/* Name */}
+                <div className="rounded-full w-5/12 h-3 bg-neutral-200 dark:bg-neutral-700" />
+
+                {/* Email */}
+                <div className="rounded-full w-5/6 h-3 bg-neutral-200 dark:bg-neutral-700" />
+              </div>
+            </div>
+          )}
           {backupFile ? (
             <Alert variant={"success"} className="text-sm">
               <span className="font-bold">Last Backup:</span>{" "}
@@ -53,12 +108,12 @@ export default function GoogleDrive() {
               "flex items-center gap-2 justify-center",
               "bg-red-500 text-white"
             )}
-            onClick={() => googleApi.logout()}
+            onClick={() => logout()}
           >
             <FaGoogleDrive /> Disconnect
           </Button>
         </>
-      ) : googleApi.initialized ? (
+      ) : initialized ? (
         <>
           <PrimaryButton
             disabled={googleDriveMutation.isPending}

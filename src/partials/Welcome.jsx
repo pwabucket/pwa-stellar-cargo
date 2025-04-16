@@ -28,6 +28,7 @@ export default function Welcome() {
   const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
   const [showWalletForm, setShowWalletForm] = useState(false);
 
+  /** Query Client */
   const queryClient = useQueryClient();
 
   /** Google Drive Backup Prompt */
@@ -36,7 +37,7 @@ export default function Welcome() {
   /** Google Drive Mutation */
   const googleDriveMutation = useMutation({
     mutationKey: ["google-drive", "authorize"],
-    mutationFn: () => googleDrive.authorize({ prompt }),
+    mutationFn: () => googleDrive.authorize({ prompt, forceRestore: true }),
   });
 
   /** Login */

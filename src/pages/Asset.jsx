@@ -11,7 +11,11 @@ import { IoAddCircleOutline, IoCopyOutline } from "react-icons/io5";
 import { Link, useOutletContext } from "react-router";
 import { cn, copyToClipboard } from "@/lib/utils";
 
-const PageLink = ({ icon: Icon, title, ...props }) => (
+const PageLink = ({
+  icon: Icon, // eslint-disable-line no-unused-vars
+  title,
+  ...props
+}) => (
   <Link
     {...props}
     className={cn(

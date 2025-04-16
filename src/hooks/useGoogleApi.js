@@ -1,5 +1,5 @@
-import axios from "axios";
 /* eslint-disable no-undef */
+import axios from "axios";
 import useGoogleAuthStore from "@/store/useGoogleAuthStore";
 import { getBaseURL, loadScript } from "@/lib/utils";
 import { useCallback } from "react";
@@ -12,7 +12,11 @@ const DISCOVERY_DOCS = [
   "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
 ];
 
-const SCOPES = ["https://www.googleapis.com/auth/drive.appdata"].join(" ");
+const SCOPES = [
+  "profile",
+  "email",
+  "https://www.googleapis.com/auth/drive.appdata",
+].join(" ");
 
 export default function useGoogleApi() {
   const [gapiInitialized, setGapiInitialized] = useState(false);
@@ -62,6 +66,7 @@ export default function useGoogleApi() {
   /** Request Access Token */
   const requestAccessToken = useCallback(() => {
     return new Promise((resolve, reject) => {
+      /** Success Callback */
       codeClientRef.current.callback = async (response) => {
         try {
           const data = await axios
@@ -69,7 +74,7 @@ export default function useGoogleApi() {
               code: response.code,
               client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
               client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
-              redirect_uri: getBaseURL("/oauth/google"),
+              redirect_uri: getBaseURL(),
               grant_type: "authorization_code",
             })
             .then((res) => res.data);
@@ -78,6 +83,11 @@ export default function useGoogleApi() {
         } catch (e) {
           reject(e);
         }
+      };
+
+      /** Error Callback */
+      codeClientRef.current["error_callback"] = (e) => {
+        reject(e);
       };
 
       codeClientRef.current.requestCode();
@@ -116,6 +126,19 @@ export default function useGoogleApi() {
 
     return refetchToken();
   }, [token, isValidToken, refetchToken]);
+
+  /** Get User Info */
+  const getUserInfo = useCallback(
+    () =>
+      axios
+        .get(`https://www.googleapis.com/oauth2/v2/userinfo`, {
+          headers: {
+            Authorization: `Bearer ${gapi.client.getToken()["access_token"]}`,
+          },
+        })
+        .then((res) => res.data),
+    []
+  );
 
   /** Logout */
   const logout = useCallback(async () => {
@@ -169,6 +192,7 @@ export default function useGoogleApi() {
 
   return useMemo(
     () => ({
+      getUserInfo,
       refetchToken,
       getValidToken,
       requestAccessToken,
@@ -177,6 +201,7 @@ export default function useGoogleApi() {
       authorized,
     }),
     [
+      getUserInfo,
       refetchToken,
       getValidToken,
       requestAccessToken,
