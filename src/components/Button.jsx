@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { memo } from "react";
 
 export const Button = memo(function ({
-  as: Component = "button", // eslint-disable-line
+  as: Component = "button", // eslint-disable-line no-unused-vars
   ...props
 }) {
   return (

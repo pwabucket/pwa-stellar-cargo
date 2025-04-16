@@ -12,7 +12,11 @@ const ALERT_ICONS = {
   danger: HiOutlineXCircle,
   success: HiOutlineCheckCircle,
 };
-export default function Alert({ as: Component = "div", variant, ...props }) {
+export default function Alert({
+  as: Component = "div", // eslint-disable-line no-unused-vars
+  variant,
+  ...props
+}) {
   const Icon = ALERT_ICONS[variant];
   return (
     <Component

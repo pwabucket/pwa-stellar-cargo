@@ -3,7 +3,6 @@ import LoginForm from "@/partials/LoginForm";
 import WalletForm from "@/partials/WalletForm";
 import useAppContext from "@/hooks/useAppContext";
 import useAppStore from "@/store/useAppStore";
-import useGoogleAuthStore from "@/store/useGoogleAuthStore";
 import usePrompt from "@/hooks/usePrompt";
 import { FaGoogleDrive } from "react-icons/fa";
 import { HiOutlineArrowLongLeft } from "react-icons/hi2";
@@ -12,24 +11,16 @@ import { Link } from "react-router";
 import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import { RiResetLeftFill } from "react-icons/ri";
 import { cn } from "@/lib/utils";
-import { removeAllKeys } from "@/lib/stellar/keyManager";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-
 import FooterLinks from "./FooterLinks";
 import GoogleBackupPrompt from "./GoogleBackupPrompt";
 
 export default function Welcome() {
-  const { googleApi, googleDrive } = useAppContext();
+  const { googleApi, googleDrive, resetWallet } = useAppContext();
   const login = useAppStore((state) => state.login);
   const accounts = useAppStore((state) => state.accounts);
-  const setAccounts = useAppStore((state) => state.setAccounts);
-  const setContacts = useAppStore((state) => state.setContacts);
-  const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
   const [showWalletForm, setShowWalletForm] = useState(false);
-
-  /** Query Client */
-  const queryClient = useQueryClient();
 
   /** Google Drive Backup Prompt */
   const { show, setShow, value, resolve, prompt } = usePrompt();
@@ -43,16 +34,6 @@ export default function Welcome() {
   /** Login */
   const onCreatedOrVerified = ({ pinCode }) => {
     login(pinCode);
-  };
-
-  /** Reset Wallet */
-  const resetWallet = async () => {
-    await googleApi.logout();
-    await queryClient.removeQueries();
-    await removeAllKeys();
-    setBackupFile(null);
-    setAccounts([]);
-    setContacts([]);
   };
 
   return (

@@ -1,6 +1,7 @@
 import Home from "@/pages/Home";
 import { Route, Routes } from "react-router";
 import { Toaster } from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 import About from "./pages/About";
 import Account from "./pages/Account";
@@ -39,19 +40,36 @@ import useGoogleApi from "./hooks/useGoogleApi";
 import useGoogleDriveBackup from "./hooks/useGoogleDriveBackup";
 import useInactivity from "./hooks/useInactivity";
 import useTheme from "./hooks/useTheme";
+import { removeAllKeys } from "./lib/stellar/keyManager";
 
 const INACTIVITY_DURATION = 3 * 60 * 1000;
 
 function App() {
-  const theme = useAppStore((state) => state.theme);
   const googleApi = useGoogleApi();
   const googleDrive = useGoogleDriveBackup(googleApi);
+  const theme = useAppStore((state) => state.theme);
+  const logout = useAppStore((state) => state.logout);
+  const setAccounts = useAppStore((state) => state.setAccounts);
+  const setContacts = useAppStore((state) => state.setContacts);
+
+  /** Query Client */
+  const queryClient = useQueryClient();
+
+  /** Reset Wallet */
+  const resetWallet = async () => {
+    await logout();
+    await queryClient.removeQueries();
+    await googleApi.logout();
+    await removeAllKeys();
+    setAccounts([]);
+    setContacts([]);
+  };
 
   useTheme(theme);
   useInactivity(INACTIVITY_DURATION);
 
   return (
-    <AppContext.Provider value={{ googleApi, googleDrive }}>
+    <AppContext.Provider value={{ googleApi, googleDrive, resetWallet }}>
       <Routes>
         <Route element={<GuestRoute />}>
           <Route index element={<Home />} />

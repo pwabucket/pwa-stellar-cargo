@@ -3,8 +3,8 @@ import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 
 export function HeaderButton({
-  as: Component = "button",
-  icon: Icon,
+  as: Component = "button", // eslint-disable-line no-unused-vars
+  icon: Icon, // eslint-disable-line no-unused-vars
   ...props
 }) {
   return (

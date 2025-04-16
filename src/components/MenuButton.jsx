@@ -4,8 +4,8 @@ import { memo } from "react";
 import Toggle from "./Toggle";
 
 export const MenuButton = memo(function MenuButton({
-  as: Component = "button",
-  icon: Icon,
+  as: Component = "button", // eslint-disable-line no-unused-vars
+  icon: Icon, // eslint-disable-line no-unused-vars
   title = "",
   children,
   ...props

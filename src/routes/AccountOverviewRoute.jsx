@@ -35,7 +35,11 @@ const PageNavLink = ({ styleActive = true, ...props }) => (
   />
 );
 
-const ToolLink = ({ icon: Icon, title, ...props }) => (
+const ToolLink = ({
+  icon: Icon, // eslint-disable-line no-unused-vars
+  title,
+  ...props
+}) => (
   <Link
     {...props}
     className={cn(

@@ -3,6 +3,7 @@ import FieldStateError from "@/components/FieldStateError";
 import FullPageSpinner from "@/components/FullPageSpinner";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAccount from "@/hooks/useAccount";
+import useAppContext from "@/hooks/useAppContext";
 import useAppStore from "@/store/useAppStore";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
 import { Controller, FormProvider, useForm } from "react-hook-form";
@@ -26,7 +27,10 @@ const schema = yup
   })
   .required();
 
-const ToolButton = ({ icon: Icon, ...props }) => (
+const ToolButton = ({
+  icon: Icon, // eslint-disable-line no-unused-vars
+  ...props
+}) => (
   <button
     {...props}
     type="button"
@@ -43,12 +47,18 @@ const ToolButton = ({ icon: Icon, ...props }) => (
 
 export default function EditAccount() {
   const { publicKey } = useParams();
+  const { resetWallet } = useAppContext();
   const pinCode = useAppStore((state) => state.pinCode);
+  const allAccounts = useAppStore((state) => state.accounts);
   const removeAccount = useAppStore((state) => state.removeAccount);
   const updateAccount = useAppStore((state) => state.updateAccount);
+
   const account = useAccount(publicKey);
   const navigate = useNavigate();
   const [secretKey, setSecretKey] = useState("");
+
+  /** Can Remove Account */
+  const canRemoveAccount = allAccounts.length > 1;
 
   /** Form */
   const form = useForm({
@@ -69,16 +79,29 @@ export default function EditAccount() {
     navigate(-1, { replace: true });
   };
 
+  /** Reveal Secret Key */
   const revealSecretKey = async () => {
     const result = await loadKey(account.keyId, pinCode);
     setSecretKey(result.privateKey);
   };
 
+  /** Handle Account Removal */
   const handleAccountRemoval = useCallback(async () => {
-    await setupKeyManager().removeKey(account.keyId);
-    removeAccount(publicKey);
-    navigate("/app", { replace: true });
-  }, [account?.keyId, publicKey, removeAccount, navigate]);
+    if (canRemoveAccount) {
+      await setupKeyManager().removeKey(account.keyId);
+      removeAccount(publicKey);
+      navigate("/app", { replace: true });
+    } else {
+      await resetWallet();
+    }
+  }, [
+    canRemoveAccount,
+    account?.keyId,
+    publicKey,
+    removeAccount,
+    resetWallet,
+    navigate,
+  ]);
 
   /** Redirect */
   useCheckOrNavigate(account, "/app", {

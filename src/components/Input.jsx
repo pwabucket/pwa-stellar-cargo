@@ -3,7 +3,10 @@ import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { useState } from "react";
 
-export const Input = memo(function ({ as: Component = "input", ...props }) {
+export const Input = memo(function ({
+  as: Component = "input", // eslint-disable-line no-unused-vars
+  ...props
+}) {
   return (
     <Component
       {...props}
