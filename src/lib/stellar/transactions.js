@@ -110,7 +110,7 @@ export async function createPathPaymentStrictSendTransaction({
 
   let records = result.records
     .slice()
-    .sort((a, b) => a["source_amount"] - b["source_amount"]);
+    .sort((a, b) => b["destination_amount"] - a["destination_amount"]);
 
   if (records.length === 0) {
     throw error(400, { message: "no strict send paths available" });
