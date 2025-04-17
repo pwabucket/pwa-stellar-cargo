@@ -7,6 +7,7 @@ import {
   Operation,
   TransactionBuilder,
 } from "@stellar/stellar-sdk";
+import { error } from "console";
 
 export const maxFeePerOperation = BASE_FEE;
 export const maxXLMPerTransaction = maxFeePerOperation / 10_000_000;
@@ -86,13 +87,6 @@ export async function createPathPaymentStrictSendTransaction({
   destinationAmount,
   memo,
 }) {
-  let server = new Horizon.Server(horizonUrl);
-  let sourceAccount = await server.loadAccount(source);
-  let transaction = new TransactionBuilder(sourceAccount, {
-    networkPassphrase: networkPassphrase,
-    fee: maxFeePerOperation,
-  });
-
   let sendAsset =
     sourceAsset === "native"
       ? Asset.native()
@@ -105,7 +99,26 @@ export async function createPathPaymentStrictSendTransaction({
           destinationAsset.split(":")[1]
         );
 
-  let destMin = ((98 * parseFloat(destinationAmount)) / 100).toFixed(7);
+  let destMin = (destinationAmount * 0.98).toFixed(7);
+
+  let server = new Horizon.Server(horizonUrl);
+  let sourceAccount = await server.loadAccount(source);
+  let result = await server
+    .strictSendPaths(sendAsset, sourceAmount.toString(), [destAsset])
+    .call();
+
+  let records = result.records
+    .slice()
+    .sort((a, b) => a["source_amount"] - b["source_amount"]);
+
+  if (records.length === 0) {
+    throw error(400, { message: "no strict send paths available" });
+  }
+
+  let transaction = new TransactionBuilder(sourceAccount, {
+    networkPassphrase: networkPassphrase,
+    fee: maxFeePerOperation,
+  });
 
   if (memo) {
     transaction.addMemo(Memo.text(memo));
@@ -118,6 +131,11 @@ export async function createPathPaymentStrictSendTransaction({
       destination: destination,
       destAsset: destAsset,
       destMin: destMin,
+      path: records[0].path.map((asset) => {
+        return asset["asset_type"] === "native"
+          ? Asset.native()
+          : new Asset(asset["asset_code"], asset["asset_issuer"]);
+      }),
     })
   );
 
@@ -137,17 +155,11 @@ export async function createPathPaymentStrictReceiveTransaction({
   destinationAmount,
   memo,
 }) {
-  let server = new Horizon.Server(horizonUrl);
-  let sourceAccount = await server.loadAccount(source);
-  let transaction = new TransactionBuilder(sourceAccount, {
-    networkPassphrase: networkPassphrase,
-    fee: maxFeePerOperation,
-  });
-
   let sendAsset =
     sourceAsset === "native"
       ? Asset.native()
       : new Asset(sourceAsset.split(":")[0], sourceAsset.split(":")[1]);
+
   let destAsset =
     destinationAsset === "native"
       ? Asset.native()
@@ -156,7 +168,27 @@ export async function createPathPaymentStrictReceiveTransaction({
           destinationAsset.split(":")[1]
         );
 
-  let sendMax = ((100 * parseFloat(sourceAmount)) / 98).toFixed(7);
+  let sendMax = (sourceAmount * 0.98).toFixed(7);
+
+  let server = new Horizon.Server(horizonUrl);
+  let sourceAccount = await server.loadAccount(source);
+
+  let result = await server
+    .strictReceivePaths([sendAsset], destAsset, destinationAmount.toString())
+    .call();
+
+  let records = result.records
+    .slice()
+    .sort((a, b) => b["destination_amount"] - a["destination_amount"]);
+
+  if (records.length === 0) {
+    throw error(400, { message: "no strict receive paths available" });
+  }
+
+  let transaction = new TransactionBuilder(sourceAccount, {
+    networkPassphrase: networkPassphrase,
+    fee: maxFeePerOperation,
+  });
 
   if (memo) {
     transaction.addMemo(Memo.text(memo));
@@ -169,6 +201,11 @@ export async function createPathPaymentStrictReceiveTransaction({
       destination: destination,
       destAsset: destAsset,
       destAmount: destinationAmount,
+      path: records[0].path.map((asset) => {
+        return asset["asset_type"] === "native"
+          ? Asset.native()
+          : new Asset(asset["asset_code"], asset["asset_issuer"]);
+      }),
     })
   );
 
