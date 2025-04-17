@@ -7,7 +7,8 @@ import {
   Operation,
   TransactionBuilder,
 } from "@stellar/stellar-sdk";
-import { error } from "console";
+
+import { error } from "../utils";
 
 export const maxFeePerOperation = BASE_FEE;
 export const maxXLMPerTransaction = maxFeePerOperation / 10_000_000;
