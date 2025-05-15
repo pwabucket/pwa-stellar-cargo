@@ -7,7 +7,6 @@ import { registerSW } from "virtual:pwa-register";
 
 import App from "./App.jsx";
 import ErrorFallback from "./partials/ErrorFallback.jsx";
-import { getBasePath } from "./lib/utils.js";
 
 /** Register Service Worker */
 registerSW({ immediate: true });
@@ -16,7 +15,7 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename={getBasePath()}>
+      <BrowserRouter>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <App />
         </ErrorBoundary>
