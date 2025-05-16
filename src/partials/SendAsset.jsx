@@ -167,8 +167,7 @@ export default function SendAsset({ defaultAsset = "" }) {
           {/* Asset */}
           <Controller
             name="asset"
-            disabled={form.formState.isSubmitting}
-            render={({ field, fieldState }) => (
+            render={({ fieldState }) => (
               <>
                 {/* Asset */}
                 {defaultAsset ? (
@@ -180,14 +179,14 @@ export default function SendAsset({ defaultAsset = "" }) {
                   >
                     {selectedAsset ? (
                       <AccountAsset
-                        disabled={field.disabled}
+                        disabled={form.formState.isSubmitting}
                         as={Dialog.Trigger}
                         asset={selectedAsset}
                       />
                     ) : (
                       <Dialog.Trigger
                         type="button"
-                        disabled={field.disabled}
+                        disabled={form.formState.isSubmitting}
                         className={cn(
                           "bg-neutral-100 dark:bg-neutral-800",
                           "p-4 rounded-xl text-sm font-bold",
@@ -215,7 +214,6 @@ export default function SendAsset({ defaultAsset = "" }) {
           {/* Address */}
           <Controller
             name="address"
-            disabled={form.formState.isSubmitting}
             render={({ field, fieldState }) => (
               <>
                 {/* Matched Account */}
@@ -229,6 +227,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                 <div className="flex gap-2">
                   <Input
                     {...field}
+                    disabled={form.formState.isSubmitting}
                     spellCheck={false}
                     className="grow min-w-0"
                     autoComplete={"off"}
@@ -242,7 +241,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                   >
                     <Dialog.Trigger
                       type="button"
-                      disabled={field.disabled}
+                      disabled={form.formState.isSubmitting}
                       className={cn(
                         "text-blue-500 shrink-0",
                         "bg-neutral-100 dark:bg-neutral-800",
@@ -267,11 +266,11 @@ export default function SendAsset({ defaultAsset = "" }) {
           {/* MEMO */}
           <Controller
             name="memo"
-            disabled={form.formState.isSubmitting}
             render={({ field, fieldState }) => (
               <>
                 <Input
                   {...field}
+                  disabled={form.formState.isSubmitting}
                   spellCheck={false}
                   autoComplete={"off"}
                   placeholder={"MEMO (Optional)"}
@@ -289,12 +288,12 @@ export default function SendAsset({ defaultAsset = "" }) {
           {/* Amount */}
           <Controller
             name="amount"
-            disabled={form.formState.isSubmitting}
             render={({ field, fieldState }) => (
               <>
                 <div className="flex gap-2 mt-3">
                   <Input
                     {...field}
+                    disabled={form.formState.isSubmitting}
                     className="grow min-w-0"
                     type="number"
                     spellCheck={false}
@@ -305,7 +304,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                   {/* Max */}
                   <button
                     type="button"
-                    disabled={field.disabled}
+                    disabled={form.formState.isSubmitting}
                     onClick={() => field.onChange(maxAmount)}
                     className="text-blue-500 shrink-0 disabled:opacity-60"
                   >

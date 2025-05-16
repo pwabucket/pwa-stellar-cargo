@@ -294,15 +294,16 @@ export default function SwapAsset({ defaultAsset = "" }) {
           {/* Source Asset and Amount */}
           <Controller
             name="amount"
-            disabled={
-              form.formState.isSubmitting || receivedPathsMutation.isPending
-            }
             render={({ field, fieldState }) => (
               <>
                 {/* Source Amount */}
                 <div className="flex gap-2">
                   <Input
                     {...field}
+                    disabled={
+                      form.formState.isSubmitting ||
+                      receivedPathsMutation.isPending
+                    }
                     spellCheck={false}
                     className="grow min-w-0"
                     autoComplete={"off"}
@@ -317,7 +318,10 @@ export default function SwapAsset({ defaultAsset = "" }) {
                     >
                       <AssetPickerTrigger
                         asset={selectedSourceAsset}
-                        disabled={field.disabled}
+                        disabled={
+                          form.formState.isSubmitting ||
+                          receivedPathsMutation.isPending
+                        }
                       />
 
                       <AssetPicker
@@ -341,7 +345,10 @@ export default function SwapAsset({ defaultAsset = "" }) {
                   {selectedSourceAsset ? (
                     <button
                       type="button"
-                      disabled={field.disabled}
+                      disabled={
+                        form.formState.isSubmitting ||
+                        receivedPathsMutation.isPending
+                      }
                       onClick={() => field.onChange(maxAmount)}
                       className={cn(
                         "shrink-0",
@@ -381,15 +388,15 @@ export default function SwapAsset({ defaultAsset = "" }) {
           {/* Received Asset and Amount */}
           <Controller
             name="receivedAmount"
-            disabled={
-              form.formState.isSubmitting || sendPathsMutation.isPending
-            }
             render={({ field, fieldState }) => (
               <>
                 {/* Received Amount */}
                 <div className="flex gap-2">
                   <Input
                     {...field}
+                    disabled={
+                      form.formState.isSubmitting || sendPathsMutation.isPending
+                    }
                     spellCheck={false}
                     className="grow min-w-0"
                     autoComplete={"off"}
@@ -403,7 +410,10 @@ export default function SwapAsset({ defaultAsset = "" }) {
                   >
                     <AssetPickerTrigger
                       asset={selectedReceivedAsset}
-                      disabled={field.disabled}
+                      disabled={
+                        form.formState.isSubmitting ||
+                        sendPathsMutation.isPending
+                      }
                     />
                     <AssetPicker
                       assets={otherReceivedAssets}

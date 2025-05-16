@@ -112,11 +112,11 @@ export default function AddTrustline() {
           {/* Asset Code */}
           <Controller
             name="assetCode"
-            disabled={form.formState.isSubmitting}
             render={({ field, fieldState }) => (
               <>
                 <Input
                   {...field}
+                  disabled={form.formState.isSubmitting}
                   spellCheck={false}
                   autoComplete={"off"}
                   placeholder={"Asset Code"}
@@ -129,11 +129,11 @@ export default function AddTrustline() {
           {/* Asset Issuer */}
           <Controller
             name="assetIssuer"
-            disabled={form.formState.isSubmitting}
             render={({ field, fieldState }) => (
               <>
                 <Input
                   {...field}
+                  disabled={form.formState.isSubmitting}
                   spellCheck={false}
                   autoComplete={"off"}
                   placeholder={"Asset Issuer"}

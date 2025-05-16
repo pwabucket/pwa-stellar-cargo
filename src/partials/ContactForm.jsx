@@ -127,11 +127,11 @@ export default function ContactForm({ contact, onSaved }) {
         {/* MEMO */}
         <Controller
           name="memo"
-          disabled={form.formState.isSubmitting}
           render={({ field, fieldState }) => (
             <>
               <Input
                 {...field}
+                disabled={form.formState.isSubmitting}
                 spellCheck={false}
                 autoComplete={"off"}
                 placeholder={"MEMO (Optional)"}
