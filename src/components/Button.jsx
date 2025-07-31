@@ -8,7 +8,11 @@ export const Button = memo(function ({
   return (
     <Component
       {...props}
-      className={cn("p-2 rounded-xl", "disabled:opacity-60", props.className)}
+      className={cn(
+        "font-bold px-4 py-2 rounded-full",
+        "disabled:opacity-60",
+        props.className
+      )}
     />
   );
 });
