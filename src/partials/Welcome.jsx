@@ -12,15 +12,16 @@ import { PrimaryButton, SecondaryButton } from "@/components/Button";
 import { RiResetLeftFill } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import FooterLinks from "./FooterLinks";
 import GoogleBackupPrompt from "./GoogleBackupPrompt";
+import useLocationToggle from "@/hooks/useLocationToggle";
 
 export default function Welcome() {
   const { googleApi, googleDrive, resetWallet } = useAppContext();
   const login = useAppStore((state) => state.login);
   const accounts = useAppStore((state) => state.accounts);
-  const [showWalletForm, setShowWalletForm] = useState(false);
+  const [showWalletForm, setShowWalletForm] =
+    useLocationToggle("_showWalletForm");
 
   /** Google Drive Backup Prompt */
   const { show, setShow, value, resolve, prompt } = usePrompt();
