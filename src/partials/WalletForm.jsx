@@ -4,9 +4,10 @@ import useAppStore from "@/store/useAppStore";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Input, PasswordInput } from "@/components/Input";
 import { Keypair, StrKey } from "@stellar/stellar-sdk";
+import { LuRotateCcw } from "react-icons/lu";
 import { PrimaryButton } from "@/components/Button";
+import { cn, truncatePublicKey } from "@/lib/utils";
 import { storeKey } from "@/lib/stellar/keyManager";
-import { truncatePublicKey } from "@/lib/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 /** Schema */
@@ -42,6 +43,10 @@ export default function WalletForm({ pinCode = "", onCreated }) {
   const publicKey = StrKey.isValidEd25519SecretSeed(secretKey)
     ? Keypair.fromSecret(secretKey).publicKey()
     : null;
+
+  const generateSecretKey = () => {
+    form.setValue("secretKey", Keypair.random().secret());
+  };
 
   const handleFormSubmit = async ({ name, secretKey, pinCode }) => {
     const alreadyExists = accounts.some((item) => item.publicKey === publicKey);
@@ -102,12 +107,30 @@ export default function WalletForm({ pinCode = "", onCreated }) {
           name="secretKey"
           render={({ field, fieldState }) => (
             <>
-              <Input
-                {...field}
-                spellCheck={false}
-                autoComplete={"off"}
-                placeholder={"Secret Key"}
-              />
+              <div className="relative">
+                <Input
+                  {...field}
+                  spellCheck={false}
+                  autoComplete={"off"}
+                  placeholder={"Secret Key"}
+                  className="pr-10 w-full"
+                />
+
+                <button
+                  onClick={generateSecretKey}
+                  title="Generate Secret Key"
+                  type="button"
+                  className={cn(
+                    "absolute inset-y-0 right-0",
+                    "w-10 outline-0",
+                    "flex items-center justify-center",
+                    "hover:bg-neutral-200 dark:hover:bg-neutral-700",
+                    "rounded-r-xl disabled:opacity-60"
+                  )}
+                >
+                  <LuRotateCcw className="size-6" />
+                </button>
+              </div>
               {publicKey ? (
                 <p className="text-xs text-blue-500 px-2 truncate">
                   Account: {truncatePublicKey(publicKey, 12)}

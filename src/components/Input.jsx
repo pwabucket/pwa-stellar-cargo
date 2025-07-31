@@ -11,6 +11,7 @@ export const Input = memo(function ({
     <Component
       {...props}
       className={cn(
+        "w-full",
         "bg-neutral-100 dark:bg-neutral-800",
         "px-3 py-2 rounded-xl",
         "outline-0",
