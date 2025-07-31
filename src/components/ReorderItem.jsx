@@ -19,7 +19,7 @@ export default memo(function ReorderItem({ children, hideHandle, ...props }) {
           )}
           onPointerDown={(event) => dragControls.start(event)}
         >
-          <HiOutlineSquares2X2 className="w-4 h-4" />
+          <HiOutlineSquares2X2 className="size-4" />
         </button>
       </div>
     </Reorder.Item>
