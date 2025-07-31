@@ -1,3 +1,4 @@
+import AccountImage from "@/components/AccountImage";
 import ReorderItem from "@/components/ReorderItem";
 import useAppStore from "@/store/useAppStore";
 import { Input } from "@/components/Input";
@@ -51,13 +52,17 @@ export default function ContactList() {
               <Link
                 to={`/contacts/${contact.id}`}
                 className={cn(
-                  "group rounded-xl px-3",
+                  "group rounded-xl px-2 py-1",
                   "bg-neutral-100 dark:bg-neutral-800",
                   "hover:bg-blue-500 hover:text-white",
                   "flex items-center gap-2"
                 )}
               >
-                <h4 className="font-bold truncate grow min-w-0 py-2">
+                <AccountImage
+                  publicKey={contact.address}
+                  className="size-8 rounded-full"
+                />
+                <h4 className="font-bold truncate grow min-w-0">
                   {contact.name || "Stellar Contact"}
                 </h4>
                 <div className="flex flex-col min-w-0 shrink-0">
