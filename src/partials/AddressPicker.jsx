@@ -1,3 +1,4 @@
+import AccountImage from "@/components/AccountImage";
 import useAppStore from "@/store/useAppStore";
 import { Dialog, Tabs } from "radix-ui";
 import { Input } from "@/components/Input";
@@ -98,7 +99,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
                     key={account.publicKey}
                     className={cn(
                       "text-left",
-                      "group rounded-xl px-3 py-2",
+                      "group rounded-xl px-2 py-1",
                       "bg-neutral-100 dark:bg-neutral-800",
                       "hover:bg-blue-500 hover:text-white",
                       "flex items-center gap-2"
@@ -110,18 +111,24 @@ export default function AddressPicker({ publicKey, onSelect }) {
                       })
                     }
                   >
-                    <h4 className="font-bold truncate grow min-w-0">
-                      {account.name || "Stellar Account"}
-                    </h4>
-                    <p
-                      className={cn(
-                        "truncate",
-                        "text-sm text-blue-500",
-                        "group-hover:text-blue-100"
-                      )}
-                    >
-                      {truncatePublicKey(account.publicKey)}
-                    </p>
+                    <AccountImage
+                      publicKey={account.publicKey}
+                      className="size-8 rounded-full"
+                    />
+                    <div className="grow min-w-0">
+                      <h4 className="font-bold truncate grow min-w-0 text-sm">
+                        {account.name || "Stellar Account"}
+                      </h4>
+                      <p
+                        className={cn(
+                          "truncate",
+                          "text-xs text-blue-500",
+                          "group-hover:text-blue-100"
+                        )}
+                      >
+                        {truncatePublicKey(account.publicKey, 15)}
+                      </p>
+                    </div>
                   </Dialog.Close>
                 ))}
               </div>

@@ -34,7 +34,7 @@ const Account = ({ account }) => (
           "group-hover:text-blue-100"
         )}
       >
-        {truncatePublicKey(account.publicKey, 20)}
+        {truncatePublicKey(account.publicKey, 15)}
       </p>
     </div>
   </Link>
