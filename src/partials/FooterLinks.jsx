@@ -27,6 +27,10 @@ export default function FooterLinks() {
           Source
         </FooterLink>
       </div>
+
+      <p className="text-center text-neutral-500 dark:text-neutral-400">
+        v{import.meta.env.PACKAGE_VERSION}
+      </p>
     </>
   );
 }

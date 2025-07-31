@@ -2,6 +2,7 @@ import path from "path";
 import process from "process";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
+import version from "vite-plugin-package-version";
 import { ViteEjsPlugin } from "vite-plugin-ejs";
 import { VitePWA } from "vite-plugin-pwa";
 import { defineConfig } from "vite";
@@ -25,6 +26,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       /** Plugins */
+      version(),
       VitePWA({
         registerType: "autoUpdate",
         workbox: {

@@ -5,7 +5,7 @@ export default function About() {
     <InnerAppLayout>
       <p>
         {import.meta.env.VITE_APP_NAME} is a non-custodial Stellar Wallet for
-        managing multiple accounts.
+        managing multiple Stellar accounts.
       </p>
     </InnerAppLayout>
   );
