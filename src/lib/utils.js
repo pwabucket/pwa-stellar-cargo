@@ -136,3 +136,15 @@ export function getBaseURL(path = "") {
     ).replace(/\/$/, "") + path
   );
 }
+
+export function searchProperties(
+  list,
+  search,
+  properties = ["name", "publicKey", "address"]
+) {
+  return list.filter((item) =>
+    properties.some((property) =>
+      item[property]?.toLowerCase().includes(search.toLowerCase())
+    )
+  );
+}

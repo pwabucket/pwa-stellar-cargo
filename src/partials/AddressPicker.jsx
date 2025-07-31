@@ -1,8 +1,9 @@
-import AccountImage from "@/components/AccountImage";
+import AccountItem from "@/components/AccountItem";
+import ContactItem from "@/components/ContactItem";
 import useAppStore from "@/store/useAppStore";
 import { Dialog, Tabs } from "radix-ui";
 import { Input } from "@/components/Input";
-import { cn, truncatePublicKey } from "@/lib/utils";
+import { cn, searchProperties } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
 export default function AddressPicker({ publicKey, onSelect }) {
@@ -19,11 +20,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
   const accounts = useMemo(
     () =>
       accountSearch
-        ? accountsList.filter(
-            (item) =>
-              item.name.toLowerCase().includes(accountSearch.toLowerCase()) ||
-              item.publicKey.toLowerCase() === accountSearch.toLowerCase()
-          )
+        ? searchProperties(accountsList, accountSearch, ["name", "publicKey"])
         : accountsList,
     [accountsList, accountSearch]
   );
@@ -31,11 +28,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
   const contacts = useMemo(
     () =>
       contactSearch
-        ? contactsList.filter(
-            (item) =>
-              item.name.toLowerCase().includes(contactSearch.toLowerCase()) ||
-              item.address.toLowerCase() === contactSearch.toLowerCase()
-          )
+        ? searchProperties(contactsList, contactSearch, ["name", "address"])
         : contactsList,
     [contactsList, contactSearch]
   );
@@ -95,41 +88,17 @@ export default function AddressPicker({ publicKey, onSelect }) {
                   onChange={(ev) => setAccountSearch(ev.target.value)}
                 />
                 {accounts.map((account) => (
-                  <Dialog.Close
+                  <AccountItem
                     key={account.publicKey}
-                    className={cn(
-                      "text-left",
-                      "group rounded-xl px-2 py-1",
-                      "bg-neutral-100 dark:bg-neutral-800",
-                      "hover:bg-blue-500 hover:text-white",
-                      "flex items-center gap-2"
-                    )}
+                    as={Dialog.Close}
+                    account={account}
                     onClick={() =>
                       onSelect({
                         address: account.publicKey,
                         memo: "",
                       })
                     }
-                  >
-                    <AccountImage
-                      publicKey={account.publicKey}
-                      className="size-8 rounded-full"
-                    />
-                    <div className="grow min-w-0">
-                      <h4 className="font-bold truncate grow min-w-0 text-sm">
-                        {account.name || "Stellar Account"}
-                      </h4>
-                      <p
-                        className={cn(
-                          "truncate",
-                          "text-xs text-blue-500",
-                          "group-hover:text-blue-100"
-                        )}
-                      >
-                        {truncatePublicKey(account.publicKey, 15)}
-                      </p>
-                    </div>
-                  </Dialog.Close>
+                  />
                 ))}
               </div>
             </Tabs.Content>
@@ -146,44 +115,17 @@ export default function AddressPicker({ publicKey, onSelect }) {
                 />
 
                 {contacts.map((contact) => (
-                  <Dialog.Close
+                  <ContactItem
+                    as={Dialog.Close}
                     key={contact.id}
-                    className={cn(
-                      "group rounded-xl px-2 py-1",
-                      "bg-neutral-100 dark:bg-neutral-800",
-                      "hover:bg-blue-500 hover:text-white",
-                      "flex items-center gap-2",
-                      "text-left"
-                    )}
+                    contact={contact}
                     onClick={() =>
                       onSelect({
                         address: contact.address,
                         memo: contact.memo,
                       })
                     }
-                  >
-                    <AccountImage
-                      publicKey={contact.address}
-                      className="size-8 rounded-full"
-                    />
-                    <h4 className="font-bold truncate grow min-w-0">
-                      {contact.name || "Stellar Contact"}
-                    </h4>
-                    <div className="flex flex-col min-w-0 shrink-0">
-                      <p
-                        className={cn(
-                          "truncate",
-                          "text-xs text-blue-500",
-                          "group-hover:text-blue-100"
-                        )}
-                      >
-                        {truncatePublicKey(contact.address)}
-                      </p>
-                      {contact.memo ? (
-                        <p className="text-xs">({contact.memo})</p>
-                      ) : null}
-                    </div>
-                  </Dialog.Close>
+                  />
                 ))}
               </div>
             </Tabs.Content>

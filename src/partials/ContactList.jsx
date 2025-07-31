@@ -1,10 +1,10 @@
-import AccountImage from "@/components/AccountImage";
+import ContactItem from "@/components/ContactItem";
 import ReorderItem from "@/components/ReorderItem";
 import useAppStore from "@/store/useAppStore";
 import { Input } from "@/components/Input";
 import { Link } from "react-router";
 import { Reorder } from "motion/react";
-import { cn, truncatePublicKey } from "@/lib/utils";
+import { searchProperties } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
 const ContactReorderItem = ReorderItem;
@@ -15,14 +15,7 @@ export default function ContactList() {
   const setContacts = useAppStore((state) => state.setContacts);
 
   const contacts = useMemo(
-    () =>
-      search
-        ? list.filter(
-            (item) =>
-              item.name.toLowerCase().includes(search.toLowerCase()) ||
-              item.address.toLowerCase() === search.toLowerCase()
-          )
-        : list,
+    () => (search ? searchProperties(list, search, ["name", "address"]) : list),
     [list, search]
   );
   const hideHandle = Boolean(search);
@@ -49,37 +42,11 @@ export default function ContactList() {
               value={contact}
               hideHandle={hideHandle}
             >
-              <Link
+              <ContactItem
+                as={Link}
                 to={`/contacts/${contact.id}`}
-                className={cn(
-                  "group rounded-xl px-2 py-1",
-                  "bg-neutral-100 dark:bg-neutral-800",
-                  "hover:bg-blue-500 hover:text-white",
-                  "flex items-center gap-2"
-                )}
-              >
-                <AccountImage
-                  publicKey={contact.address}
-                  className="size-8 rounded-full"
-                />
-                <h4 className="font-bold truncate grow min-w-0">
-                  {contact.name || "Stellar Contact"}
-                </h4>
-                <div className="flex flex-col min-w-0 shrink-0">
-                  <p
-                    className={cn(
-                      "truncate",
-                      "text-xs text-blue-500",
-                      "group-hover:text-blue-100"
-                    )}
-                  >
-                    {truncatePublicKey(contact.address)}
-                  </p>
-                  {contact.memo ? (
-                    <p className="text-xs">({contact.memo})</p>
-                  ) : null}
-                </div>
-              </Link>
+                contact={contact}
+              />
             </ContactReorderItem>
           ))}
         </Reorder.Group>
