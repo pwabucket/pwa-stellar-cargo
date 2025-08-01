@@ -31,7 +31,7 @@ export default function Dashboard() {
     >
       <div
         className={cn(
-          "bg-white dark:bg-black",
+          "bg-white dark:bg-neutral-900",
           "shrink-0 sticky top-12",
           "z-30"
         )}

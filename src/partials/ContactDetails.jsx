@@ -47,6 +47,7 @@ export default function ContactDetails() {
         <AccountImage
           publicKey={contact.address}
           className="size-20 shrink-0 rounded-full bg-white"
+          size={160}
         />
 
         {/* Contact Name */}

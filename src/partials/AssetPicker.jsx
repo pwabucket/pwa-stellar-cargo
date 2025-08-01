@@ -8,7 +8,7 @@ export default function AssetPicker({ assets, onSelect }) {
       <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 dark:bg-neutral-900/90" />
       <Dialog.Content
         className={cn(
-          "bg-white dark:bg-black",
+          "bg-white dark:bg-neutral-900",
           "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
           "h-3/4 overflow-auto",
           "flex flex-col"

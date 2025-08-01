@@ -18,12 +18,14 @@ export default function ContactItem({ as, contact, ...props }) {
     >
       <AccountImage
         publicKey={contact.address}
-        className="size-8 rounded-full"
+        className="size-8 rounded-full p-1 bg-neutral-200 dark:bg-neutral-700"
       />
       <div className="grow min-w-0">
-        <h4 className="font-bold text-sm truncate grow min-w-0">
+        <h4 className="font-bold truncate grow min-w-0">
           {contact.name || "Stellar Contact"}
         </h4>
+      </div>
+      <div className="flex flex-col text-right min-w-0 shrink-0">
         <p
           className={cn(
             "truncate",
@@ -31,10 +33,8 @@ export default function ContactItem({ as, contact, ...props }) {
             "group-hover:text-blue-200"
           )}
         >
-          {truncatePublicKey(contact.address, 15)}
+          {truncatePublicKey(contact.address)}
         </p>
-      </div>
-      <div className="flex flex-col min-w-0 shrink-0">
         {contact.memo ? <p className="text-xs">({contact.memo})</p> : null}
       </div>
     </Component>

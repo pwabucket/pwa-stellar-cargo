@@ -18,12 +18,15 @@ export default function AccountItem({ as, account, ...props }) {
     >
       <AccountImage
         publicKey={account.publicKey}
-        className="size-8 rounded-full"
+        className="size-8 rounded-full p-1 bg-neutral-200 dark:bg-neutral-700"
       />
       <div className="grow min-w-0">
-        <h4 className="font-bold truncate grow min-w-0 text-sm">
+        <h4 className="font-bold truncate grow min-w-0">
           {account.name || "Stellar Account"}
         </h4>
+      </div>
+
+      <div className="flex flex-col text-right min-w-0 shrink-0">
         <p
           className={cn(
             "truncate",
@@ -31,7 +34,7 @@ export default function AccountItem({ as, account, ...props }) {
             "group-hover:text-blue-200"
           )}
         >
-          {truncatePublicKey(account.publicKey, 15)}
+          {truncatePublicKey(account.publicKey)}
         </p>
       </div>
     </Component>

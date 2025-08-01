@@ -58,8 +58,11 @@ export function delay(length, precised = false) {
   });
 }
 
-export function createAccountImage(publicKey) {
-  return createStellarIdenticon(publicKey).toDataURL();
+export function createAccountImage(publicKey, size = 64) {
+  return createStellarIdenticon(publicKey, {
+    width: size,
+    height: size,
+  }).toDataURL();
 }
 
 export function calculateXLMReserve(account) {
