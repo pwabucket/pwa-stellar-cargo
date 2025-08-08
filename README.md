@@ -7,7 +7,8 @@ A non-custodial Stellar Wallet for managing multiple accounts.
 Features:
 
 - Multiple Accounts
-- Chunked Transactions 
+- Chunked Transactions
+- Split and Merge Token 
 - Batch Export
 - Batch Import
 - Google Drive Backup
