@@ -47,15 +47,35 @@ export async function createPaymentTransaction({
 
   const paths = Array.isArray(destination) ? destination : [destination];
 
-  paths.forEach((path) => {
-    transaction.addOperation(
-      Operation.payment({
-        destination: path,
-        amount: amount.toString(),
-        asset: sendAsset,
-      })
-    );
-  });
+  for (const path of paths) {
+    let destinationExists = true;
+    try {
+      await server.loadAccount(path);
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        destinationExists = false;
+      } else {
+        throw err; // unexpected error
+      }
+    }
+
+    if (!destinationExists && asset === "native" && Number(amount) >= 1) {
+      transaction.addOperation(
+        Operation.createAccount({
+          destination: path,
+          startingBalance: amount.toString(),
+        })
+      );
+    } else {
+      transaction.addOperation(
+        Operation.payment({
+          destination: path,
+          amount: amount.toString(),
+          asset: sendAsset,
+        })
+      );
+    }
+  }
 
   let builtTransaction = transaction.setTimeout(standardTimebounds).build();
 
