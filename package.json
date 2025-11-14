@@ -28,6 +28,7 @@
     "@types/google.accounts": "^0.0.17",
     "axios": "^1.11.0",
     "clsx": "^2.1.1",
+    "comlink": "^4.4.2",
     "copy-to-clipboard": "^3.3.3",
     "date-fns": "^4.1.0",
     "motion": "^12.23.12",

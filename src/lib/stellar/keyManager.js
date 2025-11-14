@@ -2,9 +2,9 @@ import {
   KeyManager,
   KeyType,
   LocalStorageKeyStore,
-  ScryptEncrypter,
 } from "@stellar/typescript-wallet-sdk-km";
 import { TransactionBuilder } from "@stellar/stellar-sdk";
+import ScryptEncrypter from "../ScryptEncrypter";
 
 /** Setup Key Store */
 export const setupKeyStore = () => {

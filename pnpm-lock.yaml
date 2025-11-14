@@ -56,6 +56,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      comlink:
+        specifier: ^4.4.2
+        version: 4.4.2
       copy-to-clipboard:
         specifier: ^3.3.3
         version: 3.3.3
@@ -1225,11 +1228,11 @@ packages:
   '@ledgerhq/logs@6.13.0':
     resolution: {integrity: sha512-4+qRW2Pc8V+btL0QEmdB2X+uyx0kOWMWE1/LWsq5sZy3Q5tpi4eItJS6mB0XL3wGW59RQ+8bchNQQ1OW/va8Og==}
 
-  '@maxim_mazurok/gapi.client.discovery-v1@0.1.20200806':
-    resolution: {integrity: sha512-Wl6UfmZVDdWbY3PUu8E2ULk9RPLjnMqp/iOA4tcK8Ne+U/GmlnWP/e34IaZNGArfl7iXJNOG+/3Rj9L9jQyF9Q==}
+  '@maxim_mazurok/gapi.client.discovery-v1@0.4.20200806':
+    resolution: {integrity: sha512-Jeo/KZqK39DI6ExXHcJ4lqnn1O/wEqboQ6eQ8WnNpu5eJ7wUnX/C5KazOgs1aRhnIB/dVzDe8wm62nmtkMIoaw==}
 
-  '@maxim_mazurok/gapi.client.drive-v3@0.0.20250727':
-    resolution: {integrity: sha512-DoVJTW3CjKyYyUXI0ggcCyaqT0beR7saa2ajuUDLqbSTUUl0lZ9gv+W7omrYCFHB0Sal5JptbVE3uGHJdIhq1g==}
+  '@maxim_mazurok/gapi.client.drive-v3@0.1.20251111':
+    resolution: {integrity: sha512-p7gkw/Dz6Ld0FIFWNIXinHaL2rL7nQ80SA0V7O2aBzvSfqBLHKbNhAD0jdTsPyLWPxrUNiJrZf/nB3hxWNFAEQ==}
 
   '@mobily/ts-belt@3.13.1':
     resolution: {integrity: sha512-K5KqIhPI/EoCTbA6CGbrenM9s41OouyK8A03fGJJcla/zKucsgLbz8HNbeseoLarRPgyWJsUyCYqFhI7t3Ra9Q==}
@@ -3310,6 +3313,9 @@ packages:
   combined-stream@1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
+
+  comlink@4.4.2:
+    resolution: {integrity: sha512-OxGdvBmJuNKSCMO4NTl1L47VRp6xn2wG4F/2hYzB6tiCb709otOxtEYCSvK80PtjODfXXZu8ds+Nw5kVCjqd2g==}
 
   comma-separated-tokens@2.0.3:
     resolution: {integrity: sha512-Fu4hJdvzeylCfQPp9SGWidpzrMs7tTrlu6Vb8XGaRGck8QSNZJJp538Wrb60Lax4fPwR64ViY468OIUTbRlGZg==}
@@ -7295,12 +7301,12 @@ snapshots:
 
   '@ledgerhq/logs@6.13.0': {}
 
-  '@maxim_mazurok/gapi.client.discovery-v1@0.1.20200806':
+  '@maxim_mazurok/gapi.client.discovery-v1@0.4.20200806':
     dependencies:
       '@types/gapi.client': 1.0.8
       '@types/gapi.client.discovery-v1': 0.0.4
 
-  '@maxim_mazurok/gapi.client.drive-v3@0.0.20250727':
+  '@maxim_mazurok/gapi.client.drive-v3@0.1.20251111':
     dependencies:
       '@types/gapi.client': 1.0.8
       '@types/gapi.client.discovery-v1': 0.0.4
@@ -9062,11 +9068,11 @@ snapshots:
 
   '@types/gapi.client.discovery-v1@0.0.4':
     dependencies:
-      '@maxim_mazurok/gapi.client.discovery-v1': 0.1.20200806
+      '@maxim_mazurok/gapi.client.discovery-v1': 0.4.20200806
 
   '@types/gapi.client.drive-v3@0.0.5':
     dependencies:
-      '@maxim_mazurok/gapi.client.drive-v3': 0.0.20250727
+      '@maxim_mazurok/gapi.client.drive-v3': 0.1.20251111
 
   '@types/gapi.client@1.0.8': {}
 
@@ -9788,6 +9794,8 @@ snapshots:
   combined-stream@1.0.8:
     dependencies:
       delayed-stream: 1.0.0
+
+  comlink@4.4.2: {}
 
   comma-separated-tokens@2.0.3: {}
 
