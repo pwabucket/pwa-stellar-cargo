@@ -53,7 +53,7 @@ export default function GoogleBackupPrompt({
               <FaGoogleDrive /> Google Drive Backup
             </Dialog.Description>
 
-            <Alert variant={"warning"} className="text-sm">
+            <Alert variant={"success"} className="text-sm">
               {formatDate(
                 new Date(backupFile?.modifiedTime || null),
                 "PPPPpppp"
