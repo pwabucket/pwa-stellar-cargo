@@ -43,7 +43,7 @@ export const PasswordInput = memo(function (props) {
           "absolute inset-y-0 right-0",
           "w-10 outline-0",
           "flex items-center justify-center",
-          "hover:bg-neutral-900",
+          "hover:bg-neutral-950",
           "rounded-r-full disabled:opacity-60"
         )}
       >

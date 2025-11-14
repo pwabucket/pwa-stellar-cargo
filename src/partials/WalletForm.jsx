@@ -5,6 +5,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Input, PasswordInput } from "@/components/Input";
 import { Keypair, StrKey } from "@stellar/stellar-sdk";
 import { LuRotateCcw } from "react-icons/lu";
+import { HiOutlineArrowDownTray } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import { cn, truncatePublicKey } from "@/lib/utils";
 import { storeKey } from "@/lib/stellar/keyManager";
@@ -160,7 +161,10 @@ export default function WalletForm({ pinCode = "", onCreated }) {
         ) : null}
 
         {/* Submit Button */}
-        <PrimaryButton type="submit">Import</PrimaryButton>
+        <PrimaryButton type="submit">
+          <HiOutlineArrowDownTray className="size-5" />
+          Import
+        </PrimaryButton>
       </form>
     </FormProvider>
   );

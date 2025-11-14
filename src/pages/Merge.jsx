@@ -5,6 +5,7 @@ import RequiredReserve from "@/components/RequiredReserve";
 import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
+import { HiOutlineFunnel } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import {
   calculateAssetMaxAmount,
@@ -139,6 +140,7 @@ export default function Merge() {
             onClick={executeMerge}
             disabled={isProcessing || results.size > 0}
           >
+            <HiOutlineFunnel className="size-5" />
             {isProcessing
               ? "Merging..."
               : results.size > 0

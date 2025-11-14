@@ -7,6 +7,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { Input } from "@/components/Input";
 import { PasswordInput } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
+import { HiOutlineArrowDownTray } from "react-icons/hi2";
 import { importAllKeys, removeAllKeys } from "@/lib/stellar/keyManager";
 import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -132,6 +133,7 @@ export default function BatchImport() {
           ) : null}
 
           <PrimaryButton disabled={form.formState.isSubmitting} type="submit">
+            <HiOutlineArrowDownTray className="size-5" />
             {form.formState.isSubmitting ? "Importing..." : "Import All"}
           </PrimaryButton>
         </form>

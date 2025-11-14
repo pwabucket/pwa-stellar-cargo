@@ -58,7 +58,7 @@ export default memo(function AccountAsset({
             <AssetValueMask value={assetValue} />
           </p>
         ) : (
-          <div className="rounded-full w-3/5 h-2 bg-neutral-700" />
+          <div className="rounded-full w-3/5 h-2 bg-neutral-950" />
         )}
       </div>
     </Component>

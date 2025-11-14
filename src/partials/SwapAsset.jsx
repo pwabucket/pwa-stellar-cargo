@@ -45,8 +45,8 @@ const AssetPickerTrigger = ({ asset, disabled }) => (
     disabled={disabled}
     className={cn(
       "shrink-0",
-      "bg-neutral-800",
-      "px-3 rounded-xl text-sm",
+      "border border-neutral-900",
+      "px-3 rounded-full text-sm",
       "flex gap-2 items-center",
       "disabled:opacity-60"
     )}
@@ -354,7 +354,8 @@ export default function SwapAsset({ defaultAsset = "" }) {
                         "shrink-0",
                         "px-4 py-1 rounded-full",
                         "text-sm shrink-0 disabled:opacity-60",
-                        "bg-blue-500/20 text-blue-500"
+                        "border border-neutral-900",
+                        "text-blue-500"
                       )}
                     >
                       MAX
@@ -375,7 +376,8 @@ export default function SwapAsset({ defaultAsset = "" }) {
                 type="button"
                 onClick={switchAssets}
                 className={cn(
-                  "p-3 rounded-full bg-neutral-800",
+                  "border border-neutral-900",
+                  "p-3 rounded-full",
                   "disabled:opacity-60"
                 )}
               >
@@ -436,6 +438,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
             type="submit"
             className="my-2"
           >
+            <HiOutlineArrowPath className="size-5" />
             {form.formState.isSubmitting ? "Swapping..." : "Swap"}
           </PrimaryButton>
         </form>

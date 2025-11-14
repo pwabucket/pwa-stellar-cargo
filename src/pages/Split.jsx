@@ -6,6 +6,7 @@ import RequiredReserve from "@/components/RequiredReserve";
 import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
+import { HiOutlineArrowsRightLeft } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import { calculateAssetMaxAmount, truncatePublicKey } from "@/lib/utils";
 import { createPaymentTransaction } from "@/lib/stellar/transactions";
@@ -144,6 +145,7 @@ export default function Split() {
             onClick={executeSplit}
             disabled={isProcessing || results.size > 0}
           >
+            <HiOutlineArrowsRightLeft className="size-5" />
             {isProcessing
               ? "Splitting..."
               : results.size > 0

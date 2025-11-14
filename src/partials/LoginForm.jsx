@@ -6,6 +6,7 @@ import { PasswordInput } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
 import { loadKey } from "@/lib/stellar/keyManager";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
 
 /** Schema */
 const loginSchema = yup
@@ -58,7 +59,10 @@ export default function LoginForm({ onVerified }) {
         />
 
         {/* Submit Button */}
-        <PrimaryButton type="submit">Login</PrimaryButton>
+        <PrimaryButton type="submit">
+          <HiOutlineArrowRightOnRectangle className="size-5" />
+          Login
+        </PrimaryButton>
       </form>
     </FormProvider>
   );
