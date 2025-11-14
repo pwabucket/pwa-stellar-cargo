@@ -2,7 +2,7 @@ import AssetValueMask from "@/components/AssetValueMask";
 import useAppStore from "@/store/useAppStore";
 import useNetWorth from "@/hooks/useNetWorth";
 import { Collapsible } from "radix-ui";
-import { HiEye } from "react-icons/hi2";
+import { HiEye, HiOutlineChevronDown } from "react-icons/hi2";
 import { TbChartAreaLine } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
@@ -37,7 +37,10 @@ export default memo(function NetWorth() {
 
           {/* Toggle */}
           <Collapsible.Root className="flex flex-col gap-2">
-            <Collapsible.Trigger>Toggle Details</Collapsible.Trigger>
+            <Collapsible.Trigger className="flex items-center gap-2 justify-center">
+              <HiOutlineChevronDown className="size-5" />
+              Toggle Details
+            </Collapsible.Trigger>
             <Collapsible.Content className="flex flex-col gap-1">
               {assets.map((item) => (
                 <div

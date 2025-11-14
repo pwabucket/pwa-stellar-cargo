@@ -1,6 +1,7 @@
 import Alert from "@/components/Alert";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAppStore from "@/store/useAppStore";
+import { HiOutlineArrowUpTray } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import { downloadFile } from "@/lib/utils";
 import { exportAllKeys } from "@/lib/stellar/keyManager";
@@ -29,7 +30,10 @@ export default function BatchExport() {
       <Alert variant={"info"}>
         All accounts and contacts will be exported (unencrypted).
       </Alert>
-      <PrimaryButton onClick={exportAll}>Export All</PrimaryButton>
+      <PrimaryButton onClick={exportAll}>
+        <HiOutlineArrowUpTray className="size-5" />
+        Export All
+      </PrimaryButton>
     </InnerAppLayout>
   );
 }
