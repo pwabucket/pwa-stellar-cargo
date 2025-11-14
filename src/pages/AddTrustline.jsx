@@ -5,6 +5,7 @@ import RequiredReserve from "@/components/RequiredReserve";
 import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import { Controller, FormProvider, useForm } from "react-hook-form";
+import { HiOutlinePlus } from "react-icons/hi2";
 import { Input } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
 import { StrKey } from "@stellar/stellar-sdk";
@@ -145,6 +146,7 @@ export default function AddTrustline() {
 
           {/* Submit Button */}
           <PrimaryButton disabled={form.formState.isSubmitting} type="submit">
+            <HiOutlinePlus className="size-5" />
             {form.formState.isSubmitting ? "Adding..." : "Add Trustline"}
           </PrimaryButton>
 

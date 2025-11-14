@@ -4,6 +4,7 @@ import RequiredReserve from "@/components/RequiredReserve";
 import TransactionsFee from "@/components/TransactionsFee";
 import useAppStore from "@/store/useAppStore";
 import useBatchTransactions from "@/hooks/useBatchTransactions";
+import { HiOutlinePlus } from "react-icons/hi2";
 import { IoCopyOutline } from "react-icons/io5";
 import { PrimaryButton } from "@/components/Button";
 import { calculateXLMReserve, copyToClipboard } from "@/lib/utils";
@@ -183,6 +184,7 @@ export default function AddTrustlineToOthers() {
             onClick={executeAddTrustline}
             disabled={isProcessing || results.size > 0}
           >
+            <HiOutlinePlus className="size-5" />
             {isProcessing
               ? "Adding..."
               : results.size > 0
