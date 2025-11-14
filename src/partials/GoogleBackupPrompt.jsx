@@ -27,6 +27,7 @@ export default function GoogleBackupPrompt({
             className={cn(
               "flex flex-col",
               "w-full max-w-sm gap-2 p-4 rounded-xl",
+              "border border-neutral-900",
               "bg-black"
             )}
           >
