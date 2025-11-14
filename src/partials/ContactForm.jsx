@@ -2,6 +2,7 @@ import * as yup from "yup";
 import FieldStateError from "@/components/FieldStateError";
 import useAppStore from "@/store/useAppStore";
 import { Controller, FormProvider, useForm } from "react-hook-form";
+import { HiOutlineCheckCircle } from "react-icons/hi2";
 import { Input } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
 import { StrKey } from "@stellar/stellar-sdk";
@@ -146,7 +147,10 @@ export default function ContactForm({ contact, onSaved }) {
         />
 
         {/* Submit Button */}
-        <PrimaryButton type="submit">Save</PrimaryButton>
+        <PrimaryButton type="submit">
+          <HiOutlineCheckCircle className="size-5" />
+          Save
+        </PrimaryButton>
       </form>
     </FormProvider>
   );

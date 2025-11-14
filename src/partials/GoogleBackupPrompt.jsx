@@ -2,6 +2,7 @@ import Alert from "@/components/Alert";
 import AppIcon from "@/assets/images/icon.svg";
 import { Dialog } from "radix-ui";
 import { FaGoogleDrive } from "react-icons/fa";
+import { HiOutlineArrowPath, HiOutlineXMark } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { formatDate } from "date-fns";
 
@@ -19,14 +20,14 @@ export default function GoogleBackupPrompt({
             "fixed inset-0",
             "flex items-center justify-center",
             "p-4 overflow-auto",
-            "z-40 bg-neutral-900/90"
+            "z-40 bg-black/50"
           )}
         >
           <Dialog.Content
             className={cn(
               "flex flex-col",
               "w-full max-w-sm gap-2 p-4 rounded-xl",
-              "bg-neutral-900"
+              "bg-black"
             )}
           >
             {/* Title */}
@@ -61,16 +62,24 @@ export default function GoogleBackupPrompt({
             {/* Restore Button */}
             <Dialog.Close
               onClick={() => resolve(true)}
-              className={cn("px-4 py-2 bg-blue-500 text-white rounded-lg")}
+              className={cn(
+                "px-4 py-2 bg-blue-600 text-white rounded-full",
+                "flex items-center justify-center gap-2"
+              )}
             >
+              <HiOutlineArrowPath className="size-5" />
               Restore
             </Dialog.Close>
 
             {/* Cancel Button */}
             <Dialog.Close
               onClick={() => resolve(false)}
-              className={cn("px-4 py-2 bg-neutral-900 rounded-lg")}
+              className={cn(
+                "px-4 py-2 border border-neutral-900 rounded-full",
+                "flex items-center justify-center gap-2"
+              )}
             >
+              <HiOutlineXMark className="size-5" />
               Cancel
             </Dialog.Close>
           </Dialog.Content>

@@ -4,6 +4,7 @@ import InnerAppLayout from "@/layouts/InnerAppLayout";
 import toast from "react-hot-toast";
 import useAppStore from "@/store/useAppStore";
 import { Controller, FormProvider, useForm } from "react-hook-form";
+import { HiOutlineLockClosed } from "react-icons/hi2";
 import { PasswordInput } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
 import { setupKeyManager } from "@/lib/stellar/keyManager";
@@ -106,7 +107,8 @@ export default function PinCode() {
 
           {/* Submit Button */}
           <PrimaryButton disabled={form.formState.isSubmitting} type="submit">
-            Save
+            <HiOutlineLockClosed className="size-5" />
+            Change PIN Code
           </PrimaryButton>
         </form>
       </FormProvider>
