@@ -2,7 +2,7 @@
 
 # Stellar Cargo
 
-A non-custodial Stellar Wallet for managing multiple accounts.
+A non-custodial Stellar Wallet for managing multiple Stellar accounts.
 
 Features:
 
@@ -19,7 +19,9 @@ The receiving account will sponsor the gas fee for all senders, the account must
 
 
 <p align="center">
-  <img src="/public/screenshot-mobile-1.jpg" width="32%" />
-  <img src="/public/screenshot-mobile-2.jpg" width="32%" />
-  <img src="/public/screenshot-mobile-3.jpg" width="32%" />
+  <img src="/public/social-preview.png" width="100%" />
+  <img src="/public/screenshot-mobile-1.jpg" width="49%" />
+  <img src="/public/screenshot-mobile-2.jpg" width="49%" />
+  <img src="/public/screenshot-mobile-3.jpg" width="49%" />
+  <img src="/public/screenshot-mobile-4.jpg" width="49%" />
 </p>

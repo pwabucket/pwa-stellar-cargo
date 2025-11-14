@@ -3,17 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= VITE_APP_NAME %></title>
-    <meta name="description" content="<%= VITE_APP_DESCRIPTION %>" />
-    <link rel="icon" href="/favicon.ico" sizes="48x48" />
-    <link rel="icon" href="/icon.svg" sizes="any" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
-    <link rel="mask-icon" href="/maskable-icon-512x512.png" color="#000000" />
-    <meta property="og:title" content="<%= VITE_APP_NAME %>" />
-    <meta property="og:description" content="<%= VITE_APP_DESCRIPTION %>" />
-    <meta property="og:image" content="/maskable-icon-512x512.png" />
+
+    <!-- Title and Description -->
+    <title>Stellar Cargo — A multi-accounts Stellar Wallet</title>
+    <meta
+      name="description"
+      content="Stellar Cargo is a multi-accounts Stellar Wallet. Manage multiple Stellar accounts with built-in features like tokens split and merge."
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Stellar Cargo — A multi-accounts Stellar Wallet"
+    />
+    <meta
+      property="og:description"
+      content="Manage multiple Stellar accounts with built-in features like tokens split and merge."
+    />
+    <meta property="og:image" content="/social-preview.png" />
+    <meta property="og:site_name" content="Stellar Cargo" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Stellar Cargo — A multi-accounts Stellar Wallet"
+    />
+    <meta name="twitter:description" content="" />
+    <meta name="twitter:image" content="/social-preview.png" />
+    <meta name="twitter:creator" content="@pwabucket" />
+
+    <!-- Extra metadata -->
+    <meta name="application-name" content="Stellar Cargo" />
     <meta name="theme-color" content="#000000" />
-    <link href="/src/index.css" rel="stylesheet" />
+    <link
+      rel="author"
+      href="https://github.com/pwabucket/pwa-stellar-cargo"
+      title="GitHub Repository"
+    />
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/logo.svg" sizes="any" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/src/index.css" />
   </head>
   <body class="overscroll-none bg-black text-white">
     <div id="root"></div>

@@ -79,26 +79,9 @@ export default defineConfig(({ mode }) => {
               type: "image/jpg",
             },
             {
-              src: "screenshot-desktop-1.jpg",
+              src: "screenshot-mobile-4.jpg",
               sizes: "1080x1920",
               type: "image/jpg",
-            },
-            {
-              src: "screenshot-desktop-2.jpg",
-              sizes: "1080x1920",
-              type: "image/jpg",
-            },
-            {
-              src: "screenshot-desktop-wide-1.jpg",
-              sizes: "1280x720",
-              type: "image/jpg",
-              form_factor: "wide",
-            },
-            {
-              src: "screenshot-desktop-wide-2.jpg",
-              sizes: "1280x720",
-              type: "image/jpg",
-              form_factor: "wide",
             },
           ],
         },
