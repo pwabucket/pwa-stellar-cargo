@@ -11,6 +11,8 @@ import { HiOutlineArrowDownTray } from "react-icons/hi2";
 import { importAllKeys, removeAllKeys } from "@/lib/stellar/keyManager";
 import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 /** Schema */
 const schema = yup
@@ -41,41 +43,60 @@ export default function BatchImport() {
     },
   });
 
+  /** Import All */
   const importAll = async (file, pinCode) => {
-    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
 
-    reader.addEventListener("load", async (ev) => {
-      /** Parse JSON */
-      const data = JSON.parse(ev.target.result);
+      reader.addEventListener("load", async (ev) => {
+        /** Parse JSON */
+        const data = JSON.parse(ev.target.result);
 
-      /** Remove all keys */
-      await removeAllKeys();
+        /** Remove all keys */
+        await removeAllKeys();
 
-      /** Add Keys */
-      await importAllKeys(data.keys, pinCode);
+        /** Add Keys */
+        await importAllKeys(data.keys, pinCode);
 
-      /** Update Accounts */
-      setAccounts(data.accounts || []);
+        /** Update Accounts */
+        setAccounts(data.accounts || []);
 
-      /** Update Contacts */
-      setContacts(data.contacts || []);
+        /** Update Contacts */
+        setContacts(data.contacts || []);
 
-      /** Login */
-      login(pinCode);
+        /** Login */
+        login(pinCode);
 
-      /** Navigate to Home */
-      navigate("/", {
-        replace: true,
+        /** Navigate to Home */
+        navigate("/", {
+          replace: true,
+        });
+
+        /** Resolve */
+        resolve();
       });
-    });
 
-    /** Read File */
-    reader.readAsText(file);
+      /** Handle Error */
+      reader.addEventListener("error", (err) => {
+        reject(err);
+      });
+
+      /** Read File */
+      reader.readAsText(file);
+    });
   };
+  const mutation = useMutation({
+    mutationKey: ["batch", "import"],
+    mutationFn: async (data) => {
+      await importAll(data.file, data.pinCode);
+      return { status: true };
+    },
+  });
 
   /** Handle Submit */
   const handleFormSubmit = async ({ file, pinCode }) => {
-    await importAll(file, pinCode);
+    await mutation.mutateAsync({ file, pinCode });
+    toast.success("Imported successfully!");
   };
 
   return (
@@ -106,6 +127,7 @@ export default function BatchImport() {
                 <Input
                   name={field.name}
                   onChange={(ev) => field.onChange(ev.target.files[0])}
+                  disabled={mutation.isPending}
                   type="file"
                 />
 
@@ -125,6 +147,7 @@ export default function BatchImport() {
                     spellCheck={false}
                     autoComplete={"off"}
                     placeholder={"PIN Code"}
+                    disabled={mutation.isPending}
                   />
                   <FieldStateError fieldState={fieldState} />
                 </>
@@ -132,9 +155,9 @@ export default function BatchImport() {
             />
           ) : null}
 
-          <PrimaryButton disabled={form.formState.isSubmitting} type="submit">
+          <PrimaryButton disabled={mutation.isPending} type="submit">
             <HiOutlineArrowDownTray className="size-5" />
-            {form.formState.isSubmitting ? "Importing..." : "Import All"}
+            {mutation.isPending ? "Importing..." : "Import All"}
           </PrimaryButton>
         </form>
       </FormProvider>

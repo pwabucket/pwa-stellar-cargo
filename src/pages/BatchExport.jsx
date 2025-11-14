@@ -5,6 +5,8 @@ import { HiOutlineArrowUpTray } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import { downloadFile } from "@/lib/utils";
 import { exportAllKeys } from "@/lib/stellar/keyManager";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export default function BatchExport() {
   const pinCode = useAppStore((state) => state.pinCode);
@@ -25,14 +27,26 @@ export default function BatchExport() {
       })
     );
   };
+
+  const mutation = useMutation({
+    mutationKey: ["batch", "export"],
+    mutationFn: async () => {
+      await exportAll();
+      toast.success("Exported successfully!");
+    },
+  });
+
   return (
     <InnerAppLayout className="gap-2">
       <Alert variant={"info"}>
         All accounts and contacts will be exported (unencrypted).
       </Alert>
-      <PrimaryButton onClick={exportAll}>
+      <PrimaryButton
+        onClick={() => mutation.mutate()}
+        disabled={mutation.isPending}
+      >
         <HiOutlineArrowUpTray className="size-5" />
-        Export All
+        {mutation.isPending ? "Exporting..." : "Export All"}
       </PrimaryButton>
     </InnerAppLayout>
   );
