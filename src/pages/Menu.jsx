@@ -19,7 +19,7 @@ export default function Menu() {
 
   return (
     <InnerAppLayout className="gap-4">
-      <div className="flex flex-col divide-y divide-neutral-950">
+      <div className="flex flex-col divide-y divide-neutral-900">
         {/* Net Worth */}
         <MenuToggleButton
           title="Net Worth"
@@ -37,7 +37,7 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex flex-col divide-y divide-neutral-950">
+      <div className="flex flex-col divide-y divide-neutral-900">
         {/* Batch Import */}
         <MenuButton
           as={Link}
@@ -55,7 +55,7 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex flex-col divide-y divide-neutral-950">
+      <div className="flex flex-col divide-y divide-neutral-900">
         {/* PIN Code */}
         <MenuButton
           as={Link}

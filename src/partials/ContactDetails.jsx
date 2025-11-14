@@ -80,7 +80,7 @@ export default function ContactDetails() {
       </div>
 
       {/* Options */}
-      <div className="flex flex-col divide-y divide-neutral-950">
+      <div className="flex flex-col divide-y divide-neutral-900">
         <MenuButton
           as={Link}
           to="edit"

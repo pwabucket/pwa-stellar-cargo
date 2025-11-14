@@ -37,7 +37,7 @@ export default function BatchTransactionAccounts({
         </label>
       ) : null}
 
-      <div className="flex flex-col divide-y divide-neutral-950">
+      <div className="flex flex-col divide-y divide-neutral-900">
         {accounts.map((source) => (
           <div key={source.keyId} className="flex items-center gap-2">
             <label

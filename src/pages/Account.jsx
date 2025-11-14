@@ -9,7 +9,7 @@ export default function Account() {
   const { balances, accountQuery } = useOutletContext();
 
   return (
-    <div className="flex flex-col divide-y divide-neutral-950">
+    <div className="flex flex-col divide-y divide-neutral-900">
       {accountQuery.isSuccess
         ? balances.map((balance, index) => (
             <AccountAsset

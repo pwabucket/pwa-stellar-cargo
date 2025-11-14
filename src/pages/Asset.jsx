@@ -112,7 +112,7 @@ export default function Asset() {
         ) : null}
       </div>
 
-      <div className="flex flex-col divide-y divide-neutral-950">
+      <div className="flex flex-col divide-y divide-neutral-900">
         {/* Send */}
         <PageLink to={"send"} icon={AiOutlineSend} title="Send" />
 

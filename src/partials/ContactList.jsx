@@ -34,7 +34,7 @@ export default function ContactList() {
         <Reorder.Group
           values={contacts}
           onReorder={(newOrder) => setContacts(newOrder)}
-          className="flex flex-col divide-y divide-neutral-950"
+          className="flex flex-col divide-y divide-neutral-900"
         >
           {contacts.map((contact) => (
             <ContactReorderItem
