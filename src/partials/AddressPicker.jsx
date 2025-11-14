@@ -35,10 +35,10 @@ export default function AddressPicker({ publicKey, onSelect }) {
 
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 dark:bg-neutral-900/90" />
+      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
       <Dialog.Content
         className={cn(
-          "bg-white dark:bg-neutral-900",
+          "bg-black",
           "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
           "h-3/4 overflow-auto",
           "flex flex-col"
@@ -78,15 +78,15 @@ export default function AddressPicker({ publicKey, onSelect }) {
             </Tabs.List>
 
             {/* Accounts */}
-            <Tabs.Content value="accounts">
-              <div className="flex flex-col gap-2">
-                {/* Account Search */}
-                <Input
-                  value={accountSearch}
-                  type="search"
-                  placeholder="Search"
-                  onChange={(ev) => setAccountSearch(ev.target.value)}
-                />
+            <Tabs.Content value="accounts" className="flex flex-col gap-4">
+              {/* Account Search */}
+              <Input
+                value={accountSearch}
+                type="search"
+                placeholder="Search"
+                onChange={(ev) => setAccountSearch(ev.target.value)}
+              />
+              <div className="flex flex-col divide-y divide-neutral-950">
                 {accounts.map((account) => (
                   <AccountItem
                     key={account.publicKey}
@@ -104,16 +104,15 @@ export default function AddressPicker({ publicKey, onSelect }) {
             </Tabs.Content>
 
             {/* Contacts */}
-            <Tabs.Content value="contacts">
-              <div className="flex flex-col gap-2">
-                {/* Contact Search */}
-                <Input
-                  type="search"
-                  placeholder="Search"
-                  value={contactSearch}
-                  onChange={(ev) => setContactSearch(ev.target.value)}
-                />
-
+            <Tabs.Content value="contacts" className="flex flex-col gap-4">
+              {/* Contact Search */}
+              <Input
+                type="search"
+                placeholder="Search"
+                value={contactSearch}
+                onChange={(ev) => setContactSearch(ev.target.value)}
+              />
+              <div className="flex flex-col divide-y divide-neutral-950">
                 {contacts.map((contact) => (
                   <ContactItem
                     as={Dialog.Close}

@@ -29,13 +29,7 @@ export default function Dashboard() {
       }
       className={"p-0"}
     >
-      <div
-        className={cn(
-          "bg-white dark:bg-neutral-900",
-          "shrink-0 sticky top-12",
-          "z-30"
-        )}
-      >
+      <div className={cn("bg-black", "shrink-0 sticky top-12", "z-30")}>
         <div className="max-w-md mx-auto grid grid-cols-2">
           <DashboardHeaderNavLink to="/app">Accounts</DashboardHeaderNavLink>
           <DashboardHeaderNavLink to="/contacts">

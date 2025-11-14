@@ -19,8 +19,9 @@ const PageLink = ({
   <Link
     {...props}
     className={cn(
-      "p-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-center",
-      "flex gap-2 justify-center items-center"
+      "p-2.5 text-center",
+      "flex gap-2 justify-center items-center",
+      "hover:bg-neutral-950 hover:text-blue-200"
     )}
   >
     <Icon className="size-4" />
@@ -36,7 +37,7 @@ export default function Asset() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className=" p-4 bg-neutral-100 dark:bg-neutral-800 rounded-xl">
+      <div className=" p-4 border border-neutral-900 rounded-xl">
         <div className="flex gap-2">
           <img
             src={asset["asset_icon"]}
@@ -111,17 +112,19 @@ export default function Asset() {
         ) : null}
       </div>
 
-      {/* Send */}
-      <PageLink to={"send"} icon={AiOutlineSend} title="Send" />
+      <div className="flex flex-col divide-y divide-neutral-950">
+        {/* Send */}
+        <PageLink to={"send"} icon={AiOutlineSend} title="Send" />
 
-      {/* Swap */}
-      <PageLink to={"swap"} icon={AiOutlineSwap} title="Swap" />
+        {/* Swap */}
+        <PageLink to={"swap"} icon={AiOutlineSwap} title="Swap" />
 
-      {/* Merge */}
-      <PageLink to={"merge"} icon={AiOutlineMerge} title="Merge" />
+        {/* Merge */}
+        <PageLink to={"merge"} icon={AiOutlineMerge} title="Merge" />
 
-      {/* Split */}
-      <PageLink to={"split"} icon={AiOutlineSplitCells} title="Split" />
+        {/* Split */}
+        <PageLink to={"split"} icon={AiOutlineSplitCells} title="Split" />
+      </div>
     </div>
   );
 }

@@ -48,8 +48,7 @@ export default function GoogleDrive() {
             <div
               className={cn(
                 "p-2 rounded-xl ",
-                "bg-neutral-100",
-                "dark:bg-neutral-800",
+                "bg-neutral-800",
                 "flex items-center gap-2"
               )}
             >
@@ -71,8 +70,7 @@ export default function GoogleDrive() {
             <div
               className={cn(
                 "p-2 rounded-xl ",
-                "bg-neutral-100",
-                "dark:bg-neutral-800",
+                "bg-neutral-800",
                 "flex items-center gap-2"
               )}
             >
@@ -80,17 +78,17 @@ export default function GoogleDrive() {
               <div
                 className={cn(
                   "size-10 shrink-0 rounded-full",
-                  "bg-neutral-200 dark:bg-neutral-700"
+                  "bg-neutral-700"
                 )}
               />
 
               {/* User Info */}
               <div className="flex flex-col gap-1 grow min-w-0">
                 {/* Name */}
-                <div className="rounded-full w-5/12 h-3 bg-neutral-200 dark:bg-neutral-700" />
+                <div className="rounded-full w-5/12 h-3 bg-neutral-700" />
 
                 {/* Email */}
-                <div className="rounded-full w-5/6 h-3 bg-neutral-200 dark:bg-neutral-700" />
+                <div className="rounded-full w-5/6 h-3 bg-neutral-700" />
               </div>
             </div>
           )}

@@ -24,9 +24,8 @@ export default memo(function AccountAsset({
     <Component
       {...props}
       className={cn(
-        "p-2 pr-3 rounded-xl text-left",
-        "bg-neutral-100 hover:bg-neutral-200",
-        "dark:bg-neutral-800 dark:hover:bg-neutral-700",
+        "p-2 pr-3 text-left",
+        "hover:bg-neutral-950",
         "flex items-center gap-2",
         "disabled:opacity-60",
         props.className
@@ -59,7 +58,7 @@ export default memo(function AccountAsset({
             <AssetValueMask value={assetValue} />
           </p>
         ) : (
-          <div className="rounded-full w-3/5 h-2 bg-neutral-200 dark:bg-neutral-700" />
+          <div className="rounded-full w-3/5 h-2 bg-neutral-700" />
         )}
       </div>
     </Component>

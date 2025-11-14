@@ -35,9 +35,9 @@ const ToolButton = ({
     {...props}
     type="button"
     className={cn(
-      "bg-neutral-100 dark:bg-neutral-800",
+      "border border-neutral-900",
       "flex items-center justify-center",
-      "px-3 rounded-xl shrink-0",
+      "p-2 rounded-full shrink-0",
       props.className
     )}
   >
@@ -142,7 +142,7 @@ export default function EditAccount() {
           />
 
           {/* Public Key */}
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <Input
               readOnly
               spellCheck={false}
@@ -158,7 +158,7 @@ export default function EditAccount() {
           </div>
 
           {/* Secret Key */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <Input
               readOnly
               spellCheck={false}

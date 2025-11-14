@@ -188,7 +188,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                         type="button"
                         disabled={form.formState.isSubmitting}
                         className={cn(
-                          "bg-neutral-100 dark:bg-neutral-800",
+                          "border border-neutral-900",
                           "p-4 rounded-xl text-sm font-bold",
                           "flex gap-2 items-center",
                           "disabled:opacity-60"
@@ -244,8 +244,8 @@ export default function SendAsset({ defaultAsset = "" }) {
                       disabled={form.formState.isSubmitting}
                       className={cn(
                         "text-blue-500 shrink-0",
-                        "bg-neutral-100 dark:bg-neutral-800",
-                        "px-3 rounded-xl",
+                        "border border-neutral-900",
+                        "px-3 rounded-full",
                         "disabled:opacity-60"
                       )}
                     >

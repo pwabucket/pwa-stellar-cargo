@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 export default function AssetPicker({ assets, onSelect }) {
   return (
     <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 dark:bg-neutral-900/90" />
+      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
       <Dialog.Content
         className={cn(
-          "bg-white dark:bg-neutral-900",
+          "bg-black",
           "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
           "h-3/4 overflow-auto",
           "flex flex-col"
@@ -19,16 +19,16 @@ export default function AssetPicker({ assets, onSelect }) {
           className={cn("w-full max-w-md mx-auto p-4", "flex flex-col gap-2")}
         >
           {/* Title and Description */}
-          <div className="flex flex-col gap-1">
-            <Dialog.Title className="text-center font-bold text-blue-500">
+          <div className="flex flex-col">
+            <Dialog.Title className="text-center text-xl font-bold text-blue-300">
               Asset Picker
             </Dialog.Title>
-            <Dialog.Description className="sr-only">
+            <Dialog.Description className="text-center text-sm text-neutral-400">
               Choose an asset
             </Dialog.Description>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col divide-y divide-neutral-950">
             {assets.map((asset) => (
               <AccountAsset
                 as={Dialog.Close}

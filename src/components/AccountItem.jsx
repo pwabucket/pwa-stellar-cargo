@@ -9,19 +9,17 @@ export default function AccountItem({ as, account, ...props }) {
       {...props}
       className={cn(
         "text-left",
-        "group rounded-xl px-2 py-1",
-        "bg-neutral-100 dark:bg-neutral-800",
-        "hover:bg-blue-500 hover:text-white",
-        "flex gap-2 items-center",
+        "group p-2.5 bg-black",
+        "flex gap-3 items-center",
         props.className
       )}
     >
       <AccountImage
         publicKey={account.publicKey}
-        className="size-8 rounded-full p-1 bg-neutral-200 dark:bg-neutral-700"
+        className="size-7 rounded-full"
       />
       <div className="grow min-w-0">
-        <h4 className="font-bold truncate grow min-w-0">
+        <h4 className="font-bold truncate group-hover:text-blue-200">
           {account.name || "Stellar Account"}
         </h4>
       </div>
@@ -30,7 +28,7 @@ export default function AccountItem({ as, account, ...props }) {
         <p
           className={cn(
             "truncate",
-            "text-xs text-neutral-500 dark:text-neutral-400",
+            "text-xs text-neutral-400",
             "group-hover:text-blue-200"
           )}
         >

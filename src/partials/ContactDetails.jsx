@@ -80,7 +80,7 @@ export default function ContactDetails() {
       </div>
 
       {/* Options */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col divide-y divide-neutral-950">
         <MenuButton
           as={Link}
           to="edit"
@@ -92,7 +92,7 @@ export default function ContactDetails() {
           onClick={handleContactRemoval}
           icon={HiOutlineTrash}
           title="Delete"
-          className="text-red-500"
+          className="text-red-500 hover:text-red-400"
         />
       </div>
     </InnerAppLayout>

@@ -40,7 +40,6 @@ import useAppStore from "./store/useAppStore";
 import useGoogleApi from "./hooks/useGoogleApi";
 import useGoogleDriveBackup from "./hooks/useGoogleDriveBackup";
 import useInactivity from "./hooks/useInactivity";
-import useTheme from "./hooks/useTheme";
 import { removeAllKeys } from "./lib/stellar/keyManager";
 
 const INACTIVITY_DURATION = 3 * 60 * 1000;
@@ -48,7 +47,6 @@ const INACTIVITY_DURATION = 3 * 60 * 1000;
 function App() {
   const googleApi = useGoogleApi();
   const googleDrive = useGoogleDriveBackup(googleApi);
-  const theme = useAppStore((state) => state.theme);
   const logout = useAppStore((state) => state.logout);
   const setAccounts = useAppStore((state) => state.setAccounts);
   const setContacts = useAppStore((state) => state.setContacts);
@@ -66,7 +64,6 @@ function App() {
     setContacts([]);
   };
 
-  useTheme(theme);
   useInactivity(INACTIVITY_DURATION);
 
   return (

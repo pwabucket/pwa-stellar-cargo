@@ -27,7 +27,7 @@ const PageNavLink = ({ styleActive = true, ...props }) => (
         isActive &&
           styleActive && [
             "font-bold text-blue-500",
-            "bg-neutral-100 dark:bg-neutral-800",
+            "border border-neutral-800",
             "rounded-full py-1",
           ]
       )
@@ -49,7 +49,7 @@ const ToolLink = ({
   >
     <span
       className={cn(
-        "bg-neutral-100 dark:bg-neutral-800",
+        "border border-neutral-800",
         "flex justify-center items-center",
         "rounded-full size-12"
       )}
