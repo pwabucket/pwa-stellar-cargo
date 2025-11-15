@@ -23,7 +23,7 @@ export default function BatchTransactionAccounts({
             "group rounded-full px-3 py-2",
             "border border-neutral-900",
             "flex items-center gap-4",
-            "grow min-w-0",
+            "min-w-0",
             "cursor-pointer select-none"
           )}
         >
