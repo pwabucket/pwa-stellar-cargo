@@ -86,7 +86,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
                 placeholder="Search"
                 onChange={(ev) => setAccountSearch(ev.target.value)}
               />
-              <div className="flex flex-col divide-y divide-neutral-900">
+              <div className="flex flex-col divide-y divide-neutral-800">
                 {accounts.map((account) => (
                   <AccountItem
                     key={account.publicKey}
@@ -112,7 +112,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
                 value={contactSearch}
                 onChange={(ev) => setContactSearch(ev.target.value)}
               />
-              <div className="flex flex-col divide-y divide-neutral-900">
+              <div className="flex flex-col divide-y divide-neutral-800">
                 {contacts.map((contact) => (
                   <ContactItem
                     as={Dialog.Close}

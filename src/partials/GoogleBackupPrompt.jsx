@@ -27,7 +27,7 @@ export default function GoogleBackupPrompt({
             className={cn(
               "flex flex-col",
               "w-full max-w-sm gap-2 p-4 rounded-xl",
-              "border border-neutral-900",
+              "border border-neutral-800",
               "bg-black"
             )}
           >
@@ -76,7 +76,7 @@ export default function GoogleBackupPrompt({
             <Dialog.Close
               onClick={() => resolve(false)}
               className={cn(
-                "px-4 py-2 border border-neutral-900 rounded-full",
+                "px-4 py-2 border border-neutral-800 rounded-full",
                 "flex items-center justify-center gap-2"
               )}
             >

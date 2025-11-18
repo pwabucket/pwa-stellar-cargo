@@ -48,7 +48,7 @@ export default function GoogleDrive() {
             <div
               className={cn(
                 "p-2 rounded-xl",
-                "border border-neutral-900",
+                "border border-neutral-800",
                 "flex items-center gap-2"
               )}
             >
@@ -70,7 +70,7 @@ export default function GoogleDrive() {
             <div
               className={cn(
                 "p-2 rounded-xl",
-                "border border-neutral-900",
+                "border border-neutral-800",
                 "flex items-center gap-2"
               )}
             >

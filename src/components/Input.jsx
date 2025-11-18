@@ -12,7 +12,7 @@ export const Input = memo(function ({
       {...props}
       className={cn(
         "w-full",
-        "bg-black border border-neutral-900",
+        "bg-black border border-neutral-800",
         "px-3 py-2 rounded-full",
         "outline-0",
         "read-only:opacity-60",

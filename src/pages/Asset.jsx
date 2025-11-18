@@ -37,7 +37,7 @@ export default function Asset() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className=" p-4 border border-neutral-900 rounded-xl">
+      <div className=" p-4 border border-neutral-800 rounded-xl">
         <div className="flex gap-2">
           <img
             src={asset["asset_icon"]}
@@ -112,7 +112,7 @@ export default function Asset() {
         ) : null}
       </div>
 
-      <div className="flex flex-col divide-y divide-neutral-900">
+      <div className="flex flex-col divide-y divide-neutral-800">
         {/* Send */}
         <PageLink to={"send"} icon={AiOutlineSend} title="Send" />
 
