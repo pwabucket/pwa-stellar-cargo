@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router";
 import { MenuButton, MenuToggleButton } from "@/components/MenuButton";
 import { TbChartAreaLine } from "react-icons/tb";
+import GoogleDriveProfile from "./GoogleDriveProfile";
 
 export default function Menu() {
   const showNetWorth = useAppStore((state) => state.showNetWorth);
@@ -19,6 +20,9 @@ export default function Menu() {
 
   return (
     <InnerAppLayout className="gap-4">
+      {/* Google Drive Profile */}
+      <GoogleDriveProfile />
+
       <div className="flex flex-col divide-y divide-neutral-800">
         {/* Net Worth */}
         <MenuToggleButton
