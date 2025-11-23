@@ -42,7 +42,7 @@ export default function AccountList() {
         <Reorder.Group
           values={accounts}
           onReorder={(newOrder) => setAccounts(newOrder)}
-          className="flex flex-col divide-y divide-neutral-800"
+          className="flex flex-col divide-y divide-slate-600"
         >
           {accounts.map((account) => (
             <AccountReorderItem

@@ -9,7 +9,7 @@ export default function AccountItem({ as, account, ...props }) {
       {...props}
       className={cn(
         "text-left",
-        "group p-2.5 bg-black",
+        "group p-2.5 bg-slate-800",
         "flex gap-3 items-center",
         props.className
       )}
@@ -28,7 +28,7 @@ export default function AccountItem({ as, account, ...props }) {
         <p
           className={cn(
             "truncate",
-            "text-xs text-neutral-400",
+            "text-xs text-slate-400",
             "group-hover:text-blue-200"
           )}
         >

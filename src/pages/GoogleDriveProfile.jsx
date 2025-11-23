@@ -17,7 +17,7 @@ export default function GoogleDriveProfile() {
         <div
           className={cn(
             "p-2 rounded-xl",
-            "border border-neutral-800",
+            "border border-slate-600",
             "flex items-center gap-2"
           )}
         >
@@ -30,29 +30,29 @@ export default function GoogleDriveProfile() {
             <h3 className="truncate font-bold leading-none">
               {profile["name"]}
             </h3>
-            <p className="text-neutral-500 leading-none">{profile["email"]}</p>
+            <p className="text-slate-500 leading-none">{profile["email"]}</p>
           </div>
         </div>
       ) : (
         <div
           className={cn(
             "p-2 rounded-xl",
-            "border border-neutral-800",
+            "border border-slate-600",
             "flex items-center gap-2"
           )}
         >
           {/* Picture */}
           <div
-            className={cn("size-10 shrink-0 rounded-full", "bg-neutral-950")}
+            className={cn("size-10 shrink-0 rounded-full", "bg-slate-700")}
           />
 
           {/* User Info */}
           <div className="flex flex-col gap-1 grow min-w-0">
             {/* Name */}
-            <div className="rounded-full w-5/12 h-3 bg-neutral-950" />
+            <div className="rounded-full w-5/12 h-3 bg-slate-700" />
 
             {/* Email */}
-            <div className="rounded-full w-5/6 h-3 bg-neutral-950" />
+            <div className="rounded-full w-5/6 h-3 bg-slate-700" />
           </div>
         </div>
       )}

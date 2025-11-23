@@ -23,7 +23,7 @@ export default function Menu() {
       {/* Google Drive Profile */}
       <GoogleDriveProfile />
 
-      <div className="flex flex-col divide-y divide-neutral-800">
+      <div className="flex flex-col divide-y divide-slate-600">
         {/* Net Worth */}
         <MenuToggleButton
           title="Net Worth"
@@ -41,7 +41,7 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex flex-col divide-y divide-neutral-800">
+      <div className="flex flex-col divide-y divide-slate-600">
         {/* Batch Import */}
         <MenuButton
           as={Link}
@@ -59,7 +59,7 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex flex-col divide-y divide-neutral-800">
+      <div className="flex flex-col divide-y divide-slate-600">
         {/* PIN Code */}
         <MenuButton
           as={Link}

@@ -50,7 +50,7 @@ export default function Welcome() {
           </h1>
 
           {/* Description */}
-          <p className="text-center text-neutral-400">
+          <p className="text-center text-slate-400">
             {import.meta.env.VITE_APP_DESCRIPTION}
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function Welcome() {
             <LoginForm onVerified={onCreatedOrVerified} />
 
             {/* Divider */}
-            <p className="text-center text-neutral-400">or</p>
+            <p className="text-center text-slate-400">or</p>
 
             {/* Reset Wallet */}
             <button
@@ -105,7 +105,7 @@ export default function Welcome() {
               </SecondaryButton>
 
               {/* Divider */}
-              <p className="text-center text-neutral-400">or</p>
+              <p className="text-center text-slate-400">or</p>
 
               {/* Restore From Google Drive */}
               <button

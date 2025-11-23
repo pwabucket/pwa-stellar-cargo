@@ -38,7 +38,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
       <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
       <Dialog.Content
         className={cn(
-          "bg-black",
+          "bg-slate-800",
           "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
           "h-3/4 overflow-auto",
           "flex flex-col"
@@ -86,7 +86,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
                 placeholder="Search"
                 onChange={(ev) => setAccountSearch(ev.target.value)}
               />
-              <div className="flex flex-col divide-y divide-neutral-800">
+              <div className="flex flex-col divide-y divide-slate-600">
                 {accounts.map((account) => (
                   <AccountItem
                     key={account.publicKey}
@@ -112,7 +112,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
                 value={contactSearch}
                 onChange={(ev) => setContactSearch(ev.target.value)}
               />
-              <div className="flex flex-col divide-y divide-neutral-800">
+              <div className="flex flex-col divide-y divide-slate-600">
                 {contacts.map((contact) => (
                   <ContactItem
                     as={Dialog.Close}

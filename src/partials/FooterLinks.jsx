@@ -14,7 +14,7 @@ export default function FooterLinks() {
         <FooterLink to="/privacy-policy" className={"text-right"}>
           Privacy Policy
         </FooterLink>
-        <span className="w-px bg-neutral-700 " />
+        <span className="w-px bg-slate-700 " />
         <FooterLink to="/terms-of-service">Terms of Service</FooterLink>
       </div>
 
@@ -22,13 +22,13 @@ export default function FooterLinks() {
         <FooterLink to="/about" className={"text-right"}>
           About
         </FooterLink>
-        <span className="w-px bg-neutral-700" />
+        <span className="w-px bg-slate-700" />
         <FooterLink to={import.meta.env.VITE_APP_REPOSITORY} target="_blank">
           Source
         </FooterLink>
       </div>
 
-      <p className="text-center text-neutral-400">
+      <p className="text-center text-slate-400">
         v{import.meta.env.PACKAGE_VERSION}
       </p>
     </>

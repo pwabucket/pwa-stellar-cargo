@@ -45,7 +45,7 @@ const AssetPickerTrigger = ({ asset, disabled }) => (
     disabled={disabled}
     className={cn(
       "shrink-0",
-      "border border-neutral-800",
+      "border border-slate-600",
       "px-3 rounded-full text-sm",
       "flex gap-2 items-center",
       "disabled:opacity-60"
@@ -354,7 +354,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                         "shrink-0",
                         "px-4 py-1 rounded-full",
                         "text-sm shrink-0 disabled:opacity-60",
-                        "border border-neutral-800",
+                        "border border-slate-600",
                         "text-blue-500"
                       )}
                     >
@@ -376,7 +376,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                 type="button"
                 onClick={switchAssets}
                 className={cn(
-                  "border border-neutral-800",
+                  "border border-slate-600",
                   "p-3 rounded-full",
                   "disabled:opacity-60"
                 )}

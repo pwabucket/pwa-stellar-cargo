@@ -8,7 +8,7 @@ export default function AssetPicker({ assets, onSelect }) {
       <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
       <Dialog.Content
         className={cn(
-          "bg-black",
+          "bg-slate-800",
           "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
           "h-3/4 overflow-auto",
           "flex flex-col"
@@ -23,12 +23,12 @@ export default function AssetPicker({ assets, onSelect }) {
             <Dialog.Title className="text-center text-xl font-bold text-blue-300">
               Asset Picker
             </Dialog.Title>
-            <Dialog.Description className="text-center text-sm text-neutral-400">
+            <Dialog.Description className="text-center text-sm text-slate-400">
               Choose an asset
             </Dialog.Description>
           </div>
 
-          <div className="flex flex-col divide-y divide-neutral-800">
+          <div className="flex flex-col divide-y divide-slate-600">
             {assets.map((asset) => (
               <AccountAsset
                 as={Dialog.Close}

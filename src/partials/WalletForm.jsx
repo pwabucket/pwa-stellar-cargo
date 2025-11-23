@@ -125,7 +125,7 @@ export default function WalletForm({ pinCode = "", onCreated }) {
                     "absolute inset-y-0 right-0",
                     "w-10 outline-0",
                     "flex items-center justify-center",
-                    "hover:bg-neutral-900",
+                    "hover:bg-slate-700",
                     "rounded-r-full disabled:opacity-60"
                   )}
                 >

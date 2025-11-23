@@ -25,7 +25,7 @@ export default memo(function AccountAsset({
       {...props}
       className={cn(
         "p-2 pr-3 text-left",
-        "hover:bg-neutral-950",
+        "hover:bg-slate-700",
         "flex items-center gap-2",
         "disabled:opacity-60",
         props.className
@@ -54,11 +54,11 @@ export default memo(function AccountAsset({
           <AssetValueMask prefix="" value={asset["balance"]} maskLength={10} />
         </p>
         {assetPriceQuery.isSuccess ? (
-          <p className="text-right text-neutral-500 text-sm">
+          <p className="text-right text-slate-500 text-sm">
             <AssetValueMask value={assetValue} />
           </p>
         ) : (
-          <div className="rounded-full w-3/5 h-2 bg-neutral-950" />
+          <div className="rounded-full w-3/5 h-2 bg-slate-700" />
         )}
       </div>
     </Component>

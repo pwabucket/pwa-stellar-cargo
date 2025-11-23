@@ -28,9 +28,9 @@ export default function AssetValue({ asset, amount = 0 }) {
 
   return enabled ? (
     query.isPending ? (
-      <div className="rounded-full w-10 h-3 bg-neutral-950 mx-1 shrink-0" />
+      <div className="rounded-full w-10 h-3 bg-slate-700 mx-1 shrink-0" />
     ) : query.isSuccess ? (
-      <span className="inline-flex text-neutral-500 text-sm mx-1 shrink-0">
+      <span className="inline-flex text-slate-500 text-sm mx-1 shrink-0">
         <AssetValueMask forceShow value={query.data} />
       </span>
     ) : null
