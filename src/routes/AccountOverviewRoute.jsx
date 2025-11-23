@@ -27,7 +27,7 @@ const PageNavLink = ({ styleActive = true, ...props }) => (
         isActive &&
           styleActive && [
             "font-bold text-blue-500",
-            "border border-slate-600",
+            "bg-slate-700",
             "rounded-full py-1",
           ]
       )
@@ -43,13 +43,13 @@ const ToolLink = ({
   <Link
     {...props}
     className={cn(
-      "flex flex-col justify-center items-center gap-1",
+      "flex flex-col justify-center items-center gap-1 hover:text-blue-400",
       props.className
     )}
   >
     <span
       className={cn(
-        "border border-slate-600",
+        "bg-slate-700",
         "flex justify-center items-center",
         "rounded-full size-12"
       )}

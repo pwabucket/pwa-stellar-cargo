@@ -130,7 +130,7 @@ export default function AddTrustlineToOthers() {
       </div>
 
       {/* Asset */}
-      <div className="p-4 flex flex-col gap-2 border border-slate-600 rounded-xl">
+      <div className="p-4 flex flex-col gap-2 bg-slate-700 rounded-xl">
         {/* Icon and Name */}
         <div className="flex gap-2">
           <img

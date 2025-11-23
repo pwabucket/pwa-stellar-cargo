@@ -28,7 +28,7 @@ export default function AssetPicker({ assets, onSelect }) {
             </Dialog.Description>
           </div>
 
-          <div className="flex flex-col divide-y divide-slate-600">
+          <div className="flex flex-col">
             {assets.map((asset) => (
               <AccountAsset
                 as={Dialog.Close}

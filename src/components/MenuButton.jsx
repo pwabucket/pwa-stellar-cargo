@@ -17,12 +17,14 @@ export const MenuButton = memo(function MenuButton({
       className={cn(
         "cursor-pointer",
         "group px-3 py-2",
-        "hover:text-blue-200",
+        "hover:text-blue-200 hover:bg-slate-700",
         "flex items-center gap-2",
         props.className
       )}
     >
-      <Icon className="size-5" />
+      <span className="shrink-0 flex items-center justify-center rounded-full">
+        <Icon className="size-5" />
+      </span>
       <div className="grow min-w-0 min-h-0 text-left">
         {title ? <h4 className="font-bold truncate">{title}</h4> : children}
       </div>

@@ -12,8 +12,8 @@ export const Input = memo(function ({
       {...props}
       className={cn(
         "w-full",
-        "border border-slate-600",
-        "px-3 py-2 rounded-full",
+        "bg-slate-700",
+        "px-3 py-2 rounded-xl",
         "outline-0",
         "read-only:opacity-60",
         "disabled:opacity-60",
@@ -43,8 +43,8 @@ export const PasswordInput = memo(function (props) {
           "absolute inset-y-0 right-0",
           "w-10 outline-0",
           "flex items-center justify-center",
-          "hover:bg-slate-700",
-          "rounded-r-full disabled:opacity-60"
+          "hover:bg-slate-600",
+          "rounded-r-xl disabled:opacity-60"
         )}
       >
         <ButtonIcon className="size-6" />

@@ -13,6 +13,10 @@ import { MenuButton, MenuToggleButton } from "@/components/MenuButton";
 import { TbChartAreaLine } from "react-icons/tb";
 import GoogleDriveProfile from "./GoogleDriveProfile";
 
+const MenuSectionHeading = ({ title }) => {
+  return <h3 className="text-xs px-4 py-2">{title}</h3>;
+};
+
 export default function Menu() {
   const showNetWorth = useAppStore((state) => state.showNetWorth);
   const setShowNetWorth = useAppStore((state) => state.setShowNetWorth);
@@ -23,7 +27,8 @@ export default function Menu() {
       {/* Google Drive Profile */}
       <GoogleDriveProfile />
 
-      <div className="flex flex-col divide-y divide-slate-600">
+      <div className="flex flex-col">
+        <MenuSectionHeading title="Display and Backup Options" />
         {/* Net Worth */}
         <MenuToggleButton
           title="Net Worth"
@@ -41,7 +46,8 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex flex-col divide-y divide-slate-600">
+      <div className="flex flex-col">
+        <MenuSectionHeading title="Batch Operations" />
         {/* Batch Import */}
         <MenuButton
           as={Link}
@@ -59,7 +65,8 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex flex-col divide-y divide-slate-600">
+      <div className="flex flex-col">
+        <MenuSectionHeading title="Security" />
         {/* PIN Code */}
         <MenuButton
           as={Link}

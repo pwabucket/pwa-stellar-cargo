@@ -21,7 +21,8 @@ const PageLink = ({
     className={cn(
       "p-2.5 text-center",
       "flex gap-2 justify-center items-center",
-      "hover:bg-slate-700 hover:text-blue-200"
+      "bg-slate-700 rounded-xl",
+      "hover:bg-slate-600 hover:text-blue-200"
     )}
   >
     <Icon className="size-4" />
@@ -37,7 +38,7 @@ export default function Asset() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className=" p-4 border border-slate-600 rounded-xl">
+      <div className=" p-4 bg-slate-700 rounded-xl">
         <div className="flex gap-2">
           <img
             src={asset["asset_icon"]}
@@ -112,7 +113,7 @@ export default function Asset() {
         ) : null}
       </div>
 
-      <div className="flex flex-col divide-y divide-slate-600">
+      <div className="flex flex-col gap-2">
         {/* Send */}
         <PageLink to={"send"} icon={AiOutlineSend} title="Send" />
 
