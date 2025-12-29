@@ -13,23 +13,22 @@ import {
 import { IoCopyOutline } from "react-icons/io5";
 import { Link, NavLink, Outlet } from "react-router";
 import { cn, copyToClipboard, truncatePublicKey } from "@/lib/utils";
-import { useMatch } from "react-router";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
+import Decimal from "decimal.js";
 
-const PageNavLink = ({ styleActive = true, ...props }) => (
+const PageNavLink = (props) => (
   <NavLink
     {...props}
     end
     className={({ isActive }) =>
       cn(
         "text-center",
-        isActive &&
-          styleActive && [
-            "font-bold text-blue-500",
-            "bg-slate-700",
-            "rounded-full py-1",
-          ]
+        isActive && [
+          "font-bold text-blue-500",
+          "bg-slate-700",
+          "rounded-full py-1",
+        ]
       )
     }
   />
@@ -75,15 +74,11 @@ export default function AccountOverviewRoute() {
   const totalAssetsPrice = useMemo(
     () =>
       totalAssetsPriceQuery.data?.reduce(
-        (result, current) => result + parseFloat(current || 0),
-        0
+        (result, current) => result.plus(new Decimal(current || 0)),
+        new Decimal(0)
       ),
     [totalAssetsPriceQuery.data]
   );
-
-  const assetsPage = `/accounts/${account.publicKey}`;
-  const match = useMatch(assetsPage);
-  const isAssetsPage = match && match.pattern.end;
 
   return (
     <>
@@ -171,14 +166,18 @@ export default function AccountOverviewRoute() {
         </div>
 
         {/* NavLinks */}
-        <div className="grid grid-cols-2 p-2">
-          <PageNavLink
-            replace
-            styleActive={isAssetsPage}
-            to={isAssetsPage ? assetsPage : -1}
-          >
+        <div className="grid grid-cols-3 p-2">
+          {/* Assets */}
+          <PageNavLink replace to={`/accounts/${account.publicKey}`}>
             Assets
           </PageNavLink>
+
+          {/* Pending Claimable */}
+          <PageNavLink replace to={`/accounts/${account.publicKey}/claimable`}>
+            Claimable
+          </PageNavLink>
+
+          {/* Transactions */}
           <PageNavLink to={`/accounts/${account.publicKey}/transactions`}>
             Transactions
           </PageNavLink>

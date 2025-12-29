@@ -16,6 +16,7 @@ import { fetchAccount, submit } from "@/lib/stellar/horizonQueries";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
+import Decimal from "decimal.js";
 
 export default function AddTrustlineToOthers() {
   const { account, accountQuery, asset, publicKey } = useOutletContext();
@@ -54,12 +55,13 @@ export default function AddTrustlineToOthers() {
         );
 
         if (!exists) {
-          const requiredXLM = calculateXLMReserve(sourceAccount) + 0.5;
+          const requiredXLM = calculateXLMReserve(sourceAccount).plus("0.5");
           const XLMAsset = balances.find(
             (item) => item["asset_type"] === "native"
           );
-          const canAddTrustline =
-            parseFloat(XLMAsset["balance"]) >= parseFloat(requiredXLM);
+          const canAddTrustline = new Decimal(XLMAsset["balance"]).gte(
+            new Decimal(requiredXLM)
+          );
 
           if (canAddTrustline) {
             /** Source Transaction */

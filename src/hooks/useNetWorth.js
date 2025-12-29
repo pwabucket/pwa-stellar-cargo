@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import useAssetsMeta from "./useAssetsMeta";
 import useTotalAccountsQuery from "./useTotalAccountsQuery";
 import useTotalAssetsPriceQuery from "./useTotalAssetsPriceQuery";
+import Decimal from "decimal.js";
 
 /**
  * @type {import("@tanstack/react-query").UseQueryOptions}
@@ -46,10 +47,9 @@ export default function useNetWorth() {
               ["asset_type"]: item["asset_type"],
               ["asset_code"]: item["asset_code"],
               ["asset_issuer"]: item["asset_issuer"],
-              ["balance"]: (
-                parseFloat(item["balance"]) +
-                parseFloat(result.get(assetId)?.["balance"] || 0)
-              ).toFixed(7),
+              ["balance"]: new Decimal(item["balance"])
+                .plus(new Decimal(result.get(assetId)?.["balance"] || 0))
+                .toFixed(7, Decimal.ROUND_DOWN),
             });
           }, new Map())
           .values()
@@ -74,8 +74,8 @@ export default function useNetWorth() {
   const totalNetWorth = useMemo(
     () =>
       totalAssetsPrice.reduce(
-        (result, price) => result + parseFloat(price || 0),
-        0
+        (result, price) => result.plus(new Decimal(price || 0)),
+        new Decimal(0)
       ),
     [totalAssetsPrice]
   );

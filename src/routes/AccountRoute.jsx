@@ -14,6 +14,8 @@ import {
 } from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
+import usePendingClaimable from "@/hooks/usePendingClaimable";
+import Decimal from "decimal.js";
 
 export default function AccountRoute() {
   const { publicKey } = useParams();
@@ -23,6 +25,12 @@ export default function AccountRoute() {
     enabled: typeof account !== "undefined",
   });
 
+  /* Pending Claimable */
+  const pendingClaimable = usePendingClaimable(publicKey, {
+    enabled: typeof account !== "undefined",
+  });
+
+  /* Account XLM */
   const accountXLM = useMemo(
     () =>
       accountQuery.data
@@ -33,13 +41,21 @@ export default function AccountRoute() {
     [accountQuery.data]
   );
 
+  /* Account Reserve Balance */
   const accountReserveBalance = useMemo(
-    () => (accountQuery.data ? calculateXLMReserve(accountQuery.data) : 0),
+    () =>
+      accountQuery.data
+        ? calculateXLMReserve(accountQuery.data)
+        : new Decimal(0),
     [accountQuery.data]
   );
 
-  const accountIsBelowReserve = accountXLM["balance"] < accountReserveBalance;
+  /* Account Below Reserve */
+  const accountIsBelowReserve = new Decimal(accountXLM["balance"]).lessThan(
+    accountReserveBalance
+  );
 
+  /* Asset Ids */
   const assetIds = useMemo(
     () =>
       accountQuery.data
@@ -52,8 +68,10 @@ export default function AccountRoute() {
     [accountQuery.data]
   );
 
+  /* Assets Meta */
   const assetsMeta = useAssetsMeta(assetIds);
 
+  /* Balances with Meta */
   const balances = useMemo(
     () =>
       accountQuery.data?.balances?.map((item) => {
@@ -119,6 +137,7 @@ export default function AccountRoute() {
           accountIsBelowReserve,
           accountXLM,
           accountQuery,
+          pendingClaimable,
           assetIds,
           assetsMeta,
           balances,

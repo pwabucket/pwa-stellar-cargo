@@ -8,6 +8,7 @@ import { createElement } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { maxXLMPerTransaction } from "./stellar/transactions";
+import Decimal from "decimal.js";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -66,7 +67,7 @@ export function createAccountImage(publicKey, size = 64) {
 }
 
 export function calculateXLMReserve(account) {
-  const BASE_XLM_RESERVE = 0.5;
+  const BASE_XLM_RESERVE = new Decimal("0.5");
   const reserveIsSponsored = Boolean(account["sponsor"]);
 
   let unfundedEntries = reserveIsSponsored ? 0 : 2;
@@ -83,7 +84,7 @@ export function calculateXLMReserve(account) {
     ).length;
   }
 
-  return BASE_XLM_RESERVE * unfundedEntries;
+  return new Decimal(BASE_XLM_RESERVE).times(unfundedEntries);
 }
 
 export function copyToClipboard(content) {
@@ -99,17 +100,15 @@ export function calculateAssetMaxAmount(
 ) {
   const result =
     asset?.["asset_type"] === "native"
-      ? (
-          asset?.["balance"] -
-          accountReserveBalance -
-          calculateTransactionsFee(transactionsCount)
-        ).toFixed(7)
-      : asset?.["balance"];
-  return result > 0 ? result : 0;
+      ? new Decimal(asset?.["balance"] || 0)
+          .minus(new Decimal(accountReserveBalance))
+          .minus(new Decimal(calculateTransactionsFee(transactionsCount)))
+      : new Decimal(asset?.["balance"]);
+  return result.greaterThan(0) ? result : new Decimal(0);
 }
 
 export function calculateTransactionsFee(count) {
-  return parseFloat((count * maxXLMPerTransaction).toFixed(7));
+  return new Decimal(count).times(new Decimal(maxXLMPerTransaction)).toFixed(7);
 }
 
 export function loadScript(src) {

@@ -15,6 +15,7 @@ import { submit } from "@/lib/stellar/horizonQueries";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 import { useState } from "react";
+import Decimal from "decimal.js";
 
 export default function Split() {
   const { account, accountQuery, accountReserveBalance, asset, publicKey } =
@@ -46,12 +47,11 @@ export default function Split() {
 
   const splitAmount = useMemo(() => {
     return totalCount > 0
-      ? parseFloat(
-          (
-            calculateAssetMaxAmount(asset, accountReserveBalance, totalCount) /
-            totalCount
-          ).toFixed(7)
+      ? new Decimal(
+          calculateAssetMaxAmount(asset, accountReserveBalance, totalCount)
         )
+          .dividedBy(new Decimal(totalCount))
+          .toFixed(7)
       : 0;
   }, [asset, totalCount, accountReserveBalance]);
 

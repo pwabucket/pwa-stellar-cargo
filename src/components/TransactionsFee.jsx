@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 
 import Alert from "./Alert";
+import Decimal from "decimal.js";
 
 export default memo(function TransactionsFee({ count = 1 }) {
   const { accountXLM, accountReserveBalance } = useOutletContext();
@@ -12,8 +13,9 @@ export default memo(function TransactionsFee({ count = 1 }) {
 
   const canPerformTransaction = useMemo(
     () =>
-      parseFloat(XLMBalance) >=
-      parseFloat(accountReserveBalance) + parseFloat(totalFee),
+      new Decimal(XLMBalance).gte(
+        new Decimal(accountReserveBalance).plus(new Decimal(totalFee))
+      ),
     [XLMBalance, accountReserveBalance, totalFee]
   );
 

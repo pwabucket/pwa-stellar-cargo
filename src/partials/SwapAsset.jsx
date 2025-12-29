@@ -28,6 +28,7 @@ import { useRef } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import AssetValue from "./AssetValue";
+import Decimal from "decimal.js";
 
 /** Schema */
 const schema = yup
@@ -155,7 +156,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
 
   /** Handle Form Submission */
   const handleFormSubmit = async (data) => {
-    if (parseFloat(data.amount) > parseFloat(maxAmount)) {
+    if (new Decimal(data.amount).greaterThan(new Decimal(maxAmount))) {
       form.setError("amount", {
         message: "Amount is greater than available balance!",
       });

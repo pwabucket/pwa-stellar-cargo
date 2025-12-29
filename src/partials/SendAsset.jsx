@@ -24,6 +24,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import AssetPicker from "./AssetPicker";
 import AssetValue from "./AssetValue";
+import Decimal from "decimal.js";
 
 /** Schema */
 const schema = yup
@@ -123,7 +124,7 @@ export default function SendAsset({ defaultAsset = "" }) {
       form.setError("address", {
         message: "Can't send to the same address",
       });
-    } else if (parseFloat(data.amount) > parseFloat(maxAmount)) {
+    } else if (new Decimal(data.amount).greaterThan(new Decimal(maxAmount))) {
       form.setError("amount", {
         message: "Amount is greater than available balance!",
       });

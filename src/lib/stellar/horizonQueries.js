@@ -62,6 +62,37 @@ export async function fetchAccount(publicKey) {
   }
 }
 
+export async function fetchPendingClaimable(publicKey) {
+  if (StrKey.isValidEd25519PublicKey(publicKey)) {
+    try {
+      let records = [];
+      let page = await server
+        .claimableBalances()
+        .claimant(publicKey)
+        .limit(200)
+        .call();
+
+      while (true) {
+        records.push(...page.records);
+
+        if (!page.records.length || !page._links?.next) {
+          break;
+        }
+
+        page = await page.next();
+      }
+
+      return records;
+    } catch (err) {
+      throw error(err.response?.status ?? 400, {
+        message: `${err.response?.data?.title} - ${err.response?.data?.detail}`,
+      });
+    }
+  } else {
+    throw error(400, { message: "invalid public key" });
+  }
+}
+
 export async function fetchAccountBalances(publicKey) {
   const { balances } = await fetchAccount(publicKey);
   return balances;

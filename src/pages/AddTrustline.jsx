@@ -15,6 +15,7 @@ import { submit } from "@/lib/stellar/horizonQueries";
 import { useMutation } from "@tanstack/react-query";
 import { useOutletContext } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Decimal from "decimal.js";
 
 /** Schema */
 const schema = yup
@@ -100,8 +101,11 @@ export default function AddTrustline() {
 
       {/* Trustline Reserve */}
       <Alert variant={"warning"}>
-        You need a minimum of {accountReserveBalance + 0.5} XLM to add a
-        trustline.
+        You need a minimum of{" "}
+        {new Decimal(accountReserveBalance)
+          .plus("0.5")
+          .toFixed(7, Decimal.ROUND_DOWN)}{" "}
+        XLM to add a trustline.
       </Alert>
 
       <TransactionsFee />

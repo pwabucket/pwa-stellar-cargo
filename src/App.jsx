@@ -41,6 +41,7 @@ import useGoogleApi from "./hooks/useGoogleApi";
 import useGoogleDriveBackup from "./hooks/useGoogleDriveBackup";
 import useInactivity from "./hooks/useInactivity";
 import { removeAllKeys } from "./lib/stellar/keyManager";
+import PendingClaimable from "./pages/PendingClaimable";
 
 const INACTIVITY_DURATION = 3 * 60 * 1000;
 
@@ -101,6 +102,7 @@ function App() {
             <Route element={<AccountOverviewRoute />}>
               <Route index element={<Account />} />
               <Route path="transactions" element={<Transactions />} />
+              <Route path="claimable" element={<PendingClaimable />} />
             </Route>
 
             {/* Asset */}

@@ -9,9 +9,12 @@ import {
 } from "@stellar/stellar-sdk";
 
 import { error } from "../utils";
+import Decimal from "decimal.js";
 
 export const maxFeePerOperation = BASE_FEE;
-export const maxXLMPerTransaction = maxFeePerOperation / 10_000_000;
+export const maxXLMPerTransaction = new Decimal(maxFeePerOperation).dividedBy(
+  "10_000_000"
+);
 export const horizonUrl = import.meta.env.VITE_APP_HORIZON_URL;
 export const networkPassphrase = Networks.PUBLIC;
 export const standardTimebounds = 300;
@@ -59,7 +62,11 @@ export async function createPaymentTransaction({
       }
     }
 
-    if (!destinationExists && asset === "native" && Number(amount) >= 1) {
+    if (
+      !destinationExists &&
+      asset === "native" &&
+      new Decimal(amount).greaterThanOrEqualTo(1)
+    ) {
       transaction.addOperation(
         Operation.createAccount({
           destination: path,
@@ -120,7 +127,9 @@ export async function createPathPaymentStrictSendTransaction({
           destinationAsset.split(":")[1]
         );
 
-  let destMin = (destinationAmount * 0.98).toFixed(7);
+  let destMin = new Decimal(destinationAmount)
+    .times("0.98")
+    .toFixed(7, Decimal.ROUND_DOWN);
 
   let server = new Horizon.Server(horizonUrl);
   let sourceAccount = await server.loadAccount(source);
@@ -189,7 +198,9 @@ export async function createPathPaymentStrictReceiveTransaction({
           destinationAsset.split(":")[1]
         );
 
-  let sendMax = (sourceAmount * 0.98).toFixed(7);
+  let sendMax = new Decimal(sourceAmount)
+    .times("0.98")
+    .toFixed(7, Decimal.ROUND_DOWN);
 
   let server = new Horizon.Server(horizonUrl);
   let sourceAccount = await server.loadAccount(source);
