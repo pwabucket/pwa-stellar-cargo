@@ -305,6 +305,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                       form.formState.isSubmitting ||
                       receivedPathsMutation.isPending
                     }
+                    type="number"
                     spellCheck={false}
                     className="grow min-w-0"
                     autoComplete={"off"}
@@ -399,6 +400,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                     disabled={
                       form.formState.isSubmitting || sendPathsMutation.isPending
                     }
+                    type="number"
                     spellCheck={false}
                     className="grow min-w-0"
                     autoComplete={"off"}
