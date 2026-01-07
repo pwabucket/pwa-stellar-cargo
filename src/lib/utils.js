@@ -173,12 +173,12 @@ export function getClaimableAssets(claimables) {
     }
   }
   return Array.from(map.values()).map((item) => ({
+    ...item,
     ["balance"]: item.amount.toFixed(7, Decimal.ROUND_DOWN),
     ["asset_id"]: item.assetId,
     ["asset_type"]: item.asset,
     ["asset_code"]: item.asset !== "native" ? item.asset.split(":")[0] : null,
     ["asset_issuer"]: item.asset !== "native" ? item.asset.split(":")[1] : null,
-
     ["transaction_name"]: item.asset,
   }));
 }
