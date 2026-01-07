@@ -3,7 +3,7 @@ import {
   minimal2023Preset as preset,
 } from "@vite-pwa/assets-generator/config";
 
-const resizeOptions = { background: "#000000" };
+const resizeOptions = { background: "#fff" };
 
 export default defineConfig({
   headLinkOptions: {
