@@ -1,4 +1,4 @@
-import Decimal from "decimal.js";
+import { getClaimableAssets } from "@/lib/utils";
 import { useMemo } from "react";
 import useAssetsMeta from "./useAssetsMeta";
 import usePendingClaimableQuery from "./usePendingClaimableQuery";
@@ -10,31 +10,8 @@ export default function usePendingClaimable(publicKey, options = {}) {
     if (!pendingClaimableQuery.data) {
       return [];
     }
-    const map = new Map();
-    for (const claimable of pendingClaimableQuery.data) {
-      const asset = claimable["asset"];
-      const assetId =
-        claimable.asset === "native"
-          ? "XLM"
-          : claimable.asset.replace(":", "-");
 
-      if (map.has(assetId)) {
-        const existing = map.get(assetId);
-        existing.amount = existing.amount.plus(
-          new Decimal(claimable["amount"])
-        );
-        existing.claimables.push(claimable);
-        map.set(assetId, existing);
-      } else {
-        map.set(assetId, {
-          asset,
-          assetId,
-          amount: new Decimal(claimable["amount"]),
-          claimables: [claimable],
-        });
-      }
-    }
-    return Array.from(map.values());
+    return getClaimableAssets(pendingClaimableQuery.data);
   }, [pendingClaimableQuery.data]);
 
   const pendingClaimableAssetIds = useMemo(() => {
@@ -50,17 +27,9 @@ export default function usePendingClaimable(publicKey, options = {}) {
 
         return {
           ...item,
-          ["balance"]: item.amount.toFixed(7, Decimal.ROUND_DOWN),
-          ["asset_id"]: item.assetId,
-          ["asset_type"]: item.asset,
-          ["asset_code"]:
-            item.asset !== "native" ? item.asset.split(":")[0] : null,
-          ["asset_issuer"]:
-            item.asset !== "native" ? item.asset.split(":")[1] : null,
           ["asset_icon"]: meta?.["icon"],
           ["asset_meta"]: meta,
           ["asset_domain"]: meta?.["domain"] || meta?.["unconfirmed_domain"],
-          ["transaction_name"]: item.asset,
         };
       }),
     [pendingClaimable, pendingClaimableAssetsMeta]
