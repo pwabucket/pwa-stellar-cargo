@@ -1,7 +1,8 @@
 import usePendingClaimableNetWorth from "@/hooks/usePendingClaimableNetWorth";
+
 import NetWorthList from "./NetWorthList";
 
-export default function UnclaimedNetWorth() {
+export default function ClaimableNetWorth() {
   const { isSuccess, assets, totalNetWorth } = usePendingClaimableNetWorth();
 
   return (

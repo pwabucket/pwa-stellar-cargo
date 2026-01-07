@@ -3,8 +3,8 @@ import { TbChartAreaLine } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 
-import ClaimedNetWorth from "./ClaimedNetWorth";
-import UnclaimedNetWorth from "./UnclaimedNetWorth";
+import BalanceNetWorth from "./BalanceNetWorth";
+import ClaimableNetWorth from "./ClaimableNetWorth";
 
 const NetWorthTabButton = memo(function ({ children, ...props }) {
   return (
@@ -33,18 +33,18 @@ export default memo(function NetWorth() {
         Net Worth
       </h3>
 
-      <Tabs.Root defaultValue="claimed" className="flex flex-col gap-2">
+      <Tabs.Root defaultValue="balance" className="flex flex-col gap-2">
         <Tabs.List className="grid grid-cols-2">
-          <NetWorthTabButton value="claimed">Claimed</NetWorthTabButton>
-          <NetWorthTabButton value="unclaimed">Unclaimed</NetWorthTabButton>
+          <NetWorthTabButton value="balance">Balance</NetWorthTabButton>
+          <NetWorthTabButton value="claimable">Claimable</NetWorthTabButton>
         </Tabs.List>
 
-        <Tabs.Content value="claimed" className="flex flex-col gap-2">
-          <ClaimedNetWorth />
+        <Tabs.Content value="balance" className="flex flex-col gap-2">
+          <BalanceNetWorth />
         </Tabs.Content>
 
-        <Tabs.Content value="unclaimed" className="flex flex-col gap-2">
-          <UnclaimedNetWorth />
+        <Tabs.Content value="claimable" className="flex flex-col gap-2">
+          <ClaimableNetWorth />
         </Tabs.Content>
       </Tabs.Root>
     </div>
