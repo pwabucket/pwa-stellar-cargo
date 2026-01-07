@@ -1,9 +1,11 @@
 import AccountImage from "@/components/AccountImage";
+import Decimal from "decimal.js";
 import InnerAppLayout from "@/layouts/InnerAppLayout";
 import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
 import useAssetsMeta from "@/hooks/useAssetsMeta";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
+import usePendingClaimable from "@/hooks/usePendingClaimable";
 import { IoCopyOutline } from "react-icons/io5";
 import { Outlet, useParams } from "react-router";
 import {
@@ -14,8 +16,6 @@ import {
 } from "@/lib/utils";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
-import usePendingClaimable from "@/hooks/usePendingClaimable";
-import Decimal from "decimal.js";
 
 export default function AccountRoute() {
   const { publicKey } = useParams();
@@ -37,7 +37,7 @@ export default function AccountRoute() {
         ? accountQuery.data.balances.find(
             (balance) => balance["asset_type"] === "native"
           )
-        : [],
+        : { balance: "0" },
     [accountQuery.data]
   );
 
