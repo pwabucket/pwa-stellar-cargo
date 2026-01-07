@@ -23,8 +23,8 @@ export default function NetWorthList({ isSuccess, assets, totalNetWorth }) {
 
           {/* Toggle */}
           <Collapsible.Root className="flex flex-col gap-2">
-            <Collapsible.Trigger className="flex items-center gap-2 justify-center text-sm font-bold">
-              <HiOutlineChevronDown className="size-5" />
+            <Collapsible.Trigger className="group flex items-center gap-2 justify-center text-sm font-bold">
+              <HiOutlineChevronDown className="size-5 group-data-[state=open]:rotate-180 transition-transform duration-500" />
               Toggle Details
             </Collapsible.Trigger>
             <Collapsible.Content className="flex flex-col gap-1">
