@@ -1,14 +1,13 @@
 import Decimal from "decimal.js";
+import { Fragment } from "react";
 import clsx from "clsx";
 import copy from "copy-to-clipboard";
+import { createElement } from "react";
 import createStellarIdenticon from "stellar-identicon-js/index";
+import { maxXLMPerTransaction } from "./stellar/transactions";
 import repeatElement from "repeat-element";
 import toast from "react-hot-toast";
-import { Fragment } from "react";
-import { createElement } from "react";
 import { twMerge } from "tailwind-merge";
-
-import { maxXLMPerTransaction } from "./stellar/transactions";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -23,7 +22,7 @@ export function error(code, options) {
 
 export function repeatComponent(component, times = 1) {
   return repeatElement(undefined, times).map((_, i) =>
-    createElement(Fragment, { key: i, children: component })
+    createElement(Fragment, { key: i, children: component }),
   );
 }
 
@@ -54,7 +53,7 @@ export function delay(length, precised = false) {
       () => res(),
       precised
         ? length
-        : (length * (Math.floor(Math.random() * 50) + 100)) / 100
+        : (length * (Math.floor(Math.random() * 50) + 100)) / 100,
     );
   });
 }
@@ -74,13 +73,13 @@ export function calculateXLMReserve(account) {
 
   if (account["balances"]) {
     unfundedEntries += account["balances"].filter(
-      (item) => item["asset_type"] !== "native" && !item["sponsor"]
+      (item) => item["asset_type"] !== "native" && !item["sponsor"],
     ).length;
   }
 
   if (account["signers"]) {
     unfundedEntries += account["signers"].filter(
-      (item) => item["key"] !== account["id"] && !item["sponsor"]
+      (item) => item["key"] !== account["id"] && !item["sponsor"],
     ).length;
   }
 
@@ -96,14 +95,14 @@ export function copyToClipboard(content) {
 export function calculateAssetMaxAmount(
   asset,
   accountReserveBalance,
-  transactionsCount = 1
+  transactionsCount = 1,
 ) {
   const result =
     asset?.["asset_type"] === "native"
       ? new Decimal(asset?.["balance"] || 0)
           .minus(new Decimal(accountReserveBalance))
           .minus(new Decimal(calculateTransactionsFee(transactionsCount)))
-      : new Decimal(asset?.["balance"]);
+      : new Decimal(asset?.["balance"] || 0);
   return result.greaterThan(0) ? result : new Decimal(0);
 }
 
@@ -142,12 +141,12 @@ export function getBaseURL(path = "") {
 export function searchProperties(
   list,
   search,
-  properties = ["name", "publicKey", "address"]
+  properties = ["name", "publicKey", "address"],
 ) {
   return list.filter((item) =>
     properties.some((property) =>
-      item[property]?.toLowerCase().includes(search.toLowerCase())
-    )
+      item[property]?.toLowerCase().includes(search.toLowerCase()),
+    ),
   );
 }
 

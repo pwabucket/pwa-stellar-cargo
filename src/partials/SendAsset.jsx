@@ -1,30 +1,31 @@
 import * as yup from "yup";
+
+import { Controller, useForm } from "react-hook-form";
+import { HiOutlineBookOpen, HiOutlinePlusCircle } from "react-icons/hi2";
+import { calculateAssetMaxAmount, cn } from "@/lib/utils";
+
 import AccountAsset from "@/components/AccountAsset";
 import AddressPicker from "@/partials/AddressPicker";
-import FieldStateError from "@/components/FieldStateError";
-import RequiredReserve from "@/components/RequiredReserve";
-import TransactionsFee from "@/components/TransactionsFee";
-import useAppStore from "@/store/useAppStore";
-import useLocationToggle from "@/hooks/useLocationToggle";
-import { Controller, useForm } from "react-hook-form";
+import AssetPicker from "./AssetPicker";
+import AssetValue from "./AssetValue";
+import Decimal from "decimal.js";
 import { Dialog } from "radix-ui";
+import FieldStateError from "@/components/FieldStateError";
 import { FormProvider } from "react-hook-form";
-import { HiOutlineBookOpen, HiOutlinePlusCircle } from "react-icons/hi2";
 import { Input } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
+import RequiredReserve from "@/components/RequiredReserve";
 import { StrKey } from "@stellar/stellar-sdk";
-import { calculateAssetMaxAmount, cn } from "@/lib/utils";
+import TransactionsFee from "@/components/TransactionsFee";
 import { createPaymentTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { submit } from "@/lib/stellar/horizonQueries";
+import useAppStore from "@/store/useAppStore";
+import useLocationToggle from "@/hooks/useLocationToggle";
 import { useMemo } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useOutletContext } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-import AssetPicker from "./AssetPicker";
-import AssetValue from "./AssetValue";
-import Decimal from "decimal.js";
 
 /** Schema */
 const schema = yup
@@ -48,7 +49,7 @@ export default function SendAsset({ defaultAsset = "" }) {
   const contacts = useAppStore((state) => state.contacts);
   const pinCode = useAppStore((state) => state.pinCode);
   const [showAddressPicker, toggleAddressPicker] = useLocationToggle(
-    "__showAddressPicker"
+    "__showAddressPicker",
   );
   const [showAssetPicker, toggleAssetPicker] =
     useLocationToggle("__showAssetPicker");
@@ -68,12 +69,12 @@ export default function SendAsset({ defaultAsset = "" }) {
   const amount = form.watch("amount");
   const selectedAsset = useMemo(
     () => balances.find((item) => item["transaction_name"] === asset),
-    [balances, asset]
+    [balances, asset],
   );
 
   const maxAmount = useMemo(
     () => calculateAssetMaxAmount(selectedAsset, accountReserveBalance),
-    [selectedAsset, accountReserveBalance]
+    [selectedAsset, accountReserveBalance],
   );
 
   const address = form.watch("address");
@@ -83,10 +84,10 @@ export default function SendAsset({ defaultAsset = "" }) {
       StrKey.isValidEd25519PublicKey(address)
         ? accountList.find((item) => item.publicKey === address) ||
           contacts.find(
-            (item) => item.address === address && item.memo === memo
+            (item) => item.address === address && item.memo === memo,
           )
         : null,
-    [address, memo, accountList, contacts]
+    [address, memo, accountList, contacts],
   );
 
   const mutation = useMutation({
@@ -192,7 +193,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                           "bg-slate-700",
                           "p-4 rounded-xl text-sm font-bold",
                           "flex gap-2 items-center",
-                          "disabled:opacity-60"
+                          "disabled:opacity-60",
                         )}
                       >
                         <HiOutlinePlusCircle className="size-6" />
@@ -247,7 +248,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                         "text-blue-500 shrink-0",
                         "bg-slate-700",
                         "px-3 rounded-full",
-                        "disabled:opacity-60"
+                        "disabled:opacity-60",
                       )}
                     >
                       <HiOutlineBookOpen className="size-4" />
