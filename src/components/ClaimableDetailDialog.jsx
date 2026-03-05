@@ -1,8 +1,8 @@
-import { Dialog, Tabs } from "radix-ui";
-
 import ClaimableStakesList from "@/components/ClaimableStakesList";
+import { Dialog } from "@/components/Dialog";
 import { PrimaryButton } from "@/components/Button";
 import ReleaseCalculatorContent from "@/components/ReleaseCalculatorContent";
+import { Tabs } from "radix-ui";
 import { cn } from "@/lib/utils";
 import useClaimableStakes from "@/hooks/useClaimableStakes";
 
@@ -20,12 +20,11 @@ export default function ClaimableDetailDialog({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       {children}
-
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
+      <Dialog.Portal open={open}>
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 transition duration-300 data-closed:opacity-0" />
         <Dialog.Content
           className={cn(
-            "bg-slate-800",
+            "bg-slate-800 transition duration-300 data-closed:translate-y-full",
             "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
             "h-3/4 overflow-auto",
             "flex flex-col",

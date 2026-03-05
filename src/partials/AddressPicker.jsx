@@ -1,12 +1,14 @@
-import AccountItem from "@/components/AccountItem";
-import ContactItem from "@/components/ContactItem";
-import useAppStore from "@/store/useAppStore";
-import { Dialog, Tabs } from "radix-ui";
-import { Input } from "@/components/Input";
 import { cn, searchProperties } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
-export default function AddressPicker({ publicKey, onSelect }) {
+import AccountItem from "@/components/AccountItem";
+import ContactItem from "@/components/ContactItem";
+import { Dialog } from "@/components/Dialog";
+import { Input } from "@/components/Input";
+import { Tabs } from "radix-ui";
+import useAppStore from "@/store/useAppStore";
+
+export default function AddressPicker({ open, publicKey, onSelect }) {
   const [accountSearch, setAccountSearch] = useState("");
   const [contactSearch, setContactSearch] = useState("");
   const allAccountsList = useAppStore((state) => state.accounts);
@@ -14,7 +16,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
 
   const accountsList = useMemo(
     () => allAccountsList.filter((item) => item.publicKey !== publicKey),
-    [allAccountsList, publicKey]
+    [allAccountsList, publicKey],
   );
 
   const accounts = useMemo(
@@ -22,7 +24,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
       accountSearch
         ? searchProperties(accountsList, accountSearch, ["name", "publicKey"])
         : accountsList,
-    [accountsList, accountSearch]
+    [accountsList, accountSearch],
   );
 
   const contacts = useMemo(
@@ -30,18 +32,18 @@ export default function AddressPicker({ publicKey, onSelect }) {
       contactSearch
         ? searchProperties(contactsList, contactSearch, ["name", "address"])
         : contactsList,
-    [contactsList, contactSearch]
+    [contactsList, contactSearch],
   );
 
   return (
-    <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
+    <Dialog.Portal open={open}>
+      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 transition duration-300 data-closed:opacity-0" />
       <Dialog.Content
         className={cn(
-          "bg-slate-800",
+          "bg-slate-800 transition duration-300 data-closed:translate-y-full",
           "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
           "h-3/4 overflow-auto",
-          "flex flex-col"
+          "flex flex-col",
         )}
         onOpenAutoFocus={(ev) => ev.preventDefault()}
       >
@@ -69,7 +71,7 @@ export default function AddressPicker({ publicKey, onSelect }) {
                     "p-2",
                     "border-b-2 border-transparent",
                     "capitalize",
-                    "data-[state=active]:border-blue-500"
+                    "data-[state=active]:border-blue-500",
                   )}
                 >
                   {value}

@@ -1,17 +1,17 @@
 import AccountAsset from "@/components/AccountAsset";
-import { Dialog } from "radix-ui";
+import { Dialog } from "@/components/Dialog";
 import { cn } from "@/lib/utils";
 
-export default function AssetPicker({ assets, onSelect }) {
+export default function AssetPicker({ open, assets, onSelect }) {
   return (
-    <Dialog.Portal>
-      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
+    <Dialog.Portal open={open}>
+      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 transition duration-300 data-closed:opacity-0" />
       <Dialog.Content
         className={cn(
-          "bg-slate-800",
+          "bg-slate-800 transition duration-300 data-closed:translate-y-full",
           "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
           "h-3/4 overflow-auto",
-          "flex flex-col"
+          "flex flex-col",
         )}
         onOpenAutoFocus={(ev) => ev.preventDefault()}
       >

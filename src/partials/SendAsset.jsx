@@ -9,7 +9,7 @@ import AddressPicker from "@/partials/AddressPicker";
 import AssetPicker from "./AssetPicker";
 import AssetValue from "./AssetValue";
 import Decimal from "decimal.js";
-import { Dialog } from "radix-ui";
+import { Dialog } from "@/components/Dialog";
 import FieldStateError from "@/components/FieldStateError";
 import { FormProvider } from "react-hook-form";
 import { Input } from "@/components/Input";
@@ -202,6 +202,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                     )}
 
                     <AssetPicker
+                      open={showAssetPicker}
                       assets={balances}
                       onSelect={handleAssetPicker}
                     />
@@ -254,6 +255,7 @@ export default function SendAsset({ defaultAsset = "" }) {
                       <HiOutlineBookOpen className="size-4" />
                     </Dialog.Trigger>
                     <AddressPicker
+                      open={showAddressPicker}
                       onSelect={handleAddressPicker}
                       publicKey={account.publicKey}
                     />

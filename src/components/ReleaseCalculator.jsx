@@ -1,4 +1,4 @@
-import { Dialog } from "radix-ui";
+import { Dialog } from "@/components/Dialog";
 import { HiOutlineCalculator } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import ReleaseCalculatorContent from "@/components/ReleaseCalculatorContent";
@@ -17,11 +17,11 @@ export default function ReleaseCalculator({ stakes, assetName }) {
         </PrimaryButton>
       </Dialog.Trigger>
 
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50" />
+      <Dialog.Portal open={open}>
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 transition duration-300 data-closed:opacity-0" />
         <Dialog.Content
           className={cn(
-            "bg-slate-800",
+            "bg-slate-800 transition duration-300 data-closed:translate-y-full",
             "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
             "max-h-3/4 overflow-auto",
             "flex flex-col",

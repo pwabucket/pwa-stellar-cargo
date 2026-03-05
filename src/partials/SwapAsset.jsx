@@ -1,34 +1,35 @@
 import * as yup from "yup";
-import AccountAsset from "@/components/AccountAsset";
-import AssetPicker from "@/partials/AssetPicker";
-import FieldStateError from "@/components/FieldStateError";
-import RequiredReserve from "@/components/RequiredReserve";
-import TransactionsFee from "@/components/TransactionsFee";
-import useAppStore from "@/store/useAppStore";
-import useLocationToggle from "@/hooks/useLocationToggle";
+
 import { Controller, useForm } from "react-hook-form";
-import { Dialog } from "radix-ui";
-import { FormProvider } from "react-hook-form";
 import { HiOutlineArrowLongDown, HiOutlineArrowPath } from "react-icons/hi2";
-import { Input } from "@/components/Input";
-import { PrimaryButton } from "@/components/Button";
 import { calculateAssetMaxAmount, cn } from "@/lib/utils";
-import { createPathPaymentStrictSendTransaction } from "@/lib/stellar/transactions";
 import {
   findStrictReceivePaths,
   findStrictSendPaths,
   submit,
 } from "@/lib/stellar/horizonQueries";
+
+import AccountAsset from "@/components/AccountAsset";
+import AssetPicker from "@/partials/AssetPicker";
+import AssetValue from "./AssetValue";
+import Decimal from "decimal.js";
+import { Dialog } from "@/components/Dialog";
+import FieldStateError from "@/components/FieldStateError";
+import { FormProvider } from "react-hook-form";
+import { Input } from "@/components/Input";
+import { PrimaryButton } from "@/components/Button";
+import RequiredReserve from "@/components/RequiredReserve";
+import TransactionsFee from "@/components/TransactionsFee";
+import { createPathPaymentStrictSendTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
+import useAppStore from "@/store/useAppStore";
 import { useDebounce } from "react-use";
+import useLocationToggle from "@/hooks/useLocationToggle";
 import { useMemo } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useOutletContext } from "react-router";
 import { useRef } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-import AssetValue from "./AssetValue";
-import Decimal from "decimal.js";
 
 /** Schema */
 const schema = yup
@@ -49,7 +50,7 @@ const AssetPickerTrigger = ({ asset, disabled }) => (
       "bg-slate-700",
       "px-3 rounded-full text-sm",
       "flex gap-2 items-center",
-      "disabled:opacity-60"
+      "disabled:opacity-60",
     )}
   >
     {asset ? (
@@ -72,7 +73,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
   const pinCode = useAppStore((state) => state.pinCode);
 
   const [showSourceAssetPicker, toggleSourceAssetPicker] = useLocationToggle(
-    "__showSourceAssetPicker"
+    "__showSourceAssetPicker",
   );
 
   const [showReceivedAssetPicker, toggleReceivedAssetPicker] =
@@ -102,27 +103,27 @@ export default function SwapAsset({ defaultAsset = "" }) {
 
   const selectedSourceAsset = useMemo(
     () => balances.find((item) => item["transaction_name"] === sourceAsset),
-    [sourceAsset, balances]
+    [sourceAsset, balances],
   );
 
   const selectedReceivedAsset = useMemo(
     () => balances.find((item) => item["transaction_name"] === receivedAsset),
-    [receivedAsset, balances]
+    [receivedAsset, balances],
   );
 
   const otherSourceAssets = useMemo(
     () => balances.filter((item) => item["transaction_name"] !== receivedAsset),
-    [receivedAsset, balances]
+    [receivedAsset, balances],
   );
 
   const otherReceivedAssets = useMemo(
     () => balances.filter((item) => item["transaction_name"] !== sourceAsset),
-    [sourceAsset, balances]
+    [sourceAsset, balances],
   );
 
   const maxAmount = useMemo(
     () => calculateAssetMaxAmount(selectedSourceAsset, accountReserveBalance),
-    [selectedSourceAsset, accountReserveBalance]
+    [selectedSourceAsset, accountReserveBalance],
   );
 
   const swapMutation = useMutation({
@@ -240,7 +241,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
       sourceAmount,
       receivedAsset,
       sendPathsMutation.mutateAsync,
-    ]
+    ],
   );
 
   /** Calculate Source Amount  */
@@ -271,7 +272,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
       receivedAsset,
       receivedAmount,
       receivedPathsMutation.mutateAsync,
-    ]
+    ],
   );
 
   return (
@@ -327,6 +328,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                       />
 
                       <AssetPicker
+                        open={showSourceAssetPicker}
                         assets={otherSourceAssets}
                         onSelect={handleSourceAssetPicker}
                       />
@@ -357,7 +359,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                         "px-4 py-1 rounded-full",
                         "text-sm shrink-0 disabled:opacity-60",
                         "bg-slate-700",
-                        "text-blue-500"
+                        "text-blue-500",
                       )}
                     >
                       MAX
@@ -380,7 +382,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                 className={cn(
                   "bg-slate-700",
                   "p-3 rounded-full",
-                  "disabled:opacity-60"
+                  "disabled:opacity-60",
                 )}
               >
                 <HiOutlineArrowPath className="size-6" />
@@ -420,6 +422,7 @@ export default function SwapAsset({ defaultAsset = "" }) {
                       }
                     />
                     <AssetPicker
+                      open={showReceivedAssetPicker}
                       assets={otherReceivedAssets}
                       onSelect={handleReceivedAssetPicker}
                     />

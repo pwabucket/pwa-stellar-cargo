@@ -1,8 +1,9 @@
+import { HiOutlineArrowPath, HiOutlineXMark } from "react-icons/hi2";
+
 import Alert from "@/components/Alert";
 import AppIcon from "@/assets/images/icon.svg";
-import { Dialog } from "radix-ui";
+import { Dialog } from "@/components/Dialog";
 import { FaGoogleDrive } from "react-icons/fa";
-import { HiOutlineArrowPath, HiOutlineXMark } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
 import { formatDate } from "date-fns";
 
@@ -14,20 +15,20 @@ export default function GoogleBackupPrompt({
 }) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Portal>
+      <Dialog.Portal open={open}>
         <Dialog.Overlay
           className={cn(
             "fixed inset-0",
             "flex items-center justify-center",
             "p-4 overflow-auto",
-            "z-40 bg-black/50"
+            "z-40 bg-black/50",
           )}
         >
           <Dialog.Content
             className={cn(
               "flex flex-col",
               "w-full max-w-sm gap-2 p-4 rounded-xl",
-              "bg-slate-800"
+              "bg-slate-800",
             )}
           >
             {/* Title */}
@@ -35,7 +36,7 @@ export default function GoogleBackupPrompt({
               className={cn(
                 "inline-flex items-center justify-center gap-2",
                 "font-bold text-center",
-                "text-blue-500"
+                "text-blue-500",
               )}
             >
               <img src={AppIcon} className="w-8" />
@@ -46,7 +47,7 @@ export default function GoogleBackupPrompt({
             <Dialog.Description
               className={cn(
                 "px-2 text-center text-slate-300",
-                "flex items-center justify-center gap-2"
+                "flex items-center justify-center gap-2",
               )}
             >
               <FaGoogleDrive /> Google Drive Backup
@@ -55,7 +56,7 @@ export default function GoogleBackupPrompt({
             <Alert variant={"success"} className="text-sm">
               {formatDate(
                 new Date(backupFile?.modifiedTime || null),
-                "PPPPpppp"
+                "PPPPpppp",
               )}
             </Alert>
 
@@ -64,7 +65,7 @@ export default function GoogleBackupPrompt({
               onClick={() => resolve(true)}
               className={cn(
                 "px-4 py-2 bg-blue-600 text-white rounded-full",
-                "flex items-center justify-center gap-2"
+                "flex items-center justify-center gap-2",
               )}
             >
               <HiOutlineArrowPath className="size-5" />
@@ -76,7 +77,7 @@ export default function GoogleBackupPrompt({
               onClick={() => resolve(false)}
               className={cn(
                 "px-4 py-2 bg-slate-700 rounded-full",
-                "flex items-center justify-center gap-2"
+                "flex items-center justify-center gap-2",
               )}
             >
               <HiOutlineXMark className="size-5" />
