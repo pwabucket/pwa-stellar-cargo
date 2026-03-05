@@ -1,7 +1,6 @@
 import Decimal from "decimal.js";
-import { useMemo } from "react";
-
 import useAssetsMeta from "./useAssetsMeta";
+import { useMemo } from "react";
 import useTotalAssetsPriceQuery from "./useTotalAssetsPriceQuery";
 
 /**
@@ -32,16 +31,20 @@ export default function useBaseNetWorth(totalAssets) {
               ["balance"]: new Decimal(item["balance"])
                 .plus(new Decimal(result.get(assetId)?.["balance"] || 0))
                 .toFixed(7, Decimal.ROUND_DOWN),
+              ["claimables"]: [
+                ...(result.get(assetId)?.["claimables"] || []),
+                ...(item["claimables"] || []),
+              ],
             });
           }, new Map())
-          .values()
+          .values(),
       ),
-    [totalAssets]
+    [totalAssets],
   );
 
   const assetIds = useMemo(
     () => totalAssetsBalance.map((item) => item["asset_id"]),
-    [totalAssetsBalance]
+    [totalAssetsBalance],
   );
 
   const assetsMeta = useAssetsMeta(assetIds);
@@ -57,9 +60,9 @@ export default function useBaseNetWorth(totalAssets) {
     () =>
       totalAssetsPrice.reduce(
         (result, price) => result.plus(new Decimal(price || 0)),
-        new Decimal(0)
+        new Decimal(0),
       ),
-    [totalAssetsPrice]
+    [totalAssetsPrice],
   );
 
   const isSuccess = totalAssetsPriceQuery.isSuccess;
@@ -80,7 +83,7 @@ export default function useBaseNetWorth(totalAssets) {
           ["usd_value"]: totalAssetsPrice[index],
         };
       }) || [],
-    [totalAssetsBalance, totalAssetsPrice, assetsMeta]
+    [totalAssetsBalance, totalAssetsPrice, assetsMeta],
   );
 
   return useMemo(
@@ -89,6 +92,6 @@ export default function useBaseNetWorth(totalAssets) {
       assets,
       totalNetWorth,
     }),
-    [isSuccess, assets, totalNetWorth]
+    [isSuccess, assets, totalNetWorth],
   );
 }

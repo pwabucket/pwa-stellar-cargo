@@ -1,7 +1,4 @@
-import Home from "@/pages/Home";
 import { Route, Routes } from "react-router";
-import { Toaster } from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
 
 import About from "./pages/About";
 import Account from "./pages/Account";
@@ -14,6 +11,7 @@ import Asset from "./pages/Asset";
 import AssetRoute from "./routes/AssetRoute";
 import BatchExport from "./pages/BatchExport";
 import BatchImport from "./pages/BatchImport";
+import ClaimableRoute from "./routes/ClaimableRoute";
 import ContactDetails from "./partials/ContactDetails";
 import Contacts from "./pages/Contacts";
 import CreateContact from "./pages/CreateContact";
@@ -22,9 +20,12 @@ import EditAccount from "./pages/EditAccount";
 import EditContact from "./pages/EditContact";
 import GoogleDrive from "./pages/GoogleDrive";
 import GuestRoute from "./routes/GuestRoute";
+import Home from "@/pages/Home";
 import ImportWallet from "./pages/ImportWallet";
 import Menu from "./pages/Menu";
 import Merge from "./pages/Merge";
+import PendingClaimable from "./pages/PendingClaimable";
+import PendingClaimableDetail from "./pages/PendingClaimableDetail";
 import PinCode from "./pages/PinCode";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -35,13 +36,14 @@ import Split from "./pages/Split";
 import Swap from "./pages/Swap";
 import SwapAnyAsset from "./pages/SwapAnyAsset";
 import TermsOfService from "./pages/TermsOfService";
+import { Toaster } from "react-hot-toast";
 import Transactions from "./pages/Transactions";
+import { removeAllKeys } from "./lib/stellar/keyManager";
 import useAppStore from "./store/useAppStore";
 import useGoogleApi from "./hooks/useGoogleApi";
 import useGoogleDriveBackup from "./hooks/useGoogleDriveBackup";
 import useInactivity from "./hooks/useInactivity";
-import { removeAllKeys } from "./lib/stellar/keyManager";
-import PendingClaimable from "./pages/PendingClaimable";
+import { useQueryClient } from "@tanstack/react-query";
 
 const INACTIVITY_DURATION = 3 * 60 * 1000;
 
@@ -103,6 +105,11 @@ function App() {
               <Route index element={<Account />} />
               <Route path="transactions" element={<Transactions />} />
               <Route path="claimable" element={<PendingClaimable />} />
+            </Route>
+
+            {/* Claimable Detail */}
+            <Route path="claimable/:assetId" element={<ClaimableRoute />}>
+              <Route index element={<PendingClaimableDetail />} />
             </Route>
 
             {/* Asset */}

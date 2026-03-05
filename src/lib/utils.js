@@ -181,3 +181,84 @@ export function getClaimableAssets(claimables) {
     ["transaction_name"]: item.asset,
   }));
 }
+
+/**
+ * Extract the release date (not before) and expiry date (abs before)
+ * from a claimable balance predicate for a given claimant.
+ * @param {object} predicate - The claimant predicate from Horizon
+ * @returns {{ releaseDate: string|null, expiryDate: string|null }}
+ */
+export function extractPredicateDates(predicate) {
+  const dates = { releaseDate: null, expiryDate: null };
+
+  function walk(pred) {
+    if (!pred) return;
+
+    if (pred["unconditional"] === true) return;
+
+    // "not before X" means available after X (release date)
+    if (pred["not"]) {
+      const inner = pred["not"];
+      if (inner["abs_before"]) {
+        dates.releaseDate = inner["abs_before"];
+      } else if (inner["abs_before_epoch"]) {
+        dates.releaseDate = new Date(
+          Number(inner["abs_before_epoch"]) * 1000,
+        ).toISOString();
+      } else {
+        walk(inner);
+      }
+      return;
+    }
+
+    // Direct "abs_before" means must claim before (expiry)
+    if (pred["abs_before"]) {
+      dates.expiryDate = pred["abs_before"];
+    } else if (pred["abs_before_epoch"]) {
+      dates.expiryDate = new Date(
+        Number(pred["abs_before_epoch"]) * 1000,
+      ).toISOString();
+    }
+
+    // Recurse into and/or arrays
+    if (pred["and"]) {
+      pred["and"].forEach(walk);
+    }
+    if (pred["or"]) {
+      pred["or"].forEach(walk);
+    }
+  }
+
+  walk(predicate);
+  return dates;
+}
+
+/**
+ * Get the predicate dates for a specific claimant (publicKey)
+ * from a claimable balance record.
+ * @param {object} claimable - Raw Horizon claimable balance record
+ * @param {string} publicKey - The claimant's public key
+ * @returns {{ releaseDate: string|null, expiryDate: string|null }}
+ */
+export function getClaimableDates(claimable, publicKey) {
+  const claimant = publicKey
+    ? claimable.claimants?.find((c) => c.destination === publicKey)
+    : claimable.claimants?.[0];
+  if (!claimant) return { releaseDate: null, expiryDate: null };
+  return extractPredicateDates(claimant.predicate);
+}
+
+/**
+ * Format an ISO date string to a human-readable format.
+ * @param {string|null} dateStr
+ * @returns {string}
+ */
+export function formatDate(dateStr) {
+  if (!dateStr) return "—";
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
