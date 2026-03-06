@@ -1,4 +1,5 @@
 import { cn, formatDate } from "@/lib/utils";
+import { differenceInDays, isToday, startOfDay } from "date-fns";
 
 import AssetValueMask from "@/components/AssetValueMask";
 import type { ClaimableStake } from "@/types/index.d.ts";
@@ -14,12 +15,26 @@ export default function ClaimableStakeItem({
 }: ClaimableStakeItemProps) {
   const durationDays =
     stake.createdAt && stake.releaseDate
-      ? Math.round(
-          (new Date(stake.releaseDate).getTime() -
-            new Date(stake.createdAt).getTime()) /
-            (1000 * 60 * 60 * 24),
+      ? differenceInDays(
+          startOfDay(new Date(stake.releaseDate)),
+          startOfDay(new Date(stake.createdAt)),
         )
       : null;
+
+  const releaseDate = stake.releaseDate ? new Date(stake.releaseDate) : null;
+
+  const remainingDays = releaseDate
+    ? Math.max(
+        0,
+        differenceInDays(startOfDay(releaseDate), startOfDay(new Date())),
+      )
+    : 0;
+
+  const remainingLabel = !releaseDate
+    ? "Now"
+    : isToday(releaseDate) || remainingDays === 0
+      ? "Today"
+      : `${remainingDays}d`;
 
   return (
     <div className={cn("p-3 flex flex-col gap-1", "border-b border-slate-700")}>
@@ -30,11 +45,21 @@ export default function ClaimableStakeItem({
             {assetName}
           </span>
         </span>
-        {durationDays != null && (
-          <span className="text-xs font-normal text-blue-400 ml-1">
-            {durationDays}d
+        <div className="flex items-center gap-2">
+          {durationDays != null && (
+            <span className="text-xs font-normal text-slate-400">
+              {durationDays}d
+            </span>
+          )}
+          <span
+            className={cn(
+              "text-xs font-normal",
+              remainingDays === 0 ? "text-green-400" : "text-blue-400",
+            )}
+          >
+            {remainingLabel}
           </span>
-        )}
+        </div>
       </div>
       <div className="flex gap-4 text-xs text-slate-400">
         <span>
@@ -43,21 +68,29 @@ export default function ClaimableStakeItem({
         </span>
         <span>
           Release:{" "}
-          <span
+          <time
+            dateTime={
+              stake.releaseDate
+                ? new Date(stake.releaseDate).toISOString()
+                : new Date().toISOString()
+            }
             className={cn(
               "text-slate-300",
               !stake.releaseDate && "text-green-400",
             )}
           >
             {stake.releaseDate ? formatDate(stake.releaseDate) : "Now"}
-          </span>
+          </time>
         </span>
         {stake.expiryDate && (
           <span>
             Expires:{" "}
-            <span className="text-slate-300">
+            <time
+              className="text-slate-300"
+              dateTime={new Date(stake.expiryDate).toISOString()}
+            >
               {formatDate(stake.expiryDate)}
-            </span>
+            </time>
           </span>
         )}
       </div>
