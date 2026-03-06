@@ -1,0 +1,90 @@
+import {
+  HiOutlineArrowLeftOnRectangle,
+  HiOutlineArrowLongDown,
+  HiOutlineArrowLongUp,
+  HiOutlineKey,
+} from "react-icons/hi2";
+import { MenuButton, MenuToggleButton } from "@/components/MenuButton";
+
+import { FaGoogleDrive } from "react-icons/fa";
+import FooterLinks from "@/partials/FooterLinks";
+import GoogleDriveProfile from "./GoogleDriveProfile";
+import InnerAppLayout from "@/layouts/InnerAppLayout";
+import { Link } from "react-router";
+import { TbChartAreaLine } from "react-icons/tb";
+import useAppStore from "@/store/useAppStore";
+
+const MenuSectionHeading = ({ title }: { title: string }) => {
+  return <h3 className="text-xs px-4 py-2">{title}</h3>;
+};
+
+export default function Menu() {
+  const showNetWorth = useAppStore((state) => state.showNetWorth);
+  const setShowNetWorth = useAppStore((state) => state.setShowNetWorth);
+  const logout = useAppStore((state) => state.logout);
+
+  return (
+    <InnerAppLayout className="gap-4">
+      {/* Google Drive Profile */}
+      <GoogleDriveProfile />
+
+      <div className="flex flex-col">
+        <MenuSectionHeading title="Display and Backup Options" />
+        {/* Net Worth */}
+        <MenuToggleButton
+          title="Net Worth"
+          icon={TbChartAreaLine}
+          checked={showNetWorth}
+          onChange={(ev) => setShowNetWorth(ev.target.checked)}
+        />
+
+        {/* Google Drive */}
+        <MenuButton
+          as={Link}
+          to="/google-drive"
+          title="Google Drive Sync"
+          icon={FaGoogleDrive}
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <MenuSectionHeading title="Batch Operations" />
+        {/* Batch Import */}
+        <MenuButton
+          as={Link}
+          to="/batch-import"
+          title="Batch Import"
+          icon={HiOutlineArrowLongDown}
+        />
+
+        {/* Batch Export */}
+        <MenuButton
+          as={Link}
+          to="/batch-export"
+          title="Batch Export"
+          icon={HiOutlineArrowLongUp}
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <MenuSectionHeading title="Security" />
+        {/* PIN Code */}
+        <MenuButton
+          as={Link}
+          to="/pin-code"
+          title="PIN Code"
+          icon={HiOutlineKey}
+        />
+
+        {/* Logout */}
+        <MenuButton
+          title="Logout"
+          icon={HiOutlineArrowLeftOnRectangle}
+          onClick={logout}
+        />
+      </div>
+
+      <FooterLinks />
+    </InnerAppLayout>
+  );
+}

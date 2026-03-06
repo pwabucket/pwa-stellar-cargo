@@ -1,0 +1,29 @@
+import Markdown from "react-markdown";
+import { cn } from "@/lib/utils";
+
+interface MarkdownRendererProps {
+  content: string;
+}
+
+export default function MarkdownRender({ content }: MarkdownRendererProps) {
+  return (
+    <div
+      className={cn(
+        "prose prose-neutral",
+        "prose-invert",
+        "prose-a:text-blue-400 prose-a:hover:text-blue-500",
+      )}
+    >
+      <Markdown
+        components={{
+          a: ({
+            node, // eslint-disable-line
+            ...props
+          }) => <a {...props} target="_blank" rel="noopener noreferrer" />,
+        }}
+      >
+        {content}
+      </Markdown>
+    </div>
+  );
+}

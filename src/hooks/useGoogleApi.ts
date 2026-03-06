@@ -1,0 +1,234 @@
+import type { GoogleApi, GoogleToken } from "@/types/index.d.ts";
+import { getBaseURL, loadScript } from "@/lib/utils";
+
+import axios from "axios";
+import { useCallback } from "react";
+import { useEffect } from "react";
+import useGoogleAuthStore from "@/store/useGoogleAuthStore";
+import { useMemo } from "react";
+import { useRef } from "react";
+import { useState } from "react";
+
+interface ExtendedCodeClient extends google.accounts.oauth2.CodeClient {
+  callback?: (response: google.accounts.oauth2.CodeResponse) => void;
+  error_callback?: (error: { error: string }) => void;
+}
+
+const DISCOVERY_DOCS = [
+  "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+];
+
+const SCOPES = [
+  "profile",
+  "email",
+  "https://www.googleapis.com/auth/drive.appdata",
+].join(" ");
+
+const isTokenActive = (token: GoogleToken): boolean => {
+  return token["expires_at"] > Date.now();
+};
+
+const isTokenExpiring = (token: GoogleToken): boolean => {
+  return token["expires_at"] < Date.now() - 5 * 60 * 1000;
+};
+
+export default function useGoogleApi(): GoogleApi {
+  const [gapiInitialized, setGapiInitialized] = useState(false);
+  const [gisInitialized, setGisInitialized] = useState(false);
+  const loadingRef = useRef(false);
+
+  const codeClientRef = useRef<ExtendedCodeClient | null>(null);
+  const token = useGoogleAuthStore((state) => state.token);
+  const setToken = useGoogleAuthStore((state) => state.setToken);
+  const setBackupFile = useGoogleAuthStore((state) => state.setBackupFile);
+
+  const isValidToken = useMemo(
+    () => Boolean(token && isTokenActive(token)),
+    [token],
+  );
+  const initialized = gapiInitialized && gisInitialized;
+  const authorized = initialized && isValidToken;
+
+  /** Callback to Initialize Gapi */
+  const initializeGapi = useCallback(() => {
+    gapi.load("client", async () => {
+      await gapi.client.init({
+        apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+        discoveryDocs: DISCOVERY_DOCS,
+      });
+      setGapiInitialized(true);
+    });
+  }, []);
+
+  /** Callback to Initialize Gis */
+  const initializeGis = useCallback(() => {
+    codeClientRef.current = google.accounts.oauth2.initCodeClient({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      scope: SCOPES,
+      ux_mode: "popup",
+    });
+    setGisInitialized(true);
+  }, []);
+
+  const parseToken = useCallback(
+    (token: google.accounts.oauth2.TokenResponse): GoogleToken => ({
+      ...token,
+      ["expires_at"]: Date.now() + parseInt(token["expires_in"]) * 1000,
+    }),
+    [],
+  );
+
+  /** Request Access Token */
+  const requestAccessToken = useCallback((): Promise<GoogleToken> => {
+    return new Promise((resolve, reject) => {
+      if (!codeClientRef.current) {
+        return reject(new Error("Google Identity Services not initialized"));
+      }
+      /** Success Callback */
+      codeClientRef.current.callback = async (response) => {
+        try {
+          const data = await axios
+            .post("https://oauth2.googleapis.com/token", {
+              code: response.code,
+              client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+              client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
+              redirect_uri: new URL(getBaseURL()).origin,
+              grant_type: "authorization_code",
+            })
+            .then((res) => res.data);
+
+          resolve(parseToken(data));
+        } catch (e) {
+          reject(e);
+        }
+      };
+
+      /** Error Callback */
+      codeClientRef.current["error_callback"] = (e) => {
+        reject(e);
+      };
+
+      codeClientRef.current.requestCode();
+    });
+  }, [parseToken]);
+
+  /** Refetch Token */
+  const refetchToken = useCallback(async (): Promise<GoogleToken> => {
+    if (!token || !token["refresh_token"]) {
+      throw new Error("No refresh token available");
+    }
+    const data = await axios
+      .post("https://oauth2.googleapis.com/token", {
+        grant_type: "refresh_token",
+        refresh_token: token["refresh_token"],
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        client_secret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
+      })
+      .then((res) => res.data);
+
+    /** Get New Token */
+    const newToken = parseToken({
+      ...token,
+      ...data,
+    });
+
+    /** Set New Token */
+    setToken(newToken);
+
+    /** Return New Token */
+    return newToken;
+  }, [token, setToken, parseToken]);
+
+  /** Get Valid Token */
+  const getValidToken = useCallback(async (): Promise<string | GoogleToken> => {
+    if (token && isTokenActive(token)) {
+      return token["access_token"];
+    }
+
+    return refetchToken();
+  }, [token, refetchToken]);
+
+  /** Get User Info */
+  const getUserInfo = useCallback(
+    (): Promise<gapi.client.oauth2.Userinfo> =>
+      axios
+        .get(`https://www.googleapis.com/oauth2/v2/userinfo`, {
+          headers: {
+            Authorization: `Bearer ${gapi.client.getToken()["access_token"]}`,
+          },
+        })
+        .then((res) => res.data),
+    [],
+  );
+
+  /** Logout */
+  const logout = useCallback(async (): Promise<void> => {
+    if (token) {
+      axios.post(
+        `https://oauth2.googleapis.com/revoke?token=${token["access_token"]}`,
+      );
+    }
+    gapi?.client?.setToken(null);
+    setToken(null);
+    setBackupFile(null);
+  }, [token, setToken, setBackupFile]);
+
+  /** Initialize Google Scripts */
+  useEffect(() => {
+    if (loadingRef.current === false) {
+      loadingRef.current = true;
+      loadScript("https://apis.google.com/js/api.js").then(initializeGapi);
+      loadScript("https://accounts.google.com/gsi/client").then(initializeGis);
+    }
+  }, [initializeGapi, initializeGis]);
+
+  /** Restore Token */
+  useEffect(() => {
+    if (initialized && token) {
+      /** Refetch Interval */
+      let interval: ReturnType<typeof setInterval>;
+
+      /** Refetch if Expiring */
+      const refetchIfExpiring = () => {
+        if (isTokenExpiring(token)) {
+          refetchToken();
+        }
+      };
+
+      if (!isTokenActive(token)) {
+        refetchToken();
+      } else {
+        /** Set GAPI Token */
+        gapi.client.setToken(token);
+
+        /** Periodically Refetch Token */
+        interval = setInterval(refetchIfExpiring, 60_000);
+      }
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [initialized, token, refetchToken]);
+
+  return useMemo(
+    () => ({
+      getUserInfo,
+      refetchToken,
+      getValidToken,
+      requestAccessToken,
+      logout,
+      initialized,
+      authorized,
+    }),
+    [
+      getUserInfo,
+      refetchToken,
+      getValidToken,
+      requestAccessToken,
+      logout,
+      initialized,
+      authorized,
+    ],
+  );
+}
