@@ -4,6 +4,7 @@ import AssetValueMask from "@/components/AssetValueMask";
 import type { ClaimableStake } from "@/types/index.d.ts";
 import Decimal from "decimal.js";
 import { Input } from "@/components/Input";
+import { endOfDay } from "date-fns";
 import { formatDate } from "@/lib/utils";
 
 function toInputDate(dateStr: string | null | undefined): string {
@@ -25,7 +26,7 @@ export default function ReleaseCalculatorContent({
   const releasedByDate = useMemo(() => {
     if (!selectedDate || !stakes.length) return null;
 
-    const targetDate = new Date(selectedDate + "T23:59:59Z");
+    const targetDate = endOfDay(new Date(selectedDate));
 
     const released = stakes.filter((stake) => {
       if (!stake.releaseDate) return true;
