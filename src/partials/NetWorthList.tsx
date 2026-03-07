@@ -96,7 +96,7 @@ export default function NetWorthList({
         </>
       ) : (
         <>
-          <PiSpinnerGap className="size-5 mx-auto animate-spin" />
+          <PiSpinnerGap className="size-6 mx-auto animate-spin" />
         </>
       )}
     </>

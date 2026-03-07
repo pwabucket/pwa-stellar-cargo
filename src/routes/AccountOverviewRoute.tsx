@@ -19,6 +19,7 @@ import useAppStore from "@/store/useAppStore";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
+import { PiSpinnerGap } from "react-icons/pi";
 
 const PageNavLink = (props: NavLinkProps) => (
   <NavLink
@@ -127,7 +128,7 @@ export default function AccountOverviewRoute() {
               </button>
             </div>
           ) : (
-            <div className="bg-blue-300 rounded-full h-4 w-1/2" />
+            <PiSpinnerGap className="size-6 mx-auto animate-spin" />
           )}
 
           {/* Address */}
