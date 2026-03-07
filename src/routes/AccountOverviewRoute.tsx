@@ -31,11 +31,8 @@ const PageNavLink = (props: NavLinkProps) => (
     className={({ isActive }) =>
       cn(
         "text-center",
-        isActive && [
-          "font-bold text-blue-300",
-          "bg-neutral-900",
-          "rounded-full py-1",
-        ],
+        "rounded-full py-1 flex items-center justify-center",
+        isActive && ["font-bold text-blue-300", "bg-neutral-900"],
       )
     }
   />
@@ -97,6 +94,7 @@ export default function AccountOverviewRoute() {
   return (
     <>
       <div className="flex flex-col gap-2">
+        {/* Card */}
         <div
           className={cn(
             "flex flex-col gap-2 p-4 justify-center items-center",
@@ -175,7 +173,7 @@ export default function AccountOverviewRoute() {
           </button>
         </div>
 
-        <div className="mt-2 flex gap-4 justify-center">
+        <div className="flex gap-4 justify-center py-2">
           <ToolLink
             title={"Send"}
             icon={HiOutlinePaperAirplane}

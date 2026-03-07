@@ -8,8 +8,8 @@ const AccountElementRoot = (({ as: Component = "div", ...props }) => {
     <Component
       {...props}
       className={cn(
-        "group relative flex gap-2 items-center px-2 text-left",
         "bg-neutral-900",
+        "group relative flex gap-2 items-center px-2 text-left",
         "rounded-xl overflow-hidden",
         "transition-all duration-200 ease-in-out",
         props.className,

@@ -4,8 +4,7 @@ import ClaimableStakesList from "@/components/ClaimableStakesList";
 import { Dialog } from "@/components/Dialog";
 import { PrimaryButton } from "@/components/Button";
 import ReleaseCalculatorContent from "@/components/ReleaseCalculatorContent";
-import { Tabs } from "radix-ui";
-import { cn } from "@/lib/utils";
+import { Tabs } from "@/components/Tabs";
 import useClaimableStakes from "@/hooks/useClaimableStakes";
 
 interface ClaimableDetailDialogProps {
@@ -38,18 +37,9 @@ export default function ClaimableDetailDialog({
         >
           {/* Tabs */}
           <Tabs.Root defaultValue="stakes" className="flex flex-col gap-3">
-            <Tabs.List className="grid grid-cols-2">
+            <Tabs.List>
               {["stakes", "calculator"].map((value) => (
-                <Tabs.Trigger
-                  key={value}
-                  value={value}
-                  className={cn(
-                    "p-2",
-                    "border-b-2 border-transparent",
-                    "capitalize",
-                    "data-[state=active]:border-blue-500",
-                  )}
-                >
+                <Tabs.Trigger key={value} value={value}>
                   {value}
                 </Tabs.Trigger>
               ))}

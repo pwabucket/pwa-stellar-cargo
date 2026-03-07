@@ -1,11 +1,11 @@
-import { cn, searchProperties } from "@/lib/utils";
+import { searchProperties } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
 import { AccountElement } from "@/components/AccountElement";
 import { BottomDialog } from "@/components/BottomDialog";
 import { Dialog } from "@/components/Dialog";
 import { Input } from "@/components/Input";
-import { Tabs } from "radix-ui";
+import { Tabs } from "@/components/Tabs";
 import useAppStore from "@/store/useAppStore";
 
 interface AddressPickerProps {
@@ -53,18 +53,9 @@ export default function AddressPicker({
       >
         {/* Tabs */}
         <Tabs.Root defaultValue="accounts" className="flex flex-col gap-4">
-          <Tabs.List className="grid grid-cols-2">
+          <Tabs.List>
             {["accounts", "contacts"].map((value, index) => (
-              <Tabs.Trigger
-                key={index}
-                value={value}
-                className={cn(
-                  "p-2",
-                  "border-b-2 border-transparent",
-                  "capitalize",
-                  "data-[state=active]:border-blue-500",
-                )}
-              >
+              <Tabs.Trigger key={index} value={value}>
                 {value}
               </Tabs.Trigger>
             ))}
