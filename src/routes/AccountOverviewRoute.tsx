@@ -1,6 +1,7 @@
 import type { ComponentProps, ComponentType } from "react";
 import {
   HiEye,
+  HiEyeSlash,
   HiOutlineArrowPath,
   HiOutlineInformationCircle,
   HiOutlinePaperAirplane,
@@ -15,6 +16,7 @@ import type { AccountRouteContext } from "@/types/index.d.ts";
 import AssetValueMask from "@/components/AssetValueMask";
 import Decimal from "decimal.js";
 import { IoCopyOutline } from "react-icons/io5";
+import { motion } from "motion/react";
 import useAppStore from "@/store/useAppStore";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
@@ -47,7 +49,8 @@ const ToolLink = ({ icon: Icon, title, ...props }: ToolLinkProps) => (
   <Link
     {...props}
     className={cn(
-      "flex flex-col justify-center items-center gap-1 hover:text-blue-300",
+      "flex flex-col justify-center items-center gap-1.5",
+      "group",
       props.className,
     )}
   >
@@ -56,16 +59,20 @@ const ToolLink = ({ icon: Icon, title, ...props }: ToolLinkProps) => (
         "bg-neutral-900",
         "flex justify-center items-center",
         "rounded-full size-12",
+        "transition-all duration-200",
+        "group-hover:bg-neutral-800 group-hover:scale-105",
+        "group-active:scale-95",
       )}
     >
       <Icon className="size-6" />
     </span>
-    <h5 className="text-xs">{title}</h5>
+    <h5 className="text-xs font-medium">{title}</h5>
   </Link>
 );
 
 export default function AccountOverviewRoute() {
   const context = useOutletContext<AccountRouteContext>();
+  const showAssetValue = useAppStore((state) => state.showAssetValue);
   const toggleShowAssetValue = useAppStore(
     (state) => state.toggleShowAssetValue,
   );
@@ -100,7 +107,7 @@ export default function AccountOverviewRoute() {
             <h2 className="text-2xl font-light truncate grow min-w-0 flex gap-2 justify-center items-center">
               <AccountImage
                 publicKey={account.publicKey}
-                className="size-10 shrink-0 rounded-full bg-white"
+                className="size-10 shrink-0 rounded-full bg-white ring-2 ring-white/30"
               />{" "}
               {account.name || "Stellar Account"}
             </h2>
@@ -109,9 +116,11 @@ export default function AccountOverviewRoute() {
             <Link
               to={`edit`}
               className={cn(
-                "shrink-0 bg-blue-300/70 size-9",
+                "shrink-0 size-9",
                 "flex items-center justify-center",
                 "rounded-full",
+                "bg-white/25 hover:bg-white/35 active:bg-white/45",
+                "transition-colors duration-200",
               )}
             >
               <HiOutlinePencilSquare className="size-5" />
@@ -119,25 +128,46 @@ export default function AccountOverviewRoute() {
           </div>
 
           {totalAssetsPriceQuery.isSuccess ? (
-            <div className="flex justify-center items-center gap-2 pl-8">
-              <p className="text-3xl font-bold min-w-0">
-                <AssetValueMask value={totalAssetsPrice} maskLength={10} />
-              </p>
-              <button className="shrink-0" onClick={toggleShowAssetValue}>
-                <HiEye className="size-6" />
-              </button>
+            <div className="flex flex-col items-center gap-1">
+              <div className="flex items-center gap-2">
+                <motion.button
+                  className={cn(
+                    "shrink-0 p-1.5 rounded-full",
+                    "bg-white/20 hover:bg-white/30 active:bg-white/40",
+                    "transition-colors",
+                  )}
+                  onClick={toggleShowAssetValue}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {showAssetValue ? (
+                    <HiEye className="size-5" />
+                  ) : (
+                    <HiEyeSlash className="size-5" />
+                  )}
+                </motion.button>
+                <p className="text-3xl font-bold tracking-tight min-w-0">
+                  <AssetValueMask value={totalAssetsPrice} maskLength={10} />
+                </p>
+              </div>
             </div>
           ) : (
-            <PiSpinnerGap className="size-6 mx-auto animate-spin" />
+            <div className="flex flex-col items-center gap-2 py-1">
+              <PiSpinnerGap className="size-7 animate-spin text-black/60" />
+            </div>
           )}
 
           {/* Address */}
           <button
             onClick={() => copyToClipboard(account.publicKey)}
-            className="flex items-center gap-2"
+            className={cn(
+              "flex items-center gap-1.5",
+              "bg-white/15 hover:bg-white/25",
+              "rounded-full px-3 py-1",
+              "transition-colors duration-200",
+            )}
           >
-            <IoCopyOutline className="size-4" />
-            <h3 className="text-neutral-800 truncate grow min-w-0 text-sm">
+            <IoCopyOutline className="size-3.5" />
+            <h3 className="text-black/70 truncate grow min-w-0 text-xs font-medium">
               {truncatePublicKey(account.publicKey, 8)}
             </h3>
           </button>
@@ -171,7 +201,7 @@ export default function AccountOverviewRoute() {
         </div>
 
         {/* NavLinks */}
-        <div className="grid grid-cols-3 p-2">
+        <div className="grid grid-cols-3 p-1 bg-neutral-900/50 rounded-full">
           {/* Assets */}
           <PageNavLink replace to={`/accounts/${account.publicKey}`}>
             Assets
