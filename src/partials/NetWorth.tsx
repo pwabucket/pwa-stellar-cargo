@@ -1,3 +1,5 @@
+import { HiOutlineClock, HiOutlineWallet } from "react-icons/hi2";
+
 import BalanceNetWorth from "./BalanceNetWorth";
 import ClaimableNetWorth from "./ClaimableNetWorth";
 import { Tabs } from "radix-ui";
@@ -13,9 +15,11 @@ const NetWorthTabButton = memo(function NetWorthTabButton({
     <Tabs.Trigger
       {...props}
       className={cn(
-        "text-sm p-1 font-bold rounded-t-xl",
-        "border-b-4 border-transparent data-[state=active]:border-blue-500",
-        "data-[state=active]:bg-blue-300/70",
+        "relative z-10 flex items-center justify-center gap-1.5",
+        "text-sm py-1.5 px-3 font-bold rounded-full",
+        "transition-all duration-300",
+        "text-black/60 data-[state=active]:text-black",
+        "data-[state=active]:bg-white/40 data-[state=active]:shadow-sm",
       )}
     >
       {children}
@@ -27,19 +31,25 @@ export default memo(function NetWorth() {
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 p-4 rounded-2xl",
+        "flex flex-col gap-3 p-4 rounded-2xl",
         "bg-blue-400 text-black",
       )}
     >
-      <h3 className="flex gap-1 items-center">
-        <TbChartAreaLine className="size-5 inline" />
+      <h3 className="flex gap-1.5 items-center font-bold text-sm tracking-wide uppercase text-black/80">
+        <TbChartAreaLine className="size-5" />
         Net Worth
       </h3>
 
-      <Tabs.Root defaultValue="balance" className="flex flex-col gap-2">
-        <Tabs.List className="grid grid-cols-2">
-          <NetWorthTabButton value="balance">Balance</NetWorthTabButton>
-          <NetWorthTabButton value="claimable">Claimable</NetWorthTabButton>
+      <Tabs.Root defaultValue="balance" className="flex flex-col gap-3">
+        <Tabs.List className="grid grid-cols-2 bg-black/10 rounded-full p-1">
+          <NetWorthTabButton value="balance">
+            <HiOutlineWallet className="size-4" />
+            Balance
+          </NetWorthTabButton>
+          <NetWorthTabButton value="claimable">
+            <HiOutlineClock className="size-4" />
+            Claimable
+          </NetWorthTabButton>
         </Tabs.List>
 
         <Tabs.Content value="balance" className="flex flex-col gap-2">
