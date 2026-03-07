@@ -67,6 +67,7 @@ export default function NetWorthList({
               <p className="text-3xl font-bold tracking-tight">
                 <AssetValueMask value={totalNetWorth} maskLength={10} />
               </p>
+              <span className="text-sm text-black/60 font-medium">USD</span>
             </div>
             {assets.length > 0 && (
               <p className="text-xs text-black/60 font-medium">
