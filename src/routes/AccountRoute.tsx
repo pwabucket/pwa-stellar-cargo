@@ -25,7 +25,7 @@ export default function AccountRoute() {
   } = useAccountDetails(publicKey);
 
   /** Redirect */
-  useCheckOrNavigate(account, "/app", {
+  useCheckOrNavigate(account, "/", {
     replace: true,
   });
 

@@ -19,8 +19,6 @@ import Dashboard from "./pages/Dashboard";
 import EditAccount from "./pages/EditAccount";
 import EditContact from "./pages/EditContact";
 import GoogleDrive from "./pages/GoogleDrive";
-import GuestRoute from "./routes/GuestRoute";
-import Home from "@/pages/Home";
 import ImportWallet from "./pages/ImportWallet";
 import Menu from "./pages/Menu";
 import Merge from "./pages/Merge";
@@ -72,10 +70,6 @@ function App() {
   return (
     <AppContext.Provider value={{ googleApi, googleDrive, resetWallet }}>
       <Routes>
-        <Route element={<GuestRoute />}>
-          <Route index element={<Home />} />
-        </Route>
-
         {/* About */}
         <Route path="about" element={<About />} />
 
@@ -90,8 +84,8 @@ function App() {
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="app" element={<Dashboard />} />
-
+          {/* Dashboard */}
+          <Route index element={<Dashboard />} />
           {/* Contacts */}
           <Route path="contacts/:id/edit" element={<EditContact />} />
           <Route path="contacts/:id" element={<ContactDetails />} />

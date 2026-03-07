@@ -1,13 +1,15 @@
 import axios from "axios";
 import useAppContext from "./useAppContext";
+import useIsLoggedIn from "./useIsLoggedIn";
 import { useQuery } from "@tanstack/react-query";
 
 export default function useGoogleProfileQuery() {
   const { googleApi } = useAppContext();
   const { authorized } = googleApi;
+  const isLoggedIn = useIsLoggedIn();
 
   return useQuery({
-    enabled: authorized,
+    enabled: isLoggedIn && authorized,
     queryKey: ["google-drive", "user-profile", authorized],
     queryFn: () =>
       axios

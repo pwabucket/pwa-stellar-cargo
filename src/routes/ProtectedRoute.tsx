@@ -1,25 +1,33 @@
-import FullPageSpinner from "@/components/FullPageSpinner";
+import { Dialog } from "@/components/Dialog";
 import { Outlet } from "react-router";
-import useAppStore from "@/store/useAppStore";
-import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
+import Welcome from "@/partials/Welcome";
+import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 import { useOutletContext } from "react-router";
 
-interface ProtectedRouteProps {
-  status?: boolean;
-  to?: string;
-}
-
-export default function ProtectedRoute({
-  status = true,
-  to = "/",
-}: ProtectedRouteProps) {
+export default function ProtectedRoute() {
   const context = useOutletContext<unknown>();
-  const isLoggedIn = useAppStore((state) => state.isLoggedIn);
-  const allowed = status === isLoggedIn;
+  const isLoggedIn = useIsLoggedIn();
 
-  useCheckOrNavigate(allowed, to, {
-    replace: true,
-  });
-
-  return allowed ? <Outlet context={context} /> : <FullPageSpinner />;
+  return (
+    <>
+      <Outlet context={context} />
+      {!isLoggedIn && (
+        <Dialog.Root open>
+          <Dialog.Portal open>
+            <Dialog.Overlay className="fixed inset-0 bg-neutral-950 text-white overflow-auto z-90">
+              <Dialog.Content>
+                <Dialog.Title className="sr-only">
+                  Welcome to Stellar Cargo
+                </Dialog.Title>
+                <Dialog.Description className="sr-only">
+                  Login or create an account to continue
+                </Dialog.Description>
+                <Welcome />
+              </Dialog.Content>
+            </Dialog.Overlay>
+          </Dialog.Portal>
+        </Dialog.Root>
+      )}
+    </>
+  );
 }

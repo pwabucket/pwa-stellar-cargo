@@ -30,7 +30,7 @@ export default function GoogleBackupPrompt({
             "fixed inset-0",
             "flex items-center justify-center",
             "p-4 overflow-auto",
-            "z-40 bg-black/50",
+            "z-100 bg-black/50",
           )}
         >
           <Dialog.Content

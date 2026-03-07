@@ -3,12 +3,14 @@ import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 
 import { fetchAssetPrice } from "@/lib/stellar/horizonQueries";
 import { useCallback } from "react";
+import useIsLoggedIn from "./useIsLoggedIn";
 import { useQueries } from "@tanstack/react-query";
 
 export default function useTotalAssetsPriceQuery(
   assets: EnrichedBalance[],
   options?: Partial<UseQueryOptions<string | null>>,
 ): CombinedQueryResult<string | null> {
+  const isLoggedIn = useIsLoggedIn();
   const combine = useCallback((results: UseQueryResult<string | null>[]) => {
     return {
       query: results,
@@ -31,6 +33,7 @@ export default function useTotalAssetsPriceQuery(
       const amount = asset?.["balance"];
 
       return {
+        enabled: isLoggedIn,
         refetchInterval: 10000,
         ...options,
         queryKey: ["asset", assetCode, assetIssuer, amount],

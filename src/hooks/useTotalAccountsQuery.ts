@@ -3,12 +3,14 @@ import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 
 import { fetchAccount } from "@/lib/stellar/horizonQueries";
 import { useCallback } from "react";
+import useIsLoggedIn from "./useIsLoggedIn";
 import { useQueries } from "@tanstack/react-query";
 
 export default function useTotalAccountsQuery(
   accounts: string[],
   options?: Partial<UseQueryOptions<HorizonAccount | null>>,
 ): CombinedQueryResult<HorizonAccount | null> {
+  const isLoggedIn = useIsLoggedIn();
   const combine = useCallback(
     (results: UseQueryResult<HorizonAccount | null>[]) => {
       return {
@@ -27,6 +29,7 @@ export default function useTotalAccountsQuery(
     combine,
     queries: (accounts ?? []).map((publicKey) => {
       return {
+        enabled: isLoggedIn,
         refetchInterval: 10_000,
         ...options,
         queryKey: ["account", publicKey],

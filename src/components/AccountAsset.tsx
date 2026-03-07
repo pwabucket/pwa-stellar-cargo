@@ -4,6 +4,7 @@ import AssetValueMask from "./AssetValueMask";
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import useAssetPriceQuery from "@/hooks/useAssetPriceQuery";
+import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 
 interface AccountAssetProps {
   asset: EnrichedBalance;
@@ -16,12 +17,13 @@ export default memo(function AccountAsset({
   displayPrice = true,
   ...props
 }) {
+  const isLoggedIn = useIsLoggedIn();
   const assetPriceQuery = useAssetPriceQuery(
     asset?.["asset_type"] === "native" ? "XLM" : asset?.["asset_code"] || "",
     asset?.["asset_issuer"] || "",
     asset?.["balance"] || "0",
     {
-      enabled: displayPrice,
+      enabled: isLoggedIn && displayPrice,
     },
   );
   const assetValue = assetPriceQuery.data || "0";

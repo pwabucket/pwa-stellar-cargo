@@ -10,6 +10,7 @@ import type {
 import Decimal from "decimal.js";
 import type { UseQueryOptions } from "@tanstack/react-query";
 import useAssetsMeta from "./useAssetsMeta";
+import useIsLoggedIn from "./useIsLoggedIn";
 import { useMemo } from "react";
 import useTotalAssetsPriceQuery from "./useTotalAssetsPriceQuery";
 
@@ -22,6 +23,7 @@ const queryOptions: Partial<UseQueryOptions<string | null>> = {
 export default function useBaseNetWorth(
   totalAssets: (HorizonBalance | ClaimableAsset)[],
 ): BaseNetWorth {
+  const isLoggedIn = useIsLoggedIn();
   const totalAssetsBalance = useMemo(
     () =>
       Array.from(
@@ -61,7 +63,7 @@ export default function useBaseNetWorth(
 
   const totalAssetsPriceQuery = useTotalAssetsPriceQuery(totalAssetsBalance, {
     ...queryOptions,
-    enabled: totalAssetsBalance.length > 0,
+    enabled: isLoggedIn && totalAssetsBalance.length > 0,
   });
 
   const totalAssetsPrice = totalAssetsPriceQuery.data;

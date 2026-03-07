@@ -22,6 +22,7 @@ import { useMemo } from "react";
 import { useOutletContext } from "react-router";
 import useTotalAssetsPriceQuery from "@/hooks/useTotalAssetsPriceQuery";
 import { PiSpinnerGap } from "react-icons/pi";
+import useIsLoggedIn from "@/hooks/useIsLoggedIn";
 
 const PageNavLink = (props: NavLinkProps) => (
   <NavLink
@@ -72,6 +73,7 @@ const ToolLink = ({ icon: Icon, title, ...props }: ToolLinkProps) => (
 
 export default function AccountOverviewRoute() {
   const context = useOutletContext<AccountRouteContext>();
+  const isLoggedIn = useIsLoggedIn();
   const showAssetValue = useAppStore((state) => state.showAssetValue);
   const toggleShowAssetValue = useAppStore(
     (state) => state.toggleShowAssetValue,
@@ -80,7 +82,7 @@ export default function AccountOverviewRoute() {
 
   /** Total Assets */
   const totalAssetsPriceQuery = useTotalAssetsPriceQuery(balances, {
-    enabled: balances?.length > 0,
+    enabled: isLoggedIn && balances?.length > 0,
   });
 
   const totalAssetsPrice = useMemo(

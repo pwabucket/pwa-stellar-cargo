@@ -98,7 +98,7 @@ export default function EditAccount() {
     if (canRemoveAccount) {
       await setupKeyManager().removeKey(account.keyId);
       removeAccount(publicKey);
-      navigate("/app", { replace: true });
+      navigate("/", { replace: true });
     } else {
       await resetWallet();
     }
@@ -112,7 +112,7 @@ export default function EditAccount() {
   ]);
 
   /** Redirect */
-  useCheckOrNavigate(account, "/app", {
+  useCheckOrNavigate(account, "/", {
     replace: true,
   });
 

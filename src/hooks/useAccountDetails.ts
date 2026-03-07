@@ -5,18 +5,20 @@ import { calculateXLMReserve } from "@/lib/utils";
 import useAccount from "@/hooks/useAccount";
 import useAccountQuery from "@/hooks/useAccountQuery";
 import useAssetsMeta from "@/hooks/useAssetsMeta";
+import useIsLoggedIn from "./useIsLoggedIn";
 import { useMemo } from "react";
 import usePendingClaimable from "@/hooks/usePendingClaimable";
 
 export default function useAccountDetails(publicKey?: string) {
+  const isLogged = useIsLoggedIn();
   const account = useAccount(publicKey);
   const accountQuery = useAccountQuery(publicKey, {
-    enabled: typeof account !== "undefined",
+    enabled: isLogged && typeof account !== "undefined",
   });
 
   /* Pending Claimable */
   const pendingClaimable = usePendingClaimable(publicKey, {
-    enabled: typeof account !== "undefined",
+    enabled: isLogged && typeof account !== "undefined",
   });
 
   /* Account XLM */

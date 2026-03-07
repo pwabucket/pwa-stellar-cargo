@@ -32,7 +32,7 @@ export default function Dashboard() {
     >
       <div className={cn("bg-neutral-950", "shrink-0 sticky top-12", "z-30")}>
         <div className="max-w-md mx-auto grid grid-cols-2">
-          <DashboardHeaderNavLink to="/app">Accounts</DashboardHeaderNavLink>
+          <DashboardHeaderNavLink to="/">Accounts</DashboardHeaderNavLink>
           <DashboardHeaderNavLink to="/contacts">
             Contacts
           </DashboardHeaderNavLink>

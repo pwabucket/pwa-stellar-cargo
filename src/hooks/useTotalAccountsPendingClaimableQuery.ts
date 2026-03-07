@@ -6,12 +6,14 @@ import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 
 import { fetchPendingClaimable } from "@/lib/stellar/horizonQueries";
 import { useCallback } from "react";
+import useIsLoggedIn from "./useIsLoggedIn";
 import { useQueries } from "@tanstack/react-query";
 
 export default function useTotalAccountsPendingClaimableQuery(
   accounts: string[],
   options?: Partial<UseQueryOptions<HorizonClaimableBalance[] | null>>,
 ): CombinedQueryResult<HorizonClaimableBalance[] | null> {
+  const isLoggedIn = useIsLoggedIn();
   const combine = useCallback(
     (results: UseQueryResult<HorizonClaimableBalance[] | null>[]) => {
       return {
@@ -30,6 +32,7 @@ export default function useTotalAccountsPendingClaimableQuery(
     combine,
     queries: (accounts ?? []).map((publicKey) => {
       return {
+        enabled: isLoggedIn,
         refetchInterval: 10_000,
         ...options,
         queryKey: ["pending-claimable", publicKey],
