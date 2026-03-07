@@ -20,8 +20,8 @@
   ::before {
     @apply [&::-webkit-scrollbar]:w-2
     [&::-webkit-scrollbar]:h-2
-    [&::-webkit-scrollbar-track]:bg-neutral-700
-    [&::-webkit-scrollbar-thumb]:bg-neutral-500;
+    [&::-webkit-scrollbar-track]:bg-neutral-800
+    [&::-webkit-scrollbar-thumb]:bg-neutral-600;
   }
 
   button:not(:disabled),
