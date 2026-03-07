@@ -1,6 +1,7 @@
 import { Outlet, useParams } from "react-router";
 
 import type { AccountRouteContext } from "@/types/index.d.ts";
+import Spinner from "@/components/Spinner";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
 import { useMemo } from "react";
 import { useOutletContext } from "react-router";
@@ -20,12 +21,14 @@ export default function ClaimableRoute() {
     replace: true,
   });
 
-  return (
+  return claimableAsset ? (
     <Outlet
       context={{
         ...context,
         claimableAsset,
       }}
     />
+  ) : (
+    <Spinner />
   );
 }

@@ -1,6 +1,7 @@
 import { Outlet, useParams } from "react-router";
 
 import type { AccountRouteContext } from "@/types/index.d.ts";
+import Spinner from "@/components/Spinner";
 import useAssetPriceQuery from "@/hooks/useAssetPriceQuery";
 import useCheckOrNavigate from "@/hooks/useCheckOrNavigate";
 import { useMemo } from "react";
@@ -32,7 +33,7 @@ export default function AssetRoute() {
     replace: true,
   });
 
-  return (
+  return asset ? (
     <Outlet
       context={{
         ...context,
@@ -43,5 +44,7 @@ export default function AssetRoute() {
         assetTransactionName,
       }}
     />
+  ) : (
+    <Spinner />
   );
 }
