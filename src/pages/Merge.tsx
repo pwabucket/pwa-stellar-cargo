@@ -47,8 +47,8 @@ export default function Merge() {
     toggleAllAccounts,
   } = useBatchTransactions(otherAccounts);
 
-  const assetName = asset["asset_name"];
-  const assetTransactionName = asset["transaction_name"];
+  const assetName = asset?.["asset_name"] || "Unknown Asset";
+  const assetTransactionName = asset?.["transaction_name"] || "native";
 
   /** Execute Merge */
   const executeMerge = async () => {
