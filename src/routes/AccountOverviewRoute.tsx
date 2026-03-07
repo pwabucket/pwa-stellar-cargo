@@ -28,8 +28,8 @@ const PageNavLink = (props: NavLinkProps) => (
       cn(
         "text-center",
         isActive && [
-          "font-bold text-blue-500",
-          "bg-slate-700",
+          "font-bold text-blue-300",
+          "bg-neutral-900",
           "rounded-full py-1",
         ],
       )
@@ -46,13 +46,13 @@ const ToolLink = ({ icon: Icon, title, ...props }: ToolLinkProps) => (
   <Link
     {...props}
     className={cn(
-      "flex flex-col justify-center items-center gap-1 hover:text-blue-400",
+      "flex flex-col justify-center items-center gap-1 hover:text-blue-300",
       props.className,
     )}
   >
     <span
       className={cn(
-        "bg-slate-700",
+        "bg-neutral-900",
         "flex justify-center items-center",
         "rounded-full size-12",
       )}
@@ -90,7 +90,7 @@ export default function AccountOverviewRoute() {
         <div
           className={cn(
             "flex flex-col gap-2 p-4 justify-center items-center",
-            "text-center bg-blue-700 text-white rounded-2xl",
+            "text-center bg-blue-400 text-black rounded-2xl",
             "relative",
           )}
         >
@@ -108,7 +108,7 @@ export default function AccountOverviewRoute() {
             <Link
               to={`edit`}
               className={cn(
-                "shrink-0 bg-blue-600 size-9",
+                "shrink-0 bg-blue-300/70 size-9",
                 "flex items-center justify-center",
                 "rounded-full",
               )}
@@ -127,7 +127,7 @@ export default function AccountOverviewRoute() {
               </button>
             </div>
           ) : (
-            <div className="bg-blue-600 rounded-full h-4 w-1/2 animate-pulse" />
+            <div className="bg-blue-300 rounded-full h-4 w-1/2" />
           )}
 
           {/* Address */}
@@ -136,7 +136,7 @@ export default function AccountOverviewRoute() {
             className="flex items-center gap-2"
           >
             <IoCopyOutline className="size-4" />
-            <h3 className="text-blue-100 truncate grow min-w-0 text-sm">
+            <h3 className="text-neutral-800 truncate grow min-w-0 text-sm">
               {truncatePublicKey(account.publicKey, 8)}
             </h3>
           </button>

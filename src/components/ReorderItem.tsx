@@ -22,7 +22,7 @@ export default memo(function ReorderItem({
         <div className="min-w-0 min-h-0 grow">{children}</div>
         <button
           className={cn(
-            "hover:bg-slate-700",
+            "hover:bg-neutral-700",
             "flex items-center justify-center",
             "p-3 rounded-full shrink-0",
             "touch-none",

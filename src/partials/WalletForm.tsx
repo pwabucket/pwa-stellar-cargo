@@ -153,7 +153,7 @@ export default function WalletForm({
                     "absolute inset-y-0 right-0",
                     "w-10 outline-0",
                     "flex items-center justify-center",
-                    "hover:bg-slate-600",
+                    "hover:bg-neutral-600",
                     "rounded-r-xl disabled:opacity-60",
                   )}
                 >
@@ -161,7 +161,7 @@ export default function WalletForm({
                 </button>
               </div>
               {publicKey ? (
-                <p className="text-xs text-blue-500 px-2 truncate">
+                <p className="text-xs text-blue-400 px-2 truncate">
                   Account: {truncatePublicKey(publicKey, 12)}
                 </p>
               ) : null}

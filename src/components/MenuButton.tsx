@@ -22,7 +22,8 @@ export const MenuButton = memo(function MenuButton({
       className={cn(
         "cursor-pointer",
         "group px-3 py-2 rounded-xl",
-        "hover:text-blue-200 hover:bg-slate-700",
+        "bg-neutral-900",
+        "hover:text-blue-200 hover:bg-neutral-800",
         "flex items-center gap-2",
         props.className,
       )}

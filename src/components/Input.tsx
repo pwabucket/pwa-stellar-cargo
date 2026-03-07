@@ -11,12 +11,12 @@ export const Input = memo(function ({ as: Component = "input", ...props }) {
       {...props}
       className={cn(
         "w-full",
-        "bg-slate-700",
+        "bg-neutral-900",
         "px-3 py-2 rounded-xl",
         "outline-0",
         "read-only:opacity-60",
         "disabled:opacity-60",
-        "focus:ring-2 focus:ring-blue-500",
+        "focus:ring-2 focus:ring-blue-400",
         props.className,
       )}
     />
@@ -42,7 +42,7 @@ export const PasswordInput = memo(function (props) {
           "absolute inset-y-0 right-0",
           "w-10 outline-0",
           "flex items-center justify-center",
-          "hover:bg-slate-600",
+          "hover:bg-neutral-800",
           "rounded-r-xl disabled:opacity-60",
         )}
       >

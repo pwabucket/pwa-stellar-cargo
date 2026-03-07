@@ -1,14 +1,41 @@
+import { Reorder, useDragControls } from "motion/react";
 import { useMemo, useState } from "react";
 
-import ContactItem from "@/components/ContactItem";
+import { AccountElement } from "@/components/AccountElement";
+import type { Contact } from "@/types";
 import { Input } from "@/components/Input";
 import { Link } from "react-router";
-import { Reorder } from "motion/react";
-import ReorderItem from "@/components/ReorderItem";
 import { searchProperties } from "@/lib/utils";
 import useAppStore from "@/store/useAppStore";
 
-const ContactReorderItem = ReorderItem;
+const ContactReorderItem = ({ contact }: { contact: Contact }) => {
+  const dragControls = useDragControls();
+
+  return (
+    <Reorder.Item
+      value={contact}
+      dragListener={false}
+      dragControls={dragControls}
+    >
+      <AccountElement.Root>
+        {/* Contact Image */}
+        <AccountElement.Image
+          publicKey={contact.address}
+          onPointerDown={(event) => dragControls.start(event)}
+        />
+
+        {/* Contact Details */}
+        <AccountElement.Details
+          as={Link}
+          to={`/contacts/${contact.id}`}
+          name={contact.name || "Stellar Contact"}
+          publicKey={contact.address}
+          memo={contact.memo}
+        />
+      </AccountElement.Root>
+    </Reorder.Item>
+  );
+};
 
 export default function ContactList() {
   const [search, setSearch] = useState("");
@@ -19,7 +46,7 @@ export default function ContactList() {
     () => (search ? searchProperties(list, search, ["name", "address"]) : list),
     [list, search],
   );
-  const hideHandle = Boolean(search);
+  const hasSearch = Boolean(search);
 
   return (
     <div className="flex flex-col gap-2">
@@ -27,28 +54,18 @@ export default function ContactList() {
       <Input
         value={search}
         type="search"
+        name="contact-search"
         placeholder="Search"
-        className="mt-1"
         onChange={(ev) => setSearch(ev.target.value)}
       />
       {contacts.length > 0 ? (
         <Reorder.Group
           values={contacts}
-          onReorder={(newOrder) => setContacts(newOrder)}
-          className="flex flex-col"
+          onReorder={(newOrder) => !hasSearch && setContacts(newOrder)}
+          className="flex flex-col gap-2"
         >
           {contacts.map((contact) => (
-            <ContactReorderItem
-              key={contact.id}
-              value={contact}
-              hideHandle={hideHandle}
-            >
-              <ContactItem
-                as={Link}
-                to={`/contacts/${contact.id}`}
-                contact={contact}
-              />
-            </ContactReorderItem>
+            <ContactReorderItem key={contact.id} contact={contact} />
           ))}
         </Reorder.Group>
       ) : (

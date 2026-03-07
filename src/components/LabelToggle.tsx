@@ -9,7 +9,7 @@ export default memo(function LabelToggle({
   return (
     <label
       className={cn(
-        "border border-slate-600",
+        "border border-neutral-600",
         "flex items-center gap-4 px-3 py-2 cursor-pointer rounded-full",
         "has-[input:disabled]:opacity-60",
       )}

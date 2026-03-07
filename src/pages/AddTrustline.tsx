@@ -1,7 +1,6 @@
 import * as yup from "yup";
 
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { StrKey } from "@stellar/stellar-sdk";
 
 import type { AccountRouteContext } from "@/types/index.d.ts";
 import Alert from "@/components/Alert";
@@ -11,6 +10,7 @@ import { HiOutlinePlus } from "react-icons/hi2";
 import { Input } from "@/components/Input";
 import { PrimaryButton } from "@/components/Button";
 import RequiredReserve from "@/components/RequiredReserve";
+import { StrKey } from "@stellar/stellar-sdk";
 import TransactionsFee from "@/components/TransactionsFee";
 import { createTrustlineTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
@@ -166,7 +166,7 @@ export default function AddTrustline() {
               <a
                 target="_blank"
                 href={`https://stellar.expert/explorer/public/tx/${mutation.data.hash}`}
-                className="text-blue-500"
+                className="text-blue-400"
               >
                 View Details
               </a>

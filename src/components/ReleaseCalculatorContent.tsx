@@ -46,7 +46,7 @@ export default function ReleaseCalculatorContent({
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-sm text-slate-400 text-center">
+      <p className="text-sm text-neutral-400 text-center">
         Choose a date to see the total amount released by that date.
       </p>
 
@@ -57,12 +57,12 @@ export default function ReleaseCalculatorContent({
           setSelectedDate(e.target.value)
         }
         min={toInputDate(stakes[0]?.createdAt)}
-        className="bg-slate-700"
+        className="bg-neutral-900"
       />
 
       {releasedByDate && (
-        <div className="p-3 bg-slate-700 rounded-xl flex flex-col gap-1">
-          <p className="text-sm text-slate-400">
+        <div className="p-3 bg-neutral-900 rounded-xl flex flex-col gap-1">
+          <p className="text-sm text-neutral-400">
             Total released by{" "}
             <span className="text-white font-medium">
               {formatDate(selectedDate + "T00:00:00Z")}
@@ -74,11 +74,11 @@ export default function ReleaseCalculatorContent({
               value={releasedByDate.total}
               maskLength={10}
             />{" "}
-            <span className="text-base font-normal text-slate-400">
+            <span className="text-base font-normal text-neutral-400">
               {assetName}
             </span>
           </p>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-neutral-400">
             {releasedByDate.count} of {stakes.length} stake
             {stakes.length !== 1 ? "s" : ""}
           </p>

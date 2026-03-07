@@ -43,7 +43,7 @@ export default function AccountRoute() {
             </h3>
             <h4
               className={cn(
-                "text-xs text-center text-blue-500",
+                "text-xs text-center text-blue-400",
                 "flex items-center justify-center gap-1",
                 "cursor-pointer",
               )}

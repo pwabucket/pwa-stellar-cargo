@@ -11,7 +11,7 @@ export default function MarkdownRender({ content }: MarkdownRendererProps) {
       className={cn(
         "prose prose-neutral",
         "prose-invert",
-        "prose-a:text-blue-400 prose-a:hover:text-blue-500",
+        "prose-a:text-blue-400 prose-a:hover:text-blue-400",
       )}
     >
       <Markdown

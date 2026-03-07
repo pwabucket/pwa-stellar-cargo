@@ -19,7 +19,7 @@ export const HeaderButton: DynamicComponent<"button", HeaderButtonProps> = ({
       className={cn(
         "size-10 rounded-full",
         "flex justify-center items-center",
-        "hover:bg-slate-700",
+        "hover:bg-neutral-900",
         props.className,
       )}
     >

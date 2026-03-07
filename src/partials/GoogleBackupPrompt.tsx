@@ -36,7 +36,7 @@ export default function GoogleBackupPrompt({
             className={cn(
               "flex flex-col",
               "w-full max-w-sm gap-2 p-4 rounded-xl",
-              "bg-slate-800",
+              "bg-neutral-800",
             )}
           >
             {/* Title */}
@@ -44,7 +44,7 @@ export default function GoogleBackupPrompt({
               className={cn(
                 "inline-flex items-center justify-center gap-2",
                 "font-bold text-center",
-                "text-blue-500",
+                "text-blue-400",
               )}
             >
               <img src={AppIcon} className="w-8" />
@@ -54,7 +54,7 @@ export default function GoogleBackupPrompt({
             {/* Description */}
             <Dialog.Description
               className={cn(
-                "px-2 text-center text-slate-300",
+                "px-2 text-center text-neutral-300",
                 "flex items-center justify-center gap-2",
               )}
             >
@@ -82,7 +82,7 @@ export default function GoogleBackupPrompt({
             <Dialog.Close
               onClick={() => resolve(false)}
               className={cn(
-                "px-4 py-2 bg-slate-700 rounded-full",
+                "px-4 py-2 bg-neutral-700 rounded-full",
                 "flex items-center justify-center gap-2",
               )}
             >

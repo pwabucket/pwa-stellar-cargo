@@ -155,7 +155,7 @@ export default function ContactForm({ contact, onSaved }: ContactFormProps) {
                 autoComplete={"off"}
                 placeholder={"MEMO (Optional)"}
               />
-              <p className="text-blue-500 text-xs px-2">
+              <p className="text-blue-400 text-xs px-2">
                 <span className="font-bold">MEMO</span> is required by exchanges
               </p>
 

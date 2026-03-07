@@ -7,7 +7,7 @@ export const Button = memo(function ({ as: Component = "button", ...props }) {
     <Component
       {...props}
       className={cn(
-        "font-bold px-4 py-2 rounded-full",
+        "font-bold px-4 py-2 rounded-xl",
         "flex items-center justify-center gap-2",
         "disabled:opacity-60",
         props.className,
@@ -21,7 +21,7 @@ export const PrimaryButton = memo(function (props) {
     <Button
       {...props}
       className={cn(
-        "bg-blue-600 text-white hover:bg-blue-700",
+        "bg-blue-400 text-black hover:bg-blue-300",
         props.className,
       )}
     />
@@ -33,7 +33,7 @@ export const SecondaryButton = memo(function (props) {
     <Button
       {...props}
       className={cn(
-        "bg-slate-700 text-white border border-slate-600 hover:bg-slate-600",
+        "bg-neutral-800 text-white hover:bg-neutral-700",
         props.className,
       )}
     />

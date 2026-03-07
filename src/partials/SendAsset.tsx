@@ -216,7 +216,7 @@ export default function SendAsset({ defaultAsset = "" }: SendAssetProps) {
                         type="button"
                         disabled={form.formState.isSubmitting}
                         className={cn(
-                          "bg-slate-700",
+                          "bg-neutral-900",
                           "p-4 rounded-xl text-sm font-bold",
                           "flex gap-2 items-center",
                           "disabled:opacity-60",
@@ -247,7 +247,7 @@ export default function SendAsset({ defaultAsset = "" }: SendAssetProps) {
               <>
                 {/* Matched Account */}
                 {matchedAccount ? (
-                  <p className="text-xs text-blue-500 font-bold px-2">
+                  <p className="text-xs text-blue-400 font-bold px-2">
                     ({matchedAccount.name})
                   </p>
                 ) : null}
@@ -272,8 +272,8 @@ export default function SendAsset({ defaultAsset = "" }: SendAssetProps) {
                       type="button"
                       disabled={form.formState.isSubmitting}
                       className={cn(
-                        "text-blue-500 shrink-0",
-                        "bg-slate-700",
+                        "text-blue-400 shrink-0",
+                        "bg-neutral-900",
                         "px-3 rounded-full",
                         "disabled:opacity-60",
                       )}
@@ -305,7 +305,7 @@ export default function SendAsset({ defaultAsset = "" }: SendAssetProps) {
                   autoComplete={"off"}
                   placeholder={"MEMO (Optional)"}
                 />
-                <p className="text-blue-500 text-xs px-2">
+                <p className="text-blue-400 text-xs px-2">
                   <span className="font-bold">MEMO</span> is required by
                   exchanges
                 </p>
@@ -336,7 +336,7 @@ export default function SendAsset({ defaultAsset = "" }: SendAssetProps) {
                     type="button"
                     disabled={form.formState.isSubmitting}
                     onClick={() => field.onChange(maxAmount)}
-                    className="text-blue-500 shrink-0 disabled:opacity-60"
+                    className="text-blue-400 shrink-0 disabled:opacity-60"
                   >
                     MAX
                   </button>
@@ -362,7 +362,7 @@ export default function SendAsset({ defaultAsset = "" }: SendAssetProps) {
             <a
               target="_blank"
               href={`https://stellar.expert/explorer/public/tx/${mutation.data.hash}`}
-              className="text-blue-500"
+              className="text-blue-400"
             >
               View Details
             </a>

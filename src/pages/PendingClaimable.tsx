@@ -7,7 +7,7 @@ export default function PendingClaimable() {
   const { pendingClaimable } = useOutletContext<AccountRouteContext>();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1.5">
       {pendingClaimable.map((balance, index) => (
         <AccountAsset
           key={index}

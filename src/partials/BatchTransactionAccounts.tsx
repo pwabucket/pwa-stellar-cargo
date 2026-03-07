@@ -32,8 +32,8 @@ export default function BatchTransactionAccounts({
       {results.size === 0 && !isProcessing ? (
         <label
           className={cn(
-            "group rounded-full px-3 py-2",
-            "bg-slate-700",
+            "group rounded-xl px-3 py-2",
+            "bg-neutral-900",
             "flex items-center gap-4",
             "min-w-0",
             "cursor-pointer select-none",
@@ -49,12 +49,12 @@ export default function BatchTransactionAccounts({
         </label>
       ) : null}
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         {accounts.map((source) => (
           <div key={source.keyId} className="flex items-center gap-2">
             <label
               className={cn(
-                "group px-3 py-2",
+                "group px-3 py-2 bg-neutral-900 rounded-xl",
                 "flex items-center gap-4",
                 "grow min-w-0",
                 "cursor-pointer select-none",

@@ -14,7 +14,7 @@ export default function ClaimableAssetHeader({
   stakeCount,
 }: ClaimableAssetHeaderProps) {
   return (
-    <div className="p-4 bg-slate-700 rounded-xl">
+    <div className="p-4 bg-neutral-900 rounded-xl">
       <div className="flex gap-2 items-center">
         <img
           src={asset["asset_icon"]}
@@ -22,7 +22,7 @@ export default function ClaimableAssetHeader({
         />
         <div className="flex flex-col grow min-w-0">
           <h3 className="font-bold">{assetName}</h3>
-          <p className="text-xs text-slate-400">{asset["asset_domain"]}</p>
+          <p className="text-xs text-neutral-400">{asset["asset_domain"]}</p>
         </div>
         <div className="flex flex-col items-end shrink-0">
           <p className="font-bold text-xl">
@@ -32,7 +32,7 @@ export default function ClaimableAssetHeader({
               maskLength={10}
             />
           </p>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-neutral-400">
             {stakeCount} stake{stakeCount !== 1 ? "s" : ""}
           </p>
         </div>

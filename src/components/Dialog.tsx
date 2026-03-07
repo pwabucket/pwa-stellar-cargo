@@ -8,9 +8,9 @@ interface DialogPortalProps {
   children?: React.ReactNode;
 }
 
-const DialogRoot = (
-  props: React.ComponentProps<typeof DialogPrimitive.Root>,
-) => <DialogPrimitive.Root {...props} />;
+const DialogRoot = (props: DialogPrimitive.DialogProps) => (
+  <DialogPrimitive.Root {...props} />
+);
 
 const DialogPortal = (props: DialogPortalProps) => (
   <DialogPrimitive.Portal forceMount>
@@ -22,19 +22,19 @@ const DialogPortal = (props: DialogPortalProps) => (
 
 const DialogOverlay = forwardRef<
   HTMLDivElement,
-  React.ComponentProps<typeof TransitionChild>
+  DialogPrimitive.DialogContentProps
 >((props, ref) => (
   <TransitionChild {...props} ref={ref} as={DialogPrimitive.Overlay} />
 ));
 
 const DialogContent = forwardRef<
   HTMLDivElement,
-  React.ComponentProps<typeof TransitionChild>
+  DialogPrimitive.DialogContentProps
 >((props, ref) => (
   <TransitionChild {...props} ref={ref} as={DialogPrimitive.Content} />
 ));
 
-Object.assign(DialogRoot, {
+const Dialog = Object.assign(DialogRoot, {
   ...DialogPrimitive,
   Root: DialogRoot,
   Portal: DialogPortal,
@@ -42,12 +42,5 @@ Object.assign(DialogRoot, {
   Content: DialogContent,
 });
 
-const Dialog = DialogRoot as typeof DialogRoot &
-  typeof DialogPrimitive & {
-    Root: typeof DialogRoot;
-    Portal: typeof DialogPortal;
-    Overlay: typeof DialogOverlay;
-    Content: typeof DialogContent;
-  };
-
 export { Dialog };
+export type { DialogPrimitive };

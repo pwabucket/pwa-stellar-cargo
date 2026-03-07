@@ -1,3 +1,4 @@
+import { BottomDialog } from "./BottomDialog";
 import type { ClaimableAsset } from "@/types/index.d.ts";
 import ClaimableStakesList from "@/components/ClaimableStakesList";
 import { Dialog } from "@/components/Dialog";
@@ -31,63 +32,42 @@ export default function ClaimableDetailDialog({
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       {children}
       <Dialog.Portal open={open}>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 transition duration-300 data-closed:opacity-0" />
-        <Dialog.Content
-          className={cn(
-            "bg-slate-800 transition duration-300 data-closed:translate-y-full",
-            "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
-            "h-3/4 overflow-auto",
-            "flex flex-col",
-          )}
-          onOpenAutoFocus={(ev) => ev.preventDefault()}
+        <BottomDialog
+          title={assetName + " Claimable"}
+          description={"View stakes and release calculator for " + assetName}
         >
-          <div
-            className={cn("w-full max-w-md mx-auto p-4", "flex flex-col gap-3")}
-          >
-            {/* Header */}
-            <Dialog.Title className="text-center font-bold text-blue-500">
-              {assetName} Claimable
-            </Dialog.Title>
-            <Dialog.Description className="sr-only">
-              View stakes and release calculator for {assetName}
-            </Dialog.Description>
+          {/* Tabs */}
+          <Tabs.Root defaultValue="stakes" className="flex flex-col gap-3">
+            <Tabs.List className="grid grid-cols-2">
+              {["stakes", "calculator"].map((value) => (
+                <Tabs.Trigger
+                  key={value}
+                  value={value}
+                  className={cn(
+                    "p-2",
+                    "border-b-2 border-transparent",
+                    "capitalize",
+                    "data-[state=active]:border-blue-500",
+                  )}
+                >
+                  {value}
+                </Tabs.Trigger>
+              ))}
+            </Tabs.List>
 
-            {/* Tabs */}
-            <Tabs.Root defaultValue="stakes" className="flex flex-col gap-3">
-              <Tabs.List className="grid grid-cols-2">
-                {["stakes", "calculator"].map((value) => (
-                  <Tabs.Trigger
-                    key={value}
-                    value={value}
-                    className={cn(
-                      "p-2",
-                      "border-b-2 border-transparent",
-                      "capitalize",
-                      "data-[state=active]:border-blue-500",
-                    )}
-                  >
-                    {value}
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
+            <Tabs.Content value="stakes">
+              <ClaimableStakesList stakes={stakes} assetName={assetName} />
+            </Tabs.Content>
 
-              <Tabs.Content value="stakes">
-                <ClaimableStakesList stakes={stakes} assetName={assetName} />
-              </Tabs.Content>
+            <Tabs.Content value="calculator">
+              <ReleaseCalculatorContent stakes={stakes} assetName={assetName} />
+            </Tabs.Content>
+          </Tabs.Root>
 
-              <Tabs.Content value="calculator">
-                <ReleaseCalculatorContent
-                  stakes={stakes}
-                  assetName={assetName}
-                />
-              </Tabs.Content>
-            </Tabs.Root>
-
-            <Dialog.Close asChild>
-              <PrimaryButton className="mt-1">Close</PrimaryButton>
-            </Dialog.Close>
-          </div>
-        </Dialog.Content>
+          <Dialog.Close asChild>
+            <PrimaryButton className="mt-1">Close</PrimaryButton>
+          </Dialog.Close>
+        </BottomDialog>
       </Dialog.Portal>
     </Dialog.Root>
   );

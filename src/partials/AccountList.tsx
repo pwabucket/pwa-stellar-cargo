@@ -1,23 +1,40 @@
+import { Reorder, useDragControls } from "motion/react";
+import { searchProperties } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
 import type { Account as AccountData } from "@/types/index.d.ts";
-import AccountItem from "@/components/AccountItem";
+import { AccountElement } from "@/components/AccountElement";
 import { Input } from "@/components/Input";
 import { Link } from "react-router";
-import { Reorder } from "motion/react";
-import ReorderItem from "@/components/ReorderItem";
-import { searchProperties } from "@/lib/utils";
 import useAppStore from "@/store/useAppStore";
 
-const AccountReorderItem = ReorderItem;
+const Account = ({ account }: { account: AccountData }) => {
+  const dragControls = useDragControls();
 
-const Account = ({ account }: { account: AccountData }) => (
-  <AccountItem
-    as={Link}
-    account={account}
-    to={`/accounts/${account.publicKey}`}
-  />
-);
+  return (
+    <Reorder.Item
+      value={account}
+      dragListener={false}
+      dragControls={dragControls}
+    >
+      <AccountElement.Root>
+        {/* Account Image */}
+        <AccountElement.Image
+          publicKey={account.publicKey}
+          onPointerDown={(event) => dragControls.start(event)}
+        />
+
+        {/* Account Details */}
+        <AccountElement.Details
+          as={Link}
+          to={`/accounts/${account.publicKey}`}
+          name={account.name || "Stellar Account"}
+          publicKey={account.publicKey}
+        />
+      </AccountElement.Root>
+    </Reorder.Item>
+  );
+};
 
 export default function AccountList() {
   const [search, setSearch] = useState("");
@@ -28,13 +45,14 @@ export default function AccountList() {
       search ? searchProperties(list, search, ["name", "publicKey"]) : list,
     [list, search],
   );
-  const hideHandle = Boolean(search);
+  const hasSearch = Boolean(search);
 
   return (
     <>
       {/* Search */}
       <Input
         value={search}
+        name="account-search"
         type="search"
         placeholder="Search"
         className="mt-1"
@@ -43,17 +61,11 @@ export default function AccountList() {
       {accounts.length > 0 ? (
         <Reorder.Group
           values={accounts}
-          onReorder={(newOrder) => setAccounts(newOrder)}
-          className="flex flex-col"
+          onReorder={(newOrder) => !hasSearch && setAccounts(newOrder)}
+          className="flex flex-col gap-2"
         >
           {accounts.map((account) => (
-            <AccountReorderItem
-              key={account.keyId}
-              value={account}
-              hideHandle={hideHandle}
-            >
-              <Account account={account} />
-            </AccountReorderItem>
+            <Account key={account.keyId} account={account} />
           ))}
         </Reorder.Group>
       ) : (

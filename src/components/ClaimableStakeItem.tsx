@@ -37,17 +37,19 @@ export default function ClaimableStakeItem({
       : `${remainingDays}d`;
 
   return (
-    <div className={cn("p-3 flex flex-col gap-1", "border-b border-slate-700")}>
+    <div
+      className={cn("p-3 flex flex-col gap-1", "border-b border-neutral-900")}
+    >
       <div className="flex justify-between items-center">
         <span className="font-bold">
           <AssetValueMask prefix="" value={stake.amount} maskLength={10} />{" "}
-          <span className="text-sm font-normal text-slate-400">
+          <span className="text-sm font-normal text-neutral-400">
             {assetName}
           </span>
         </span>
         <div className="flex items-center gap-2">
           {durationDays != null && (
-            <span className="text-xs font-normal text-slate-400">
+            <span className="text-xs font-normal text-neutral-400">
               {durationDays}d
             </span>
           )}
@@ -61,10 +63,12 @@ export default function ClaimableStakeItem({
           </span>
         </div>
       </div>
-      <div className="flex gap-4 text-xs text-slate-400">
+      <div className="flex gap-4 text-xs text-neutral-400">
         <span>
           Created:{" "}
-          <span className="text-slate-300">{formatDate(stake.createdAt)}</span>
+          <span className="text-neutral-300">
+            {formatDate(stake.createdAt)}
+          </span>
         </span>
         <span>
           Release:{" "}
@@ -75,7 +79,7 @@ export default function ClaimableStakeItem({
                 : new Date().toISOString()
             }
             className={cn(
-              "text-slate-300",
+              "text-neutral-300",
               !stake.releaseDate && "text-green-400",
             )}
           >
@@ -86,7 +90,7 @@ export default function ClaimableStakeItem({
           <span>
             Expires:{" "}
             <time
-              className="text-slate-300"
+              className="text-neutral-300"
               dateTime={new Date(stake.expiryDate).toISOString()}
             >
               {formatDate(stake.expiryDate)}

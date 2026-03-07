@@ -38,8 +38,8 @@ export default defineConfig(({ mode }) => {
           name: env.VITE_APP_NAME,
           short_name: env.VITE_APP_NAME,
           description: env.VITE_APP_DESCRIPTION,
-          theme_color: "#1d293d",
-          background_color: "#1d293d",
+          theme_color: "#0a0a0a",
+          background_color: "#0a0a0a",
           icons: [
             {
               src: "pwa-64x64.png",

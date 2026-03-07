@@ -10,7 +10,7 @@ export default function Account() {
   const { balances, accountQuery } = useOutletContext<AccountRouteContext>();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-1.5">
       {accountQuery.isSuccess
         ? balances.map((balance, index) => (
             <AccountAsset
@@ -26,7 +26,7 @@ export default function Account() {
       <div className="flex p-2 justify-center">
         <Link
           to={"trustlines/add"}
-          className="text-blue-500 flex items-center gap-2"
+          className="text-blue-400 flex items-center gap-2"
         >
           <HiOutlinePlusCircle className="size-4" />
           Add Trustline

@@ -12,7 +12,7 @@ const DashboardHeaderNavLink = (props: NavLinkProps) => (
   <NavLink
     {...props}
     className={({ isActive }) =>
-      cn("text-center p-2.5", isActive && "font-bold text-blue-500")
+      cn("text-center p-2.5", isActive && "font-bold text-blue-300")
     }
   />
 );
@@ -30,7 +30,7 @@ export default function Dashboard() {
       }
       className={"p-0"}
     >
-      <div className={cn("bg-slate-800", "shrink-0 sticky top-12", "z-30")}>
+      <div className={cn("bg-neutral-950", "shrink-0 sticky top-12", "z-30")}>
         <div className="max-w-md mx-auto grid grid-cols-2">
           <DashboardHeaderNavLink to="/app">Accounts</DashboardHeaderNavLink>
           <DashboardHeaderNavLink to="/contacts">

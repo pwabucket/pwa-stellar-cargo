@@ -13,8 +13,9 @@ const NetWorthTabButton = memo(function NetWorthTabButton({
     <Tabs.Trigger
       {...props}
       className={cn(
-        "text-sm p-1 font-bold",
-        "border-b-4 border-transparent data-[state=active]:border-blue-400",
+        "text-sm p-1 font-bold rounded-t-xl",
+        "border-b-4 border-transparent data-[state=active]:border-blue-500",
+        "data-[state=active]:bg-blue-300/70",
       )}
     >
       {children}
@@ -27,7 +28,7 @@ export default memo(function NetWorth() {
     <div
       className={cn(
         "flex flex-col gap-2 p-4 rounded-2xl",
-        "bg-blue-700 text-white",
+        "bg-blue-400 text-black",
       )}
     >
       <h3 className="flex gap-1 items-center">

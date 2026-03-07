@@ -141,7 +141,7 @@ export default function AddTrustlineToOthers() {
       </div>
 
       {/* Asset */}
-      <div className="p-4 flex flex-col gap-2 bg-slate-700 rounded-xl">
+      <div className="p-4 flex flex-col gap-2 bg-neutral-700 rounded-xl">
         {/* Icon and Name */}
         <div className="flex gap-2">
           <img
@@ -180,7 +180,7 @@ export default function AddTrustlineToOthers() {
           <a
             href={`https://stellar.expert/explorer/public/asset/${asset["asset_id"]}`}
             target="_blank"
-            className="text-blue-500"
+            className="text-blue-400"
           >
             View Asset
           </a>

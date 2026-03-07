@@ -12,7 +12,7 @@ export default function ClaimableStakesList({
 }: ClaimableStakesListProps) {
   return (
     <div className="flex flex-col">
-      <h4 className="px-2 py-1 text-sm font-bold text-slate-400 uppercase tracking-wide">
+      <h4 className="px-2 py-1 text-sm font-bold text-neutral-400 uppercase tracking-wide">
         Stakes
       </h4>
       {stakes.map((stake) => (

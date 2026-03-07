@@ -15,7 +15,7 @@ import { TbChartAreaLine } from "react-icons/tb";
 import useAppStore from "@/store/useAppStore";
 
 const MenuSectionHeading = ({ title }: { title: string }) => {
-  return <h3 className="text-xs px-4 py-2">{title}</h3>;
+  return <h3 className="text-xs px-4">{title}</h3>;
 };
 
 export default function Menu() {
@@ -28,7 +28,7 @@ export default function Menu() {
       {/* Google Drive Profile */}
       <GoogleDriveProfile />
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <MenuSectionHeading title="Display and Backup Options" />
         {/* Net Worth */}
         <MenuToggleButton
@@ -47,7 +47,7 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <MenuSectionHeading title="Batch Operations" />
         {/* Batch Import */}
         <MenuButton
@@ -66,7 +66,7 @@ export default function Menu() {
         />
       </div>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <MenuSectionHeading title="Security" />
         {/* PIN Code */}
         <MenuButton

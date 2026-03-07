@@ -26,8 +26,8 @@ const PageLink = ({
     className={cn(
       "p-2.5 text-center",
       "flex gap-2 justify-center items-center",
-      "bg-slate-700 rounded-xl",
-      "hover:bg-slate-600 hover:text-blue-200",
+      "bg-neutral-900 rounded-xl",
+      "hover:bg-neutral-800 hover:text-blue-200",
     )}
   >
     <Icon className="size-4" />
@@ -43,16 +43,20 @@ export default function Asset() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className=" p-4 bg-slate-700 rounded-xl">
+      <div className=" p-4 bg-neutral-900 rounded-xl">
         <div className="flex gap-2">
+          {/* Icon */}
           <img
             src={asset["asset_icon"]}
             className="size-10 shrink-0 rounded-full bg-white"
           />
           <div className="flex flex-col grow min-w-0">
+            {/* Name */}
             <h3 className="font-bold">
               {asset["asset_type"] === "native" ? "XLM" : asset["asset_code"]}
             </h3>
+
+            {/* Domain */}
             <p className="text-xs">{asset["asset_domain"]}</p>
 
             <div className="flex flex-col items-end text-right">
@@ -70,7 +74,7 @@ export default function Asset() {
                 </button>
               </div>
               {assetValue ? (
-                <p className="text-right text-slate-500">
+                <p className="text-right text-neutral-500">
                   <AssetValueMask value={assetValue} />
                 </p>
               ) : null}
@@ -78,7 +82,7 @@ export default function Asset() {
                 <a
                   href={`https://stellar.expert/explorer/public/asset/${asset["asset_id"]}`}
                   target="_blank"
-                  className="text-blue-500"
+                  className="text-blue-400"
                 >
                   View Asset
                 </a>
@@ -110,7 +114,7 @@ export default function Asset() {
             </p>
 
             {/* Add to Others */}
-            <Link to={"add-to-others"} className="text-blue-500 mt-1">
+            <Link to={"add-to-others"} className="text-blue-400 mt-1">
               <IoAddCircleOutline className="size-4 inline-flex" /> Add to
               Others
             </Link>

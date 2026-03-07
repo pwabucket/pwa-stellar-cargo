@@ -57,7 +57,7 @@ const AssetPickerTrigger = ({ asset, disabled }: AssetPickerTriggerProps) => (
     disabled={disabled}
     className={cn(
       "shrink-0",
-      "bg-slate-700",
+      "bg-neutral-900",
       "px-3 rounded-full text-sm",
       "flex gap-2 items-center",
       "disabled:opacity-60",
@@ -383,8 +383,8 @@ export default function SwapAsset({ defaultAsset = "" }: SwapAssetProps) {
                         "shrink-0",
                         "px-4 py-1 rounded-full",
                         "text-sm shrink-0 disabled:opacity-60",
-                        "bg-slate-700",
-                        "text-blue-500",
+                        "bg-neutral-900",
+                        "text-blue-400",
                       )}
                     >
                       MAX
@@ -405,7 +405,7 @@ export default function SwapAsset({ defaultAsset = "" }: SwapAssetProps) {
                 type="button"
                 onClick={switchAssets}
                 className={cn(
-                  "bg-slate-700",
+                  "bg-neutral-900",
                   "p-3 rounded-full",
                   "disabled:opacity-60",
                 )}
@@ -480,7 +480,7 @@ export default function SwapAsset({ defaultAsset = "" }: SwapAssetProps) {
             <a
               target="_blank"
               href={`https://stellar.expert/explorer/public/tx/${swapMutation.data.hash}`}
-              className="text-blue-500"
+              className="text-blue-400"
             >
               View Details
             </a>

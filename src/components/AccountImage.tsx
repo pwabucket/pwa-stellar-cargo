@@ -1,7 +1,7 @@
 import { createAccountImage } from "@/lib/utils";
 import { memo } from "react";
 
-interface AccountImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface AccountImageProps extends React.ComponentProps<"img"> {
   publicKey: string;
   size?: number;
 }

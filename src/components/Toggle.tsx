@@ -13,15 +13,15 @@ export default memo(function Toggle({
           "shrink-0",
           "relative rounded-full",
           "inline-flex h-6 w-11 items-center",
-          "bg-slate-600",
-          "peer-checked:bg-blue-600 peer-checked:border-blue-500",
+          "bg-neutral-800",
+          "peer-checked:bg-blue-400 peer-checked:border-blue-400",
 
           // Before
           "peer-checked:before:translate-x-6 before:translate-x-1",
           "before:inline-block before:h-4 before:w-4",
           "before:transform before:transition",
           "before:rounded-full",
-          "before:bg-slate-500 peer-checked:before:bg-white",
+          "before:bg-white/10 peer-checked:before:bg-black",
 
           className,
         )}

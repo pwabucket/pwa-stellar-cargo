@@ -1,8 +1,8 @@
 import { cn, searchProperties } from "@/lib/utils";
 import { useMemo, useState } from "react";
 
-import AccountItem from "@/components/AccountItem";
-import ContactItem from "@/components/ContactItem";
+import { AccountElement } from "@/components/AccountElement";
+import { BottomDialog } from "@/components/BottomDialog";
 import { Dialog } from "@/components/Dialog";
 import { Input } from "@/components/Input";
 import { Tabs } from "radix-ui";
@@ -47,102 +47,99 @@ export default function AddressPicker({
 
   return (
     <Dialog.Portal open={open}>
-      <Dialog.Overlay className="fixed inset-0 z-40 bg-black/50 transition duration-300 data-closed:opacity-0" />
-      <Dialog.Content
-        className={cn(
-          "bg-slate-800 transition duration-300 data-closed:translate-y-full",
-          "fixed z-50 inset-x-0 bottom-0 rounded-t-2xl",
-          "h-3/4 overflow-auto",
-          "flex flex-col",
-        )}
-        onOpenAutoFocus={(ev) => ev.preventDefault()}
+      <BottomDialog
+        title="Address Picker"
+        description="Choose an account or contact"
       >
-        <div
-          className={cn("w-full max-w-md mx-auto p-4", "flex flex-col gap-2")}
-        >
-          {/* Title and Description */}
-          <div className="flex flex-col gap-1">
-            <Dialog.Title className="text-center font-bold text-blue-500">
-              Address Picker
-            </Dialog.Title>
-            <Dialog.Description className="sr-only">
-              Choose an account or contact
-            </Dialog.Description>
-          </div>
+        {/* Tabs */}
+        <Tabs.Root defaultValue="accounts" className="flex flex-col gap-4">
+          <Tabs.List className="grid grid-cols-2">
+            {["accounts", "contacts"].map((value, index) => (
+              <Tabs.Trigger
+                key={index}
+                value={value}
+                className={cn(
+                  "p-2",
+                  "border-b-2 border-transparent",
+                  "capitalize",
+                  "data-[state=active]:border-blue-500",
+                )}
+              >
+                {value}
+              </Tabs.Trigger>
+            ))}
+          </Tabs.List>
 
-          {/* Tabs */}
-          <Tabs.Root defaultValue="accounts" className="flex flex-col gap-4">
-            <Tabs.List className="grid grid-cols-2">
-              {["accounts", "contacts"].map((value, index) => (
-                <Tabs.Trigger
-                  key={index}
-                  value={value}
-                  className={cn(
-                    "p-2",
-                    "border-b-2 border-transparent",
-                    "capitalize",
-                    "data-[state=active]:border-blue-500",
-                  )}
+          {/* Accounts */}
+          <Tabs.Content value="accounts" className="flex flex-col gap-4">
+            {/* Account Search */}
+            <Input
+              value={accountSearch}
+              type="search"
+              placeholder="Search"
+              onChange={(ev) => setAccountSearch(ev.target.value)}
+            />
+            <div className="flex flex-col gap-2">
+              {accounts.map((account) => (
+                <AccountElement.Root
+                  key={account.publicKey}
+                  as={Dialog.Close}
+                  onClick={() =>
+                    onSelect({
+                      address: account.publicKey,
+                      memo: "",
+                    })
+                  }
                 >
-                  {value}
-                </Tabs.Trigger>
+                  {/* Account Image */}
+                  <AccountElement.Image publicKey={account.publicKey} />
+
+                  {/* Account Details */}
+                  <AccountElement.Details
+                    name={account.name || "Stellar Account"}
+                    publicKey={account.publicKey}
+                  />
+                </AccountElement.Root>
               ))}
-            </Tabs.List>
+            </div>
+          </Tabs.Content>
 
-            {/* Accounts */}
-            <Tabs.Content value="accounts" className="flex flex-col gap-4">
-              {/* Account Search */}
-              <Input
-                value={accountSearch}
-                type="search"
-                placeholder="Search"
-                onChange={(ev) => setAccountSearch(ev.target.value)}
-              />
-              <div className="flex flex-col">
-                {accounts.map((account) => (
-                  <AccountItem
-                    key={account.publicKey}
-                    as={Dialog.Close}
-                    account={account}
-                    onClick={() =>
-                      onSelect({
-                        address: account.publicKey,
-                        memo: "",
-                      })
-                    }
-                  />
-                ))}
-              </div>
-            </Tabs.Content>
+          {/* Contacts */}
+          <Tabs.Content value="contacts" className="flex flex-col gap-4">
+            {/* Contact Search */}
+            <Input
+              type="search"
+              placeholder="Search"
+              value={contactSearch}
+              onChange={(ev) => setContactSearch(ev.target.value)}
+            />
+            <div className="flex flex-col gap-2">
+              {contacts.map((contact) => (
+                <AccountElement.Root
+                  as={Dialog.Close}
+                  key={contact.id}
+                  onClick={() =>
+                    onSelect({
+                      address: contact.address,
+                      memo: contact.memo,
+                    })
+                  }
+                >
+                  {/* Contact Image */}
+                  <AccountElement.Image publicKey={contact.address} />
 
-            {/* Contacts */}
-            <Tabs.Content value="contacts" className="flex flex-col gap-4">
-              {/* Contact Search */}
-              <Input
-                type="search"
-                placeholder="Search"
-                value={contactSearch}
-                onChange={(ev) => setContactSearch(ev.target.value)}
-              />
-              <div className="flex flex-col">
-                {contacts.map((contact) => (
-                  <ContactItem
-                    as={Dialog.Close}
-                    key={contact.id}
-                    contact={contact}
-                    onClick={() =>
-                      onSelect({
-                        address: contact.address,
-                        memo: contact.memo,
-                      })
-                    }
+                  {/* Contact Details */}
+                  <AccountElement.Details
+                    name={contact.name || "Stellar Contact"}
+                    publicKey={contact.address}
+                    memo={contact.memo}
                   />
-                ))}
-              </div>
-            </Tabs.Content>
-          </Tabs.Root>
-        </div>
-      </Dialog.Content>
+                </AccountElement.Root>
+              ))}
+            </div>
+          </Tabs.Content>
+        </Tabs.Root>
+      </BottomDialog>
     </Dialog.Portal>
   );
 }

@@ -4,7 +4,9 @@ import AssetValueMask from "@/components/AssetValueMask";
 import { Collapsible } from "radix-ui";
 import type Decimal from "decimal.js";
 import type { NetWorthAsset } from "@/types/index.d.ts";
+import { PiSpinnerGap } from "react-icons/pi";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 import useAppStore from "@/store/useAppStore";
 
 interface NetWorthListProps {
@@ -39,16 +41,23 @@ export default function NetWorthList({
 
           {/* Toggle */}
           <Collapsible.Root className="flex flex-col gap-2">
-            <Collapsible.Trigger className="group flex items-center gap-2 justify-center text-sm font-bold">
+            <Collapsible.Trigger
+              className={cn(
+                "group flex items-center gap-2 justify-center rounded-full mx-auto",
+                "text-sm font-bold",
+                "bg-blue-300/50 hover:bg-blue-300/80 px-2 py-1 pr-4",
+                "border-b-4 border-blue-500",
+              )}
+            >
               <HiOutlineChevronDown className="size-5 group-data-[state=open]:rotate-180 transition-transform duration-500" />
-              Toggle Details
+              View Details
             </Collapsible.Trigger>
             <Collapsible.Content className="flex flex-col gap-1">
               {assets.map((item) => {
                 const content = (
                   <div
                     key={item["asset_id"]}
-                    className="flex gap-2 items-center px-3 py-1 bg-blue-600 rounded-xl"
+                    className="flex gap-2 items-center px-3 py-1 bg-blue-300/60 rounded-xl"
                   >
                     <img
                       src={item["asset_icon"]}
@@ -73,7 +82,7 @@ export default function NetWorthList({
                           prefix=""
                         />
                       </p>
-                      <p className="text-white/70 text-sm">
+                      <p className="text-black/70 text-sm">
                         <AssetValueMask value={item["usd_value"] || 0} />
                       </p>
                     </div>
@@ -87,7 +96,7 @@ export default function NetWorthList({
         </>
       ) : (
         <>
-          <div className="bg-blue-500 rounded-full h-4 w-1/2 animate-pulse" />
+          <PiSpinnerGap className="size-5 mx-auto animate-spin" />
         </>
       )}
     </>

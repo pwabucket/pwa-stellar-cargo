@@ -1,4 +1,8 @@
-import { HiOutlinePencilSquare, HiOutlineTrash } from "react-icons/hi2";
+import {
+  HiOutlineArrowUpRight,
+  HiOutlinePencilSquare,
+  HiOutlineTrash,
+} from "react-icons/hi2";
 import { Link, useParams } from "react-router";
 import { copyToClipboard, truncatePublicKey } from "@/lib/utils";
 
@@ -62,27 +66,28 @@ export default function ContactDetails() {
         {contact.memo ? <p className="text-sm">MEMO: {contact.memo}</p> : null}
 
         {/* Contact Address */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => copyToClipboard(contact.address)}
-            className="shrink-0"
-          >
-            <IoCopyOutline className="size-4" />
-          </button>
-          <h3 className="truncate grow min-w-0 text-sm">
-            <a
-              target="_blank"
-              href={`https://stellar.expert/explorer/public/account/${contact.address}`}
-              className="text-blue-500"
-            >
-              {truncatePublicKey(contact.address, 8)}
-            </a>
-          </h3>
-        </div>
+        <button
+          className="flex items-center gap-2 text-blue-400 font-bold"
+          onClick={() => copyToClipboard(contact.address)}
+        >
+          <IoCopyOutline className="size-4" />
+          <span className="text-sm">
+            {truncatePublicKey(contact.address, 8)}
+          </span>
+        </button>
+
+        <a
+          target="_blank"
+          href={`https://stellar.expert/explorer/public/account/${contact.address}`}
+          className="text-neutral-400 flex items-center gap-2 text-sm hover:underline"
+        >
+          <HiOutlineArrowUpRight className="size-3" />
+          View in Expert
+        </a>
       </div>
 
       {/* Options */}
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <MenuButton
           as={Link}
           to="edit"
