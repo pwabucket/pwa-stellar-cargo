@@ -15,12 +15,13 @@ const useAppStore = create<AppStoreState & AppStoreActions>()(
   persist(
     combine(
       {
-        pinCode: "" as string,
-        isLoggedIn: false as boolean,
-        isProcessing: false as boolean,
-        showNetWorth: false as boolean,
-        showAssetValue: true as boolean,
-        theme: THEMES[0] as Theme,
+        pinCode: "",
+        isLoggedIn: false,
+        isProcessing: false,
+        showNetWorth: false,
+        expandNetWorth: false,
+        showAssetValue: true,
+        theme: THEMES[0],
         accounts: [] as Account[],
         contacts: [] as Contact[],
       },
@@ -66,6 +67,11 @@ const useAppStore = create<AppStoreState & AppStoreActions>()(
         setShowNetWorth: (showNetWorth: boolean) => set({ showNetWorth }),
         toggleShowNetWorth: () => set({ showNetWorth: !get().showNetWorth }),
 
+        /** Set Expand Net Worth */
+        setExpandNetWorth: (expandNetWorth: boolean) => set({ expandNetWorth }),
+        toggleExpandNetWorth: () =>
+          set({ expandNetWorth: !get().expandNetWorth }),
+
         /** Set Show USD Value */
         setShowAssetValue: (showAssetValue: boolean) => set({ showAssetValue }),
         toggleShowAssetValue: () =>
@@ -88,8 +94,22 @@ const useAppStore = create<AppStoreState & AppStoreActions>()(
     ),
     {
       name: `${import.meta.env.VITE_APP_ID}:app`,
-      partialize({ theme, showNetWorth, showAssetValue, accounts, contacts }) {
-        return { theme, showNetWorth, showAssetValue, accounts, contacts };
+      partialize({
+        theme,
+        showNetWorth,
+        expandNetWorth,
+        showAssetValue,
+        accounts,
+        contacts,
+      }) {
+        return {
+          theme,
+          showNetWorth,
+          expandNetWorth,
+          showAssetValue,
+          accounts,
+          contacts,
+        };
       },
     },
   ),

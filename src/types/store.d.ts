@@ -7,6 +7,7 @@ export interface AppStoreState {
   isLoggedIn: boolean;
   isProcessing: boolean;
   showNetWorth: boolean;
+  expandNetWorth: boolean;
   showAssetValue: boolean;
   theme: Theme;
   accounts: Account[];
@@ -24,7 +25,9 @@ export interface AppStoreActions {
   setContacts: (contacts: Contact[]) => void;
   setIsProcessing: (isProcessing: boolean) => void;
   setShowNetWorth: (showNetWorth: boolean) => void;
+  setExpandNetWorth: (expandNetWorth: boolean) => void;
   toggleShowNetWorth: () => void;
+  toggleExpandNetWorth: () => void;
   setShowAssetValue: (showAssetValue: boolean) => void;
   toggleShowAssetValue: () => void;
   setTheme: (theme: Theme) => void;

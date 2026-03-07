@@ -26,21 +26,29 @@ export default function NetWorthList({
     (state) => state.toggleShowAssetValue,
   );
 
+  const expandNetWorth = useAppStore((state) => state.expandNetWorth);
+  const setExpandNetWorth = useAppStore((state) => state.setExpandNetWorth);
+
   return (
     <>
       {isSuccess ? (
         <>
-          <div className="flex items-center gap-2">
+          <div className="flex justify-center items-center gap-2 py-1">
             <button className="shrink-0" onClick={toggleShowAssetValue}>
               <HiEye className="size-6" />
             </button>
             <p className="text-3xl font-bold">
               <AssetValueMask value={totalNetWorth} maskLength={10} />
             </p>
+            <span className="size-6 shrink-0" />
           </div>
 
           {/* Toggle */}
-          <Collapsible.Root className="flex flex-col gap-2">
+          <Collapsible.Root
+            className="flex flex-col gap-2"
+            open={expandNetWorth}
+            onOpenChange={setExpandNetWorth}
+          >
             <Collapsible.Trigger
               className={cn(
                 "group flex items-center gap-2 justify-center rounded-full mx-auto",
@@ -50,7 +58,7 @@ export default function NetWorthList({
               )}
             >
               <HiOutlineChevronDown className="size-5 group-data-[state=open]:rotate-180 transition-transform duration-500" />
-              View Details
+              {expandNetWorth ? "Hide" : "View"} Details
             </Collapsible.Trigger>
             <Collapsible.Content className="flex flex-col gap-1">
               {assets.map((item) => {
@@ -59,6 +67,7 @@ export default function NetWorthList({
                     key={item["asset_id"]}
                     className="flex gap-2 items-center px-3 py-1 bg-blue-300/60 rounded-xl"
                   >
+                    {/* Image */}
                     <img
                       src={item["asset_icon"]}
                       className="size-5 rounded-full shrink-0"
@@ -75,6 +84,7 @@ export default function NetWorthList({
 
                     {/* Price */}
                     <div className="flex flex-col items-end text-right">
+                      {/* Value */}
                       <p className="font-bold">
                         <AssetValueMask
                           value={item["balance"]}
@@ -82,6 +92,8 @@ export default function NetWorthList({
                           prefix=""
                         />
                       </p>
+
+                      {/* USD Value */}
                       <p className="text-black/70 text-sm">
                         <AssetValueMask value={item["usd_value"] || 0} />
                       </p>

@@ -36,7 +36,7 @@ export default function AssetValue({ asset, amount = 0 }: AssetValueProps) {
 
   return enabled ? (
     query.isPending ? (
-      <div className="rounded-full w-10 h-3 bg-neutral-700 mx-1 shrink-0" />
+      <div className="rounded-full w-10 h-3 bg-neutral-800 mx-1 shrink-0" />
     ) : query.isSuccess ? (
       <span className="inline-flex text-neutral-500 text-sm mx-1 shrink-0">
         <AssetValueMask forceShow value={query.data || 0} />

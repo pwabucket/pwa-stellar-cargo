@@ -39,7 +39,7 @@ const ToolButton = ({
     {...props}
     type="button"
     className={cn(
-      "bg-neutral-700",
+      "bg-neutral-900",
       "flex items-center justify-center",
       "p-2 rounded-full shrink-0",
       props.className,

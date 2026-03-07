@@ -33,7 +33,7 @@ export const SecondaryButton = memo(function (props) {
     <Button
       {...props}
       className={cn(
-        "bg-neutral-800 text-white hover:bg-neutral-700",
+        "bg-neutral-900 text-white hover:bg-neutral-800",
         props.className,
       )}
     />
