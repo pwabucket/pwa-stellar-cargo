@@ -19,8 +19,10 @@ export const Input = memo(function ({ as: Component = "input", ...props }) {
         "focus:ring-2 focus:ring-blue-400",
 
         /* Autofill Styles - Source - https://stackoverflow.com/a/14205976*/
-        "[&:-webkit-autofill]:shadow-[0_0_0_30px_var(--color-neutral-900)_inset]!",
-        "[&:-webkit-autofill]:[-webkit-text-fill-color:var(--color-white)]!",
+        "[&:-webkit-autofill]:inset-ring-30",
+        "[&:-webkit-autofill]:inset-ring-neutral-900",
+        "[&:-webkit-autofill]:caret-white",
+        "[&:-webkit-autofill]:[-webkit-text-fill-color:var(--color-white)]",
         props.className,
       )}
     />
