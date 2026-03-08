@@ -15,7 +15,7 @@ export default function ProtectedRoute() {
         <Dialog.Root open>
           <Dialog.Portal open>
             <Dialog.Overlay className="fixed inset-0 bg-neutral-950 text-white overflow-auto z-90">
-              <Dialog.Content>
+              <Dialog.Content onOpenAutoFocus={(ev) => ev.preventDefault()}>
                 <Dialog.Title className="sr-only">
                   Welcome to Stellar Cargo
                 </Dialog.Title>
