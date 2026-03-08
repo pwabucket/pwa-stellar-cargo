@@ -20,7 +20,7 @@ export const Input = memo(function ({ as: Component = "input", ...props }) {
 
         /* Autofill Styles - Source - https://stackoverflow.com/a/14205976*/
         "autofill:bg-clip-text autofill:caret-white",
-        "autofill:inset-ring-30 autofill:inset-ring-transparent",
+        "autofill:inset-ring-30 autofill:inset-ring-neutral-900",
         "autofill:[-webkit-text-fill-color:var(--color-white)]",
         props.className,
       )}
