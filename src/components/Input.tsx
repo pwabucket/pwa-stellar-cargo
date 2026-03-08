@@ -17,6 +17,9 @@ export const Input = memo(function ({ as: Component = "input", ...props }) {
         "read-only:opacity-60",
         "disabled:opacity-60",
         "focus:ring-2 focus:ring-blue-400",
+
+        /* Autofill Styles - Source - https://stackoverflow.com/a/14205976*/
+        "[&:-webkit-autofill]:shadow-[0_0_0_30px_var(--color-neutral-900)_inset]!",
         props.className,
       )}
     />
