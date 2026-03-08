@@ -67,10 +67,10 @@ export default function NetWorthList({
               <p className="text-3xl font-bold tracking-tight">
                 <AssetValueMask value={totalNetWorth} maskLength={10} />
               </p>
-              <span className="text-sm text-black/60 font-medium">USD</span>
+              <span className="text-sm text-black font-medium">USD</span>
             </div>
             {assets.length > 0 && (
-              <p className="text-xs text-black/60 font-medium">
+              <p className="text-xs text-black font-medium">
                 {assets.length} asset{assets.length !== 1 ? "s" : ""}
               </p>
             )}
@@ -166,7 +166,7 @@ export default function NetWorthList({
                             </p>
 
                             {/* USD Value */}
-                            <p className="text-black/60 text-xs">
+                            <p className="text-black/70 text-xs">
                               <AssetValueMask value={item["usd_value"] || 0} />
                             </p>
                           </div>
@@ -183,10 +183,8 @@ export default function NetWorthList({
         </>
       ) : (
         <div className="flex flex-col items-center gap-2 py-4">
-          <PiSpinnerGap className="size-7 animate-spin text-black/60" />
-          <p className="text-xs text-black/50 font-medium">
-            Loading net worth...
-          </p>
+          <PiSpinnerGap className="size-7 animate-spin text-black" />
+          <p className="text-xs text-black font-medium">Loading net worth...</p>
         </div>
       )}
     </>
