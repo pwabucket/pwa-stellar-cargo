@@ -11,6 +11,8 @@ import { create } from "zustand";
 
 export const THEMES: Theme[] = ["light", "dark", "system"];
 
+const EXCLUDED_KEYS = ["pinCode", "isLoggedIn", "isProcessing"];
+
 const useAppStore = create<AppStoreState & AppStoreActions>()(
   persist(
     combine(
@@ -18,8 +20,8 @@ const useAppStore = create<AppStoreState & AppStoreActions>()(
         pinCode: "",
         isLoggedIn: false,
         isProcessing: false,
-        showNetWorth: false,
-        expandNetWorth: false,
+        showNetWorth: true,
+        expandNetWorth: true,
         showAssetValue: true,
         theme: THEMES[0],
         accounts: [] as Account[],
@@ -94,22 +96,10 @@ const useAppStore = create<AppStoreState & AppStoreActions>()(
     ),
     {
       name: `${import.meta.env.VITE_APP_ID}:app`,
-      partialize({
-        theme,
-        showNetWorth,
-        expandNetWorth,
-        showAssetValue,
-        accounts,
-        contacts,
-      }) {
-        return {
-          theme,
-          showNetWorth,
-          expandNetWorth,
-          showAssetValue,
-          accounts,
-          contacts,
-        };
+      partialize(state) {
+        return Object.fromEntries(
+          Object.entries(state).filter(([key]) => !EXCLUDED_KEYS.includes(key)),
+        );
       },
     },
   ),
