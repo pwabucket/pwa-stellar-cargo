@@ -1,9 +1,12 @@
 import { cn } from "@/lib/utils";
 import { Dialog, type DialogPrimitive } from "./Dialog";
 
-interface BottomDialogProps extends DialogPrimitive.DialogContentProps {
-  title: string;
-  description?: string;
+interface BottomDialogProps extends Omit<
+  DialogPrimitive.DialogContentProps,
+  "title"
+> {
+  title: React.ReactNode;
+  description?: React.ReactNode;
 }
 
 export const BottomDialog = ({

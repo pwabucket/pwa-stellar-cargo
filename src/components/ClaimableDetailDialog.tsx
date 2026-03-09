@@ -32,8 +32,17 @@ export default function ClaimableDetailDialog({
       {children}
       <Dialog.Portal open={open}>
         <BottomDialog
-          title={assetName + " Claimable"}
-          description={"View stakes and release calculator for " + assetName}
+          title={
+            <span className="inline-flex items-center gap-2">
+              <img
+                src={asset?.["asset_icon"]}
+                alt={assetName}
+                className="size-6 rounded-full"
+              />
+              {assetName}
+            </span>
+          }
+          description={"View stakes and release calculator"}
         >
           {/* Tabs */}
           <Tabs.Root defaultValue="stakes" className="flex flex-col gap-3">
