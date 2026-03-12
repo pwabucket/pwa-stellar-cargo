@@ -29,7 +29,7 @@ import { createPathPaymentStrictSendTransaction } from "@/lib/stellar/transactio
 import { signTransaction } from "@/lib/stellar/keyManager";
 import useAppStore from "@/store/useAppStore";
 import { useDebounce } from "react-use";
-import useLocationToggle from "@/hooks/useLocationToggle";
+import { useLocationToggle } from "@pwabucket/pwa-router";
 import { useMemo } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useOutletContext } from "react-router";

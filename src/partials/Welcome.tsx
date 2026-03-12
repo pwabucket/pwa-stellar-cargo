@@ -14,7 +14,7 @@ import WalletForm from "@/partials/WalletForm";
 import { cn } from "@/lib/utils";
 import useAppContext from "@/hooks/useAppContext";
 import useAppStore from "@/store/useAppStore";
-import useLocationToggle from "@/hooks/useLocationToggle";
+import { useLocationToggle } from "@pwabucket/pwa-router";
 import { useMutation } from "@tanstack/react-query";
 import usePrompt from "@/hooks/usePrompt";
 

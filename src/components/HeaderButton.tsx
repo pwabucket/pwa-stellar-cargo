@@ -2,7 +2,7 @@ import type { DynamicComponent, DynamicComponentProps } from "@/types";
 
 import { HiOutlineArrowLeft } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
-import useNavigateBack from "@/hooks/useNavigateBack";
+import { useNavigateBack } from "@pwabucket/pwa-router";
 
 interface HeaderButtonProps {
   icon: React.ComponentType<{ className?: string }>;

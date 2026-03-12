@@ -26,7 +26,7 @@ import { createPaymentTransaction } from "@/lib/stellar/transactions";
 import { signTransaction } from "@/lib/stellar/keyManager";
 import { submit } from "@/lib/stellar/horizonQueries";
 import useAppStore from "@/store/useAppStore";
-import useLocationToggle from "@/hooks/useLocationToggle";
+import { useLocationToggle } from "@pwabucket/pwa-router";
 import { useMemo } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useOutletContext } from "react-router";

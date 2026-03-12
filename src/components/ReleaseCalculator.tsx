@@ -4,7 +4,7 @@ import { Dialog } from "@/components/Dialog";
 import { HiOutlineCalculator } from "react-icons/hi2";
 import { PrimaryButton } from "@/components/Button";
 import ReleaseCalculatorContent from "@/components/ReleaseCalculatorContent";
-import useLocationToggle from "@/hooks/useLocationToggle";
+import { useLocationToggle } from "@pwabucket/pwa-router";
 
 interface ReleaseCalculatorProps {
   stakes: ClaimableStake[];

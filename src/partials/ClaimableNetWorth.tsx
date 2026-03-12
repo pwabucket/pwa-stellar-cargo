@@ -3,7 +3,7 @@ import type { ClaimableAsset, NetWorthAsset } from "@/types/index.d.ts";
 import ClaimableDetailDialog from "@/components/ClaimableDetailDialog";
 import NetWorthList from "./NetWorthList";
 import type { ReactNode } from "react";
-import useLocationToggle from "@/hooks/useLocationToggle";
+import { useLocationToggle } from "@pwabucket/pwa-router";
 import usePendingClaimableNetWorth from "@/hooks/usePendingClaimableNetWorth";
 import { useState } from "react";
 
