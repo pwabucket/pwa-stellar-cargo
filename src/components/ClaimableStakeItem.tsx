@@ -1,5 +1,5 @@
 import { cn, formatDate } from "@/lib/utils";
-import { differenceInDays, isToday, startOfDay } from "date-fns";
+import { differenceInDays, format, isToday, startOfDay } from "date-fns";
 
 import AssetValueMask from "@/components/AssetValueMask";
 import type { ClaimableStake } from "@/types/index.d.ts";
@@ -33,7 +33,7 @@ export default function ClaimableStakeItem({
   const remainingLabel = !releaseDate
     ? "Now"
     : isToday(releaseDate) || remainingDays === 0
-      ? "Today"
+      ? format(releaseDate, "p")
       : `${remainingDays}d`;
 
   return (
