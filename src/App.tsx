@@ -41,11 +41,13 @@ import useAppStore from "./store/useAppStore";
 import useGoogleApi from "./hooks/useGoogleApi";
 import useGoogleDriveBackup from "./hooks/useGoogleDriveBackup";
 import useInactivity from "./hooks/useInactivity";
+import { usePWARouting } from "@pwabucket/pwa-router";
 import { useQueryClient } from "@tanstack/react-query";
 
 const INACTIVITY_DURATION = 3 * 60 * 1000;
 
 function App() {
+  const { resolvedLocation } = usePWARouting();
   const googleApi = useGoogleApi();
   const googleDrive = useGoogleDriveBackup(googleApi);
   const logout = useAppStore((state) => state.logout);
@@ -69,7 +71,7 @@ function App() {
 
   return (
     <AppContext.Provider value={{ googleApi, googleDrive, resetWallet }}>
-      <Routes>
+      <Routes location={resolvedLocation}>
         {/* About */}
         <Route path="about" element={<About />} />
 
