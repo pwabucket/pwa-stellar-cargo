@@ -1,3 +1,12 @@
+allowBuilds:
+  '@stellar/stellar-sdk': true
+  '@swc/core': true
+  blake-hash: true
+  esbuild: true
+  protobufjs: true
+  sharp: true
+  tiny-secp256k1: true
+  usb: true
 onlyBuiltDependencies:
   - '@swc/core'
   - '@tailwindcss/oxide'
