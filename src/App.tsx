@@ -12,6 +12,7 @@ import AssetRoute from "./routes/AssetRoute";
 import BatchExport from "./pages/BatchExport";
 import BatchImport from "./pages/BatchImport";
 import ClaimableRoute from "./routes/ClaimableRoute";
+import CloseAccount from "./pages/CloseAccount";
 import ContactDetails from "./partials/ContactDetails";
 import Contacts from "./pages/Contacts";
 import CreateContact from "./pages/CreateContact";
@@ -28,6 +29,7 @@ import PinCode from "./pages/PinCode";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Receive from "./pages/Receive";
+import RemoveTrustline from "./pages/RemoveTrustline";
 import Send from "./pages/Send";
 import SendAnyAsset from "./pages/SendAnyAsset";
 import Split from "./pages/Split";
@@ -116,10 +118,14 @@ function App() {
               <Route path="split" element={<Split />} />
               <Route path="swap" element={<Swap />} />
               <Route path="send" element={<Send />} />
+              <Route path="remove-trustline" element={<RemoveTrustline />} />
             </Route>
 
             {/* Trustline */}
             <Route path="trustlines/add" element={<AddTrustline />} />
+
+            {/* Close Account */}
+            <Route path="close" element={<CloseAccount />} />
 
             {/* Receive */}
             <Route path="send" element={<SendAnyAsset />} />

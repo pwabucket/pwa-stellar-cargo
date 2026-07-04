@@ -10,7 +10,7 @@ import { cn, copyToClipboard } from "@/lib/utils";
 
 import type { AssetRouteContext } from "@/types/index.d.ts";
 import AssetValueMask from "@/components/AssetValueMask";
-import { HiOutlineEye } from "react-icons/hi2";
+import { HiOutlineEye, HiOutlineTrash } from "react-icons/hi2";
 import useAppStore from "@/store/useAppStore";
 
 const PageLink = ({
@@ -134,6 +134,22 @@ export default function Asset() {
 
         {/* Split */}
         <PageLink to={"split"} icon={AiOutlineSplitCells} title="Split" />
+
+        {/* Remove Trustline */}
+        {asset["asset_type"] !== "native" ? (
+          <Link
+            to={"remove-trustline"}
+            className={cn(
+              "p-2.5 text-center",
+              "flex gap-2 justify-center items-center",
+              "bg-neutral-900 rounded-xl text-red-400",
+              "hover:bg-neutral-800",
+            )}
+          >
+            <HiOutlineTrash className="size-4" />
+            Remove Trustline
+          </Link>
+        ) : null}
       </div>
     </div>
   );

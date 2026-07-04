@@ -354,3 +354,54 @@ export async function createTrustlineTransaction({
     network_passphrase: networkPassphrase,
   };
 }
+
+export async function createRemoveTrustlineTransaction({
+  source,
+  assetCode,
+  assetIssuer,
+}: {
+  source: string;
+  assetCode: string;
+  assetIssuer: string;
+}): Promise<TransactionResult> {
+  /** Removing a trustline is a changeTrust with a zero limit */
+  return createTrustlineTransaction({
+    source,
+    assetCode,
+    assetIssuer,
+    limit: "0",
+  });
+}
+
+export async function createAccountMergeTransaction({
+  source,
+  destination,
+  memo,
+}: {
+  source: string;
+  destination: string;
+  memo?: string;
+}): Promise<TransactionResult> {
+  const server = new Horizon.Server(horizonUrl);
+  const sourceAccount = await server.loadAccount(source);
+  const transaction = new TransactionBuilder(sourceAccount, {
+    networkPassphrase: networkPassphrase,
+    fee: maxFeePerOperation,
+  });
+
+  if (memo) {
+    transaction.addMemo(Memo.text(memo));
+  }
+
+  transaction.addOperation(
+    Operation.accountMerge({
+      destination,
+    }),
+  );
+
+  const builtTransaction = transaction.setTimeout(standardTimebounds).build();
+  return {
+    transaction: builtTransaction.toXDR(),
+    network_passphrase: networkPassphrase,
+  };
+}
