@@ -8,7 +8,11 @@ import {
   Transaction,
   TransactionBuilder,
 } from "@stellar/stellar-sdk";
-import type { HorizonError, TransactionResult } from "@/types/index.d.ts";
+import type {
+  ClaimableStake,
+  HorizonError,
+  TransactionResult,
+} from "@/types/index.d.ts";
 
 import Decimal from "decimal.js";
 import { error } from "../utils";
@@ -20,6 +24,36 @@ export const maxXLMPerTransaction = new Decimal(maxFeePerOperation).dividedBy(
 export const horizonUrl = import.meta.env.VITE_APP_HORIZON_URL;
 export const networkPassphrase = Networks.PUBLIC;
 export const standardTimebounds = 300;
+
+export async function createClaimBalancesTransaction({
+  source,
+  balances,
+}: {
+  source: string;
+  balances: ClaimableStake[];
+}): Promise<TransactionResult> {
+  const server = new Horizon.Server(horizonUrl);
+  const sourceAccount = await server.loadAccount(source);
+  const transaction = new TransactionBuilder(sourceAccount, {
+    networkPassphrase: networkPassphrase,
+    fee: maxFeePerOperation,
+  });
+
+  for (const record of balances) {
+    transaction.addOperation(
+      Operation.claimClaimableBalance({
+        balanceId: record.id,
+      }),
+    );
+  }
+
+  const builtTransaction = transaction.setTimeout(standardTimebounds).build();
+
+  return {
+    transaction: builtTransaction.toXDR(),
+    network_passphrase: networkPassphrase,
+  };
+}
 
 export async function createPaymentTransaction({
   source,
